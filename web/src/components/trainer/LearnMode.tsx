@@ -121,6 +121,7 @@ export function LearnMode({ course, cp, streak, refreshStreak, tiles, selectMode
   let openingName = runner.view.openingName;
   let barValue = runner.view.progress;
   let board = boardPropsFromRunner(runner, orientation, runner.onUserMove);
+  let evalCp: number | null | undefined = line && !isDemo ? runner.view.evalCp : undefined;
   const controls: ControlSpec[] = [];
 
   if (!current) {
@@ -165,6 +166,7 @@ export function LearnMode({ course, cp, streak, refreshStreak, tiles, selectMode
     }
     openingName = [...demoNodes.slice(0, demoStep)].reverse().find((n) => n.opening)?.opening;
     barValue = demoNodes.length ? demoStep / demoNodes.length : 0;
+    evalCp = node ? (node.eval ?? null) : undefined;
     board = {
       fen: node ? node.fen : START_FEN,
       orientation,
@@ -254,6 +256,7 @@ export function LearnMode({ course, cp, streak, refreshStreak, tiles, selectMode
       bubbleBadge={bubbleBadge}
       openingName={openingName}
       board={board}
+      evalCp={evalCp}
       overlay={overlay}
       controls={controls}
       tiles={tiles}

@@ -178,6 +178,7 @@ export function QueuePractice({ mode, fallbackTitle, loadItems, streak, refreshS
       bubbleActions={bubbleActions}
       openingName={item ? runner.view.openingName : undefined}
       board={board}
+      evalCp={item ? runner.view.evalCp : undefined}
       overlay={overlay}
       controls={controls}
       tiles={tiles}

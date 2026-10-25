@@ -1,7 +1,7 @@
 // Drives one LineSession for the UI: opponent auto-play with a delay, feedback, hints, undo, marks and bubble content.
 import { useCallback, useEffect, useRef, useState } from "react";
 import type { Course, Line, LineResult, Mode, MoveNode } from "../../lib/types";
-import { LineSession, START_FEN } from "../../lib/trainer";
+import { LineSession, START_EVAL_CP, START_FEN } from "../../lib/trainer";
 import type { Color, Feedback, MoveAttempt } from "../../lib/trainer";
 import type { BoardArrow, BoardMark } from "../board";
 
@@ -37,6 +37,8 @@ export interface RunnerView {
   arrows: BoardArrow[];
   bubble: BubbleState;
   openingName?: string;
+  /** precomputed engine eval of the position on the board (centipawns, White's view); null = not available */
+  evalCp: number | null;
   /** 0..1 along the line */
   progress: number;
   hintsUsed: number;
@@ -75,6 +77,11 @@ function moveOf(node: MoveNode): { from: string; to: string } {
   return { from: node.uci.slice(0, 2), to: node.uci.slice(2, 4) };
 }
 
+/** Eval to show once `node` is on the board (undefined node = the start position). */
+function evalAfter(node: MoveNode | undefined): number | null {
+  return node ? (node.eval ?? null) : START_EVAL_CP;
+}
+
 function emptyView(): RunnerView {
   return {
     phase: "idle",
@@ -85,6 +92,7 @@ function emptyView(): RunnerView {
     hintSquare: null,
     arrows: [],
     bubble: { tone: "neutral", notes: [] },
+    evalCp: START_EVAL_CP,
     progress: 0,
     hintsUsed: 0,
     canUndo: false,
@@ -157,6 +165,7 @@ export function useLineRunner(cfg: RunnerConfig): LineRunner {
         fen: node.fen,
         animate: true,
         lastMove: moveOf(node),
+        evalCp: evalAfter(node),
         mark: null,
         hintSquare: null,
         arrows: [],
@@ -233,6 +242,7 @@ export function useLineRunner(cfg: RunnerConfig): LineRunner {
             fen: fb.node.fen,
             animate: true,
             lastMove: moveOf(fb.node),
+            evalCp: evalAfter(fb.node),
             mark: { square: fb.node.uci.slice(2, 4), kind: "correct" },
             hintSquare: null,
             arrows: [],
@@ -243,6 +253,20 @@ export function useLineRunner(cfg: RunnerConfig): LineRunner {
           }));
           if (fb.done) complete("completed");
           else scheduleOpponent();
+          return;
+        }
+        case "fine": {
+          // Not a mistake in any mode: the piece goes back, the coach says what the course plays, the run goes on.
+          setView((v) => ({
+            ...v,
+            phase: "user",
+            animate: false,
+            mark: null,
+            hintSquare: null,
+            arrows: [],
+            resetKey: v.resetKey + 1,
+            bubble: { tone: "good", text: fb.message, notes: [], prompt: promptFor(s) },
+          }));
           return;
         }
         default: {
@@ -266,7 +290,7 @@ export function useLineRunner(cfg: RunnerConfig): LineRunner {
         }
       }
     },
-    [complete, later, scheduleOpponent],
+    [complete, later, promptFor, scheduleOpponent],
   );
 
   const tryAgain = useCallback(() => {
@@ -280,6 +304,7 @@ export function useLineRunner(cfg: RunnerConfig): LineRunner {
       fen: s.fen,
       animate: true,
       lastMove: last ? moveOf(last) : null,
+      evalCp: evalAfter(last),
       mark: null,
       hintSquare: null,
       arrows: [],
@@ -321,6 +346,7 @@ export function useLineRunner(cfg: RunnerConfig): LineRunner {
       fen: u.fen,
       animate: false,
       lastMove: last ? moveOf(last) : null,
+      evalCp: evalAfter(last),
       mark: null,
       hintSquare: null,
       arrows: [],

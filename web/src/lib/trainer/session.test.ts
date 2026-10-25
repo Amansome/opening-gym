@@ -96,13 +96,13 @@ describe("LineSession basics (white course: london-system)", () => {
   it("wrong move then correct move grades 'again' and counts the mistake", () => {
     const { s, clk } = make(c, l);
     clk.advance(500);
-    const bad = s.submit(attempt("e2e4"));
+    const bad = s.submit(attempt("h2h4"));
     expect(bad.kind).toBe("wrong");
     if (bad.kind !== "wrong") return;
     expect(bad.expectedPhrase).toBe("pawn to d4");
-    expect(bad.playedSan).toBe("e4");
+    expect(bad.playedSan).toBe("h4");
     expect(bad.failed).toBe(false);
-    expect(bad.attemptFen).toContain("4P3");
+    expect(bad.attemptFen).toContain("7P");
     expect(s.status).toBe("user"); // can retry
     expect(s.ply).toBe(0);
     const ok = s.submit(attempt("d2d4"));
@@ -114,8 +114,8 @@ describe("LineSession basics (white course: london-system)", () => {
 
   it("counts several mistakes on one move", () => {
     const { s } = make(c, l);
-    s.submit(attempt("e2e4"));
-    s.submit(attempt("g1f3"));
+    s.submit(attempt("h2h4"));
+    s.submit(attempt("a2a3"));
     s.submit(attempt("d2d4"));
     expect(s.result().mistakes).toBe(2);
   });
@@ -177,7 +177,7 @@ describe("grading", () => {
   it("a mistake beats a hint", () => {
     const { s } = make(c, l, "practice");
     s.hint();
-    s.submit(attempt("e2e4"));
+    s.submit(attempt("h2h4"));
     const f = s.submit(attempt("d2d4"));
     expect(f.kind === "correct" && f.grade).toBe("again");
   });
@@ -223,6 +223,100 @@ describe("other-line feedback", () => {
     const { s } = make(c, c.lines[0]);
     const f = s.submit(attempt("a2a3"));
     expect(f.kind).toBe("wrong");
+  });
+});
+
+describe("fine-move feedback (engine-approved alternatives)", () => {
+  /** london-system with 1.d4 marked as having fine alternatives 1.e4 and 1.Nf3 (also a real sibling d4 vs c4 check below). */
+  function withFine(fine: string[]): Course {
+    const c = structuredClone(course("london-system"));
+    c.tree[0].fine = fine;
+    return c;
+  }
+  const first = (c: Course) => c.lines[0];
+
+  it("a fine move is not a mistake: no failure, the user can still play the course move", () => {
+    const c = withFine(["e4", "Nf3"]);
+    const { s } = make(c, first(c), "learn");
+    const f = s.submit(attempt("e2e4"));
+    expect(f.kind).toBe("fine");
+    if (f.kind !== "fine") return;
+    expect(f.failed).toBe(false);
+    expect(f.expected.san).toBe("d4");
+    expect(f.playedSan).toBe("e4");
+    expect(f.message).toContain("Good move too!");
+    expect(f.message).toContain("this course plays d4");
+    expect(s.status).toBe("user");
+    expect(s.ply).toBe(0);
+  });
+
+  it("grades the move 'hard' (like a hint), even after a second fine attempt, and records no mistake", () => {
+    const c = withFine(["e4", "Nf3"]);
+    const { s, clk } = make(c, first(c), "practice");
+    clk.advance(100);
+    s.submit(attempt("e2e4"));
+    s.submit(attempt("g1f3"));
+    const ok = s.submit(attempt("d2d4"));
+    expect(ok.kind === "correct" && ok.grade).toBe("hard");
+    expect(s.result().mistakes).toBe(0);
+    expect(s.result().moves[0].usedHint).toBe(false);
+  });
+
+  for (const mode of ["drill", "time"] as Mode[]) {
+    it(`${mode}: a fine move does not end the run`, () => {
+      const c = withFine(["e4"]);
+      const { s, clk } = make(c, first(c), mode);
+      clk.advance(500);
+      const f = s.submit(attempt("e2e4"));
+      expect(f.kind).toBe("fine");
+      expect(s.status).toBe("user");
+      const ok = s.submit(attempt("d2d4"));
+      expect(ok.kind).toBe("correct");
+      const r = s.result();
+      expect(r.mistakes).toBe(0);
+      expect(r.moves[0].grade).toBe("hard");
+    });
+  }
+
+  it("a move that is not in fine is still a plain mistake", () => {
+    const c = withFine(["e4"]);
+    const { s } = make(c, first(c), "drill");
+    const f = s.submit(attempt("a2a3"));
+    expect(f.kind).toBe("wrong");
+    expect(s.status).toBe("failed");
+  });
+
+  it("'other line' takes precedence when a move is both fine and a trained sibling", () => {
+    // find any user node with a trained sibling (as in the other-line test), clone its course, mark the sibling fine
+    let found: { id: string; lineId: string; idx: number } | undefined;
+    outer: for (const c0 of courses) {
+      for (const l of trainableLines(c0)) {
+        const color = userColor(c0, l);
+        const nodes = lineNodes(c0, l);
+        for (let i = 0; i < nodes.length; i++) {
+          if (nodeColor(nodes[i]) !== color) continue;
+          const sibs = i === 0 ? c0.tree : nodes[i - 1].children;
+          if (sibs.some((n) => n.uci !== nodes[i].uci)) {
+            found = { id: c0.id, lineId: l.id, idx: i };
+            break outer;
+          }
+        }
+      }
+    }
+    expect(found).toBeDefined();
+    if (!found) return;
+    const c = structuredClone(course(found.id));
+    const l = line(c, found.lineId);
+    const nodes = lineNodes(c, l);
+    const sibs = found.idx === 0 ? c.tree : nodes[found.idx - 1].children;
+    const other = sibs.find((n) => n.uci !== nodes[found.idx].uci)!;
+    nodes[found.idx].fine = [other.san];
+    const { s } = make(c, l);
+    while (s.ply < found.idx) {
+      if (s.status === "opponent") s.playOpponent();
+      else s.submit(attempt(s.nextNode!.uci));
+    }
+    expect(s.submit(attempt(other.uci)).kind).toBe("other-line");
   });
 });
 
@@ -440,7 +534,7 @@ describe("Drill / Time failure", () => {
       s.submit(attempt("d2d4"));
       s.playOpponent();
       clk.advance(700);
-      const bad = s.submit(attempt("g1f3"));
+      const bad = s.submit(attempt("h2h3"));
       expect(bad.kind === "wrong" && bad.failed).toBe(true);
       expect(s.status).toBe("failed");
       expect(s.submit(attempt("c1f4")).kind).toBe("ignored");
@@ -454,7 +548,7 @@ describe("Drill / Time failure", () => {
 
   it("Practice mistakes do not end the run", () => {
     const { s } = make(c, l, "practice");
-    const bad = s.submit(attempt("e2e4"));
+    const bad = s.submit(attempt("h2h4"));
     expect(bad.kind === "wrong" && bad.failed).toBe(false);
     expect(s.status).toBe("user");
   });

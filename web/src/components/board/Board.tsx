@@ -157,7 +157,7 @@ export function Board({
     const board = new Chessboard(host, {
       position: live.current.fen,
       orientation: orientation === "white" ? COLOR.white : COLOR.black,
-      assetsUrl: "/",
+      assetsUrl: import.meta.env.BASE_URL,
       style: {
         cssClass: "og",
         borderType: "none",

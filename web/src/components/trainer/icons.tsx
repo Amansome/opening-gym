@@ -16,7 +16,9 @@ export type IconName =
   | "star"
   | "knight"
   | "trophy"
-  | "warning";
+  | "warning"
+  | "gauge"
+  | "search";
 
 const PATHS: Record<IconName, ReactNode> = {
   book: <path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v15H6.5A2.5 2.5 0 0 0 4 20.5v-15zM4 20.5A2.5 2.5 0 0 0 6.5 23H20v-5" />,
@@ -46,6 +48,18 @@ const PATHS: Record<IconName, ReactNode> = {
   knight: <path d="M7 21h11v-2.5l-2-1.5c0-3 3-4 3-8a7 7 0 0 0-7-6c-1.5 0-2.6.4-3.5 1L8 6l2 2-4 4 1.5 2 3-1.5-1 3.5c-.8 1.2-2.5 2-2.5 4z" />,
   trophy: <path d="M8 4h8v5a4 4 0 0 1-8 0zM8 6H4v1a4 4 0 0 0 4 4M16 6h4v1a4 4 0 0 1-4 4M12 13v4M8 21h8M10 17h4" />,
   warning: <path d="M12 3L2 21h20zM12 10v5M12 18v.5" />,
+  gauge: (
+    <>
+      <rect x="8" y="3" width="8" height="18" rx="2" />
+      <path d="M8 12h8" />
+    </>
+  ),
+  search: (
+    <>
+      <circle cx="10.5" cy="10.5" r="6.5" />
+      <path d="M15.5 15.5L21 21" />
+    </>
+  ),
 };
 
 export function Icon({ name, size = 20, className }: { name: IconName; size?: number; className?: string }) {

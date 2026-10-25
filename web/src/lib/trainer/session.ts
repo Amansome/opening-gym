@@ -40,7 +40,26 @@ export type Feedback =
       /** the line is finished (the user's move was the last one) */
       done: boolean;
     }
+  | FineFeedback
   | WrongFeedback;
+
+/**
+ * The user played a move the engine rates about as well as the course move (`expected.fine`), just not the one
+ * this course teaches. Not a mistake: it never ends a Drill / Time run. The first time per move it grades like a
+ * hint ("hard"). The UI shows the message and puts the piece back so the user can play the course move.
+ */
+export interface FineFeedback {
+  kind: "fine";
+  expected: MoveNode;
+  playedSan: string;
+  attemptFen: string;
+  from: string;
+  to: string;
+  expectedPhrase: string;
+  /** e.g. "Good move too! The engine likes it, but this course plays Bf4. Try that." */
+  message: string;
+  failed: false;
+}
 
 export interface WrongFeedback {
   /** "other-line": a legal, trained move from a different line of this course. "wrong": anything else. */
@@ -64,6 +83,8 @@ export interface WrongFeedback {
 interface NodeStats {
   mistakes: number;
   hints: number;
+  /** engine-approved alternatives tried at this move; grades like a hint */
+  fines: number;
   startedAt: number;
   ms?: number;
   grade?: Grade;
@@ -249,15 +270,32 @@ export class LineSession {
       };
     }
 
+    const siblings = this.index === 0 ? this.course.tree : this.nodes[this.index - 1].children;
+    const alternative = siblings.find((n) => n.uci === uci && n.id !== expected.id);
+    const expectedPhrase = describeMove(fenBefore, expected.san).phrase;
+
+    // "Other line" wins over "fine": a move this course teaches elsewhere is more specific than an engine opinion.
+    if (!alternative && expected.fine?.includes(mv.san)) {
+      stats.fines++;
+      return {
+        kind: "fine",
+        expected,
+        playedSan: mv.san,
+        attemptFen: chess.fen(),
+        from: mv.from,
+        to: mv.to,
+        expectedPhrase,
+        message: `Good move too! The engine likes it, but this course plays ${expected.san}. Try that.`,
+        failed: false,
+      };
+    }
+
     stats.mistakes++;
     stats.ms = Math.max(0, Math.round(this.now() - stats.startedAt));
     if (this.failOnMistake) {
       stats.grade = "again";
       this.failed = true;
     }
-    const siblings = this.index === 0 ? this.course.tree : this.nodes[this.index - 1].children;
-    const alternative = siblings.find((n) => n.uci === uci && n.id !== expected.id);
-    const expectedPhrase = describeMove(fenBefore, expected.san).phrase;
     const message = alternative
       ? `That's from another line in this course. Here we play ${expected.san} (${expectedPhrase}).`
       : `Not quite. The move here is ${expected.san} (${expectedPhrase}).`;
@@ -346,7 +384,7 @@ export class LineSession {
 
   private gradeFor(s: NodeStats, ms: number): Grade {
     if (s.mistakes > 0) return "again";
-    if (s.hints > 0) return "hard";
+    if (s.hints > 0 || s.fines > 0) return "hard";
     if (this.mode !== "learn" && ms < this.easyMs) return "easy";
     return "good";
   }
@@ -354,7 +392,7 @@ export class LineSession {
   private statsFor(index: number): NodeStats {
     let s = this.stats.get(index);
     if (!s) {
-      s = { mistakes: 0, hints: 0, startedAt: this.now(), done: false };
+      s = { mistakes: 0, hints: 0, fines: 0, startedAt: this.now(), done: false };
       this.stats.set(index, s);
     }
     return s;

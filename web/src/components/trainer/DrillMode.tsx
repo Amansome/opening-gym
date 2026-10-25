@@ -137,6 +137,7 @@ export function DrillMode({ course, cp, streak, refreshStreak, tiles, selectMode
       bubble={bubble}
       openingName={runner.view.openingName}
       board={boardPropsFromRunner(runner, orientation, runner.onUserMove)}
+      evalCp={line ? runner.view.evalCp : undefined}
       overlay={overlay}
       controls={controls}
       tiles={tiles}

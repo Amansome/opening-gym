@@ -73,3 +73,25 @@ export function gradeSummary(moves: { grade: string }[]): { good: number; hard: 
   }
   return { good, hard, again };
 }
+
+const EVAL_BAR_KEY = "og:evalbar";
+
+/** Whether the eval bar is shown. Remembered per browser; the app works without storage. */
+export function useEvalBarPref(): [boolean, (on: boolean) => void] {
+  const [on, setOn] = useState<boolean>(() => {
+    try {
+      return window.localStorage.getItem(EVAL_BAR_KEY) !== "off";
+    } catch {
+      return true;
+    }
+  });
+  const set = useCallback((next: boolean) => {
+    setOn(next);
+    try {
+      window.localStorage.setItem(EVAL_BAR_KEY, next ? "on" : "off");
+    } catch {
+      /* storage blocked: the preference lasts for this visit only */
+    }
+  }, []);
+  return [on, set];
+}

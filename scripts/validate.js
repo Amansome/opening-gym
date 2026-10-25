@@ -119,6 +119,25 @@ for (const f of "abcde") {
   }
 }
 
+// Engine evals (data/evals.json, written by scripts/engine-audit.js) keyed by EPD. Optional.
+// node.eval = eval after the move (centipawns, White's view); node.fine = other moves within FINE_CP of the best
+// move in the position before a trained move (the engine likes them too, the course just plays something else).
+const FINE_CP = 50;
+let evals = {};
+try { evals = JSON.parse(fs.readFileSync(path.join(root, "data", "evals.json"), "utf8")).positions || {}; } catch (e) { /* no evals yet */ }
+let evalNodes = 0, fineNodes = 0;
+function attachEval(node, beforeKey, afterKey) {
+  const after = evals[afterKey];
+  if (after && typeof after.e === "number") { node.eval = after.e; evalNodes++; }
+  const before = evals[beforeKey];
+  if (node.trained && before && before.m && before.m.length) {
+    const sign = node.ply % 2 ? 1 : -1; // +1 when White made the move
+    const best = before.m[0][2] * sign;
+    const fine = before.m.filter((m) => m[0] !== node.san && m[2] * sign >= best - FINE_CP).map((m) => m[0]);
+    if (fine.length) { node.fine = fine; fineNodes++; }
+  }
+}
+
 let errors = 0, warnings = 0;
 const fail = (msg) => { errors++; console.error("ERROR " + msg); };
 const out = [];
@@ -162,6 +181,7 @@ for (const course of courses) {
         child = { id: (node.id ? node.id + " " : "") + mv.san, ply: c.history().length, san: mv.san, uci: mv.from + mv.to + (mv.promotion || ""), fen: c.fen(), trained, children: [] };
         const n = names.get(epd(c));
         if (n) child.opening = `${n.eco} ${n.name}`;
+        attachEval(child, before, epd(c));
         node.children.push(child);
       }
       const note = line.notes && line.notes[label];
@@ -192,5 +212,5 @@ if (fs.existsSync(path.join(root, "web"))) {
 }
 const total = out.reduce((s, c) => s + c.lines.length, 0);
 const varCount = out.reduce((s, c) => s + ((c.article && c.article.variations) || []).length, 0);
-console.log(`\n${out.length} courses, ${total} lines, ${varCount} article variations, ${warnings} warning(s), ${errors} error(s). Wrote dist/courses.json`);
+console.log(`\n${out.length} courses, ${total} lines, ${varCount} article variations, ${warnings} warning(s), ${errors} error(s). Wrote dist/courses.json` + (evalNodes ? ` (${evalNodes} evals, ${fineNodes} trained moves with fine alternatives)` : " (no data/evals.json)"));
 process.exit(errors ? 1 : 0);

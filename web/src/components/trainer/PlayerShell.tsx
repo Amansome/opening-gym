@@ -2,12 +2,15 @@ import type { ReactNode } from "react";
 import { Board } from "../board";
 import type { BoardColor, BoardMove, BoardProps } from "../board";
 import type { Mode } from "../../lib/types";
+import { START_EVAL_CP } from "../../lib/trainer";
 import type { BubbleState, LineRunner } from "./useLineRunner";
 import { CoachBubble } from "./CoachBubble";
 import { ControlBar } from "./ControlBar";
 import type { ControlSpec } from "./ControlBar";
 import { PlayerLayout } from "./PlayerLayout";
+import { EvalBar } from "./EvalBar";
 import { Icon } from "./icons";
+import { useEvalBarPref } from "./hooks";
 import type { IconName } from "./icons";
 import "./trainer.css";
 
@@ -72,6 +75,8 @@ export interface PlayerShellProps {
   /** small line under the bubble, e.g. "From Caro-Kann Defence" */
   caption?: ReactNode;
   board: BoardProps;
+  /** Stockfish eval (centipawns, White's view) of the position on the board. undefined = the start position. */
+  evalCp?: number | null;
   overlay?: ReactNode;
   controls: ControlSpec[];
   tiles?: ReactNode;
@@ -79,6 +84,17 @@ export interface PlayerShellProps {
 
 export function PlayerShell(p: PlayerShellProps) {
   const meta = MODE_META[p.mode];
+  const [evalOn, setEvalOn] = useEvalBarPref();
+  // Time mode is all about speed: no eval bar and no leaving mid-run.
+  const timed = p.mode === "time";
+  const showEval = evalOn && !timed;
+  const controls: ControlSpec[] = [...p.controls];
+  if (!timed) {
+    controls.push(
+      { id: "eval", label: "Eval bar", icon: "gauge", onClick: () => setEvalOn(!evalOn), pressed: evalOn },
+      { id: "analyse", label: "Analyse", icon: "search", to: `/analysis?fen=${encodeURIComponent(p.board.fen)}` },
+    );
+  }
   return (
     <PlayerLayout
       mode={p.mode}
@@ -116,8 +132,9 @@ export function PlayerShell(p: PlayerShellProps) {
         </>
       }
       board={<Board {...p.board} />}
+      evalBar={showEval ? <EvalBar cp={p.evalCp === undefined ? START_EVAL_CP : p.evalCp} orientation={p.board.orientation ?? "white"} /> : undefined}
       overlay={p.overlay}
-      controls={<ControlBar controls={p.controls} />}
+      controls={<ControlBar controls={controls} />}
       tiles={p.tiles}
     />
   );
