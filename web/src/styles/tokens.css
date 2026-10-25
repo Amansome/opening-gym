@@ -1,0 +1,40 @@
+/* Design tokens. Owned by the pages/shell agent; everyone else uses these variables, never raw colours. */
+:root {
+  color-scheme: dark;
+  --bg: #0b0b0e;
+  --surface: #15151a;
+  --surface-2: #1e1e25;
+  --border: #2a2a33;
+  --text: #f2f2f5;
+  --text-muted: #a0a0ad;
+  --accent: #7c5cff;      /* Learn / brand */
+  --accent-text: #ffffff;
+  --practice: #22c55e;
+  --drill: #ef4444;
+  --time: #3b82f6;
+  --dojo: #f59e0b;
+  --success: #22c55e;
+  --danger: #ef4444;
+  --warning: #f59e0b;
+  --bubble-bg: #ffffff;
+  --bubble-text: #111114;
+  --board-light: #eed9b6;
+  --board-dark: #c49d72;
+  --radius: 12px;
+  --radius-sm: 8px;
+  --shadow: 0 8px 30px rgb(0 0 0 / 0.35);
+  --font: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --mono: ui-monospace, "SF Mono", Menlo, monospace;
+}
+:root[data-theme="light"] {
+  color-scheme: light;
+  --bg: #f6f6f8;
+  --surface: #ffffff;
+  --surface-2: #f0f0f4;
+  --border: #dcdce3;
+  --text: #15151a;
+  --text-muted: #5c5c6b;
+  --bubble-bg: #f0edff;
+  --bubble-text: #15151a;
+  --shadow: 0 8px 30px rgb(0 0 0 / 0.08);
+}

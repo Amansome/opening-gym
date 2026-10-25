@@ -1,0 +1,6 @@
+{
+  "name": "chess-openings-research",
+  "private": true,
+  "scripts": { "validate": "node scripts/validate.js" },
+  "dependencies": { "chess.js": "1.4.0" }
+}
