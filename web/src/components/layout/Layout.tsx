@@ -100,6 +100,14 @@ function Footer() {
             </ul>
           </div>
           <div>
+            <h2>Tools</h2>
+            <ul>
+              <li><Link to="/create">Create a course</Link></li>
+              <li><Link to="/check">Check my games</Link></li>
+              <li><Link to="/analysis">Analysis board</Link></li>
+            </ul>
+          </div>
+          <div>
             <h2>Free &amp; open source</h2>
             <ul>
               {REPO_URL ? (

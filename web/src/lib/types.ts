@@ -16,6 +16,11 @@ export interface MoveNode {
   trained: boolean;
   note?: string; // coach comment shown after the move is played
   opening?: string; // e.g. "C54 Italian Game: Classical Variation" when this position is named
+  /** Stockfish eval of the position AFTER this move, centipawns from White's view (mate: ±100000∓plies). Precomputed. */
+  eval?: number;
+  /** For trained moves: other SANs in the position BEFORE this move that the engine rates within ~0.5 pawns
+   *  of the course move. Playing one is "fine, but the course recommends X" rather than a mistake. */
+  fine?: string[];
   children: MoveNode[];
 }
 
@@ -53,6 +58,9 @@ export interface Course {
   ideas: string[];
   style?: string; // e.g. "Classical", "Gambit", "Trap-heavy", "Solid", "System"
   article?: CourseArticle;
+  /** true for user-made courses stored locally (not part of the built-in catalogue) */
+  custom?: boolean;
+  createdAt?: number;
   lines: Line[];
   tree: MoveNode[]; // children of the start position
 }

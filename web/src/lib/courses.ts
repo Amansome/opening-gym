@@ -2,10 +2,31 @@
 import data from "../data/courses.json";
 import type { Course, Line, MoveNode } from "./types";
 
+/** Built-in catalogue. */
 export const courses = data as unknown as Course[];
 
+// User-made courses live in IndexedDB (lib/custom). They are registered here at startup and after
+// every change so that every synchronous lookup (Trainer, progress, Dojo) sees them too.
+let customCourses: Course[] = [];
+const registryListeners = new Set<() => void>();
+
+export function registerCustomCourses(list: Course[]): void {
+  customCourses = list.map((c) => ({ ...c, custom: true }));
+  registryListeners.forEach((f) => f());
+}
+
+export function onCustomCoursesChange(fn: () => void): () => void {
+  registryListeners.add(fn);
+  return () => registryListeners.delete(fn);
+}
+
+/** Built-in plus custom courses. */
+export function allCourses(): Course[] {
+  return [...courses, ...customCourses];
+}
+
 export function getCourse(id: string): Course | undefined {
-  return courses.find((c) => c.id === id);
+  return courses.find((c) => c.id === id) ?? customCourses.find((c) => c.id === id);
 }
 
 export function getLine(course: Course, lineId: string): Line | undefined {
