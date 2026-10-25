@@ -1,0 +1,10 @@
+{
+  "name": "Opening Gym",
+  "short_name": "Opening Gym",
+  "description": "Free chess opening trainer. Every move explained.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0b0b0e",
+  "theme_color": "#6f4cff",
+  "icons": [{ "src": "/favicon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }]
+}
