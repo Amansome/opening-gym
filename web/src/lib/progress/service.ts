@@ -1,6 +1,6 @@
 // The ProgressApi implementation. In-memory snapshot + write-through to a KvBackend.
 // All operations are serialised through one promise queue, so concurrent calls never interleave.
-import { getLine, lineNodes, trainableLines } from "../courses";
+import { getLine, lineNodes, trainableLines, userColor } from "../courses";
 import type { Course, Grade, Line, LineResult, Mode } from "../types";
 import type { CourseProgress, LineStats, ProgressApi, ScoreEntry, StreakInfo } from "./api";
 import { emptyCourseState, emptySnapshot, type BackupFile, type CourseState, type Snapshot } from "./model";
@@ -32,7 +32,11 @@ function trainedNodeIds(course: Course, line: Line): string[] {
   let ids = trainedIdsCache.get(line);
   if (!ids) {
     try {
-      ids = lineNodes(course, line).filter((n) => n.trained).map((n) => n.id);
+      // In "both"-side courses every node is flagged trained; the user only plays one colour per line.
+      const parity = userColor(course, line) === "white" ? 1 : 0;
+      ids = lineNodes(course, line)
+        .filter((n) => n.trained && (course.side !== "both" || n.ply % 2 === parity))
+        .map((n) => n.id);
     } catch {
       ids = [];
     }

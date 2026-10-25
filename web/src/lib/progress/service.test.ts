@@ -553,3 +553,21 @@ describe("misc", () => {
     expect(new Date(noon(2025, 6, 10)).getHours()).toBe(12);
   });
 });
+
+describe("both-side courses", () => {
+  it("only schedules the colour the user plays, so a just-learned trap line is not due", async () => {
+    const { getCourse } = await import("../courses");
+    const { createProgress, memoryBackend } = await import("./index");
+    const course = getCourse("opening-traps")!;
+    const line = course.lines[0];
+    const now = Date.UTC(2026, 0, 10, 12);
+    const api = createProgress({ backend: memoryBackend(), now: () => now });
+    const { lineNodes, userColor } = await import("../courses");
+    const parity = userColor(course, line) === "white" ? 1 : 0;
+    const moves = lineNodes(course, line).filter((n) => n.ply % 2 === parity).map((n) => ({ nodeId: n.id, grade: "good" as const, ms: 1000, usedHint: false }));
+    await api.recordLine(course, { courseId: course.id, lineId: line.id, mode: "learn", moves, completed: true, mistakes: 0 });
+    const p = await api.getCourseProgress(course);
+    expect(p.learnedCount).toBe(1);
+    expect(p.dueCount).toBe(0);
+  });
+});

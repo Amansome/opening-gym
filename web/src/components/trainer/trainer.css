@@ -21,7 +21,7 @@
 
 .og-player__board {
   position: relative;
-  width: min(100%, calc(100dvh - 120px));
+  width: min(100%, calc(100dvh - 200px));
   min-width: 280px;
   justify-self: center;
   border-radius: 6px;
