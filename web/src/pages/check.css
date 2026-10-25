@@ -1,0 +1,94 @@
+/* Check my games. Uses the shared design tokens only. */
+.check-page { padding-bottom: 64px; }
+.check-form { align-items: stretch; gap: 16px; max-width: 920px; }
+.check-row { display: flex; flex-wrap: wrap; gap: 16px; align-items: flex-end; }
+.check-row-end { justify-content: space-between; align-items: center; }
+.check-field { display: grid; gap: 6px; min-width: 0; }
+.check-field-grow { flex: 1 1 240px; }
+.check-label { font-size: 0.78rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; color: var(--text-muted); }
+.check-input {
+  min-height: 44px; border-radius: 10px; border: 1px solid var(--border); background: var(--surface-2);
+  color: var(--text); padding: 0 14px; width: 100%; font-size: 1rem;
+}
+.check-input:hover { border-color: var(--accent); }
+.check-input::placeholder { color: var(--text-muted); }
+.check-toggle { display: inline-flex; align-items: center; gap: 10px; cursor: pointer; font-weight: 600; flex-wrap: wrap; }
+.check-toggle input { width: 20px; height: 20px; accent-color: var(--accent); }
+.check-actions { display: flex; gap: 8px; align-items: center; }
+.check-privacy { display: flex; gap: 8px; align-items: flex-start; font-size: 0.86rem; color: var(--text-muted); line-height: 1.5; }
+.check-privacy svg { flex: none; margin-top: 2px; color: var(--success-fg); }
+
+.check-status { display: flex; align-items: center; gap: 12px; margin-top: 28px; font-weight: 600; color: var(--text-muted); }
+.spinner { width: 20px; height: 20px; border-radius: 50%; border: 3px solid var(--border); border-top-color: var(--accent); animation: check-spin 0.8s linear infinite; }
+@keyframes check-spin { to { transform: rotate(360deg); } }
+@media (prefers-reduced-motion: reduce) { .spinner { animation-duration: 3s; } }
+
+.check-error {
+  margin-top: 28px; padding: 18px; border-radius: var(--radius); display: grid; gap: 8px; justify-items: start; max-width: 920px;
+  border: 1px solid color-mix(in srgb, var(--danger) 50%, var(--border)); background: color-mix(in srgb, var(--danger) 8%, var(--surface));
+}
+.check-error strong { color: var(--danger-fg); }
+.check-intro { margin-top: 40px; max-width: 62ch; }
+.check-intro h2 { font-size: 1.2rem; margin-bottom: 10px; }
+.check-intro ol { padding-left: 1.2em; display: grid; gap: 8px; color: var(--text-muted); line-height: 1.55; }
+.check-empty { margin-top: 28px; max-width: 920px; }
+
+.check-results { margin-top: 28px; }
+.check-scope { margin-bottom: 16px; font-size: 0.92rem; }
+.check-stats { margin-bottom: 8px; }
+.stat-move { font-family: var(--mono); font-size: 1.6rem !important; letter-spacing: -0.02em !important; }
+.check-section { margin-top: 40px; }
+.check-section-title { font-size: 1.4rem; display: flex; align-items: center; gap: 10px; }
+.check-count {
+  display: inline-grid; place-items: center; min-width: 28px; height: 28px; padding: 0 8px; border-radius: 999px;
+  background: var(--surface-2); border: 1px solid var(--border); font-size: 0.85rem; font-weight: 700; color: var(--text-muted);
+}
+.check-hint { margin-bottom: 14px; max-width: 62ch; }
+.check-none { padding: 16px; border: 1px dashed var(--border); border-radius: var(--radius); color: var(--text-muted); }
+.check-list { list-style: none; padding: 0; margin: 0; display: grid; gap: 14px; }
+
+.check-item {
+  display: grid; grid-template-columns: 168px 1fr; gap: 18px; padding: 16px; min-width: 0;
+  background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius);
+}
+.check-item[data-kind="mistake"] { border-left: 4px solid var(--danger); }
+.check-item[data-kind="surprise"] { border-left: 4px solid var(--dojo); }
+.check-board { width: 168px; height: 168px; border-radius: 6px; display: block; }
+.check-body { display: grid; gap: 8px; align-content: start; min-width: 0; }
+.check-headline { font-size: 1.1rem; line-height: 1.4; font-weight: 600; }
+.mv { font-family: var(--mono); font-weight: 700; padding: 1px 7px; border-radius: 6px; white-space: nowrap; }
+.mv-bad { background: color-mix(in srgb, var(--danger) 16%, transparent); color: var(--danger-fg); }
+.mv-good { background: color-mix(in srgb, var(--success) 16%, transparent); color: var(--success-fg); }
+.check-sub { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.check-times { color: var(--text-muted); font-size: 0.9rem; font-weight: 600; }
+.check-lines { font-size: 0.92rem; }
+.check-note { font-size: 0.92rem; color: var(--text-muted); font-style: italic; line-height: 1.5; }
+.check-games { display: flex; flex-wrap: wrap; gap: 6px 14px; font-size: 0.9rem; }
+.check-game-link { text-decoration: none; font-weight: 600; color: var(--accent-fg); }
+.check-game-link:hover { text-decoration: underline; }
+.check-cta { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; margin-top: 4px; }
+.check-link { font-weight: 650; font-size: 0.92rem; }
+
+.check-followed {
+  list-style: none; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px 20px; padding: 12px 16px;
+  background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); border-left: 4px solid var(--success);
+}
+.check-followed-main { display: grid; gap: 2px; min-width: 0; }
+.check-followed-course { font-weight: 700; color: var(--text); text-decoration: none; }
+.check-followed-course:hover { text-decoration: underline; }
+.check-followed-meta { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.check-plies { font-size: 0.88rem; color: var(--text-muted); font-variant-numeric: tabular-nums; }
+.check-plies-bar { width: 110px; }
+
+.check-uncovered { margin-top: 40px; padding: 14px 16px; border: 1px dashed var(--border); border-radius: var(--radius); }
+.check-uncovered summary { cursor: pointer; font-weight: 700; display: flex; align-items: center; gap: 10px; }
+.check-uncovered p { margin: 12px 0 8px; }
+.check-open-list { list-style: none; padding: 0; margin: 0 0 12px; display: grid; gap: 4px; }
+
+@media (max-width: 640px) {
+  .check-item { grid-template-columns: 1fr; padding: 14px; }
+  .check-board { width: 100%; max-width: 220px; height: auto; aspect-ratio: 1; }
+  .check-actions { width: 100%; }
+  .check-actions .btn[data-variant="primary"] { flex: 1; }
+  .check-plies-bar { width: 80px; }
+}

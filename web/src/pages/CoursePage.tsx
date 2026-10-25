@@ -6,6 +6,8 @@ import { Icon } from "../components/ui/Icon";
 import { useCourseProgress, useDocumentMeta } from "../components/ui/hooks";
 import { getCourse, trainableLines } from "../lib/courses";
 import type { Course, Mode } from "../lib/types";
+import { useCustomCourses } from "../lib/custom";
+import { CustomActions } from "./create/CustomActions";
 import NotFound from "./NotFound";
 
 const MODES: Mode[] = ["learn", "practice", "drill", "time", "dojo"];
@@ -59,9 +61,10 @@ function CourseArticle({ course }: { course: Course }) {
             <LevelBadge level={course.level} />
             <SideBadge side={course.side} />
             <StyleBadge course={course} />
-            <span className="eco">ECO {course.eco}</span>
+            {course.eco ? <span className="eco">ECO {course.eco}</span> : null}
           </div>
           <p className="article-lead">{course.summary}</p>
+          {course.custom ? <CustomActions course={course} /> : null}
           {course.ideas.length > 0 ? (
             <>
               <h2>Key ideas</h2>
@@ -209,6 +212,7 @@ function CourseArticle({ course }: { course: Course }) {
 
 export default function CoursePage() {
   const { courseId } = useParams();
+  const { ready } = useCustomCourses(); // re-renders when custom courses load, change or are deleted
   const course = courseId ? getCourse(courseId) : undefined;
   const [params] = useSearchParams();
   const modeParam = params.get("mode") as Mode | null;
@@ -236,7 +240,13 @@ export default function CoursePage() {
     jsonLd,
   });
 
-  if (!course) return <NotFound what="opening" />;
+  if (!course) {
+    // a custom course may still be loading from IndexedDB: wait for the registry instead of showing a 404
+    if (!ready && courseId?.startsWith("custom-")) {
+      return <p className="container" style={{ padding: "48px 16px" }} role="status">Loading your course…</p>;
+    }
+    return <NotFound what="opening" />;
+  }
 
   return (
     <>

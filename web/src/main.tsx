@@ -4,7 +4,12 @@ import "./styles/tokens.css";
 import "./styles/global.css";
 import "./styles/components.css";
 import "./styles/pages.css";
+import "./lib/custom/boot";
 import App from "./App.tsx";
+import { registerServiceWorker } from "./pwa";
+
+// Prerendered pages ship their JSON-LD in <head>; the page's own hook adds it again on mount, so drop the static copy.
+document.querySelectorAll('script[data-og="jsonld"]').forEach((el) => el.remove());
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
@@ -12,20 +17,5 @@ createRoot(document.getElementById("root")!).render(
   </StrictMode>,
 );
 
-// Offline support (production builds only): register the service worker, then warm the
-// code-split page chunks while idle so the whole app is cached after the first visit.
-if (import.meta.env.PROD && "serviceWorker" in navigator) {
-  window.addEventListener("load", () => {
-    navigator.serviceWorker.register("/sw.js").catch(() => {});
-    const warm = () => {
-      void import("./pages/Openings");
-      void import("./pages/CoursePage");
-      void import("./pages/DojoPage");
-      void import("./pages/ProgressPage");
-      void import("./pages/About");
-      void import("./pages/NotFound");
-    };
-    if ("requestIdleCallback" in window) window.requestIdleCallback(warm, { timeout: 5000 });
-    else setTimeout(warm, 3000);
-  });
-}
+// Offline support: register the service worker (production builds only).
+registerServiceWorker();

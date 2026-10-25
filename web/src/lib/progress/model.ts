@@ -1,7 +1,7 @@
 // Persisted data model for the progress module. Plain JSON only (no Date, no Infinity).
 import type { ScoreEntry } from "./api";
 
-export const SCHEMA_VERSION = 1;
+export const SCHEMA_VERSION = 2;
 
 /** One FSRS card (one trained move node), flattened to JSON-safe numbers. */
 export interface StoredCard {
@@ -50,6 +50,8 @@ export interface Snapshot {
   streak: StreakState;
   scores: ScoreBook;
   courses: Record<string, CourseState>;
+  /** Activity history: local day ("YYYY-MM-DD") -> lines completed that day. Added in schema 2. */
+  activity: Record<string, number>;
 }
 
 export function emptyCourseState(courseId: string): CourseState {
@@ -62,6 +64,7 @@ export function emptySnapshot(): Snapshot {
     streak: { current: 0, best: 0, lastDay: "" },
     scores: { global: { drill: [], time: [] }, byCourse: {} },
     courses: {},
+    activity: {},
   };
 }
 

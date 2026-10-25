@@ -6,6 +6,7 @@ import { QuickPicks } from "../components/ui/QuickPicks";
 import { useCourseProgressMap, useDocumentMeta } from "../components/ui/hooks";
 import { courses } from "../lib/courses";
 import type { Course, Level } from "../lib/types";
+import { MyCourses } from "./create/MyCourses";
 
 type SideFilter = "all" | "white" | "black" | "both";
 const SIDES: { key: SideFilter; label: string }[] = [
@@ -84,6 +85,8 @@ export default function Openings() {
         </p>
         <p className="page-meta">{courses.length} courses · {totalLines} lines · free</p>
       </header>
+
+      <MyCourses />
 
       {!filtersActive ? <QuickPicks headingId="picks-h" /> : null}
 

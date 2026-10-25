@@ -119,8 +119,8 @@ function Footer() {
           </div>
         </div>
         <p className="footer-note">
-          Free and open source. Opening names from the Lichess chess-openings dataset (CC0). Board by cm-chessboard,
-          rules by chess.js, scheduling by ts-fsrs. No accounts, no tracking: your progress stays on your device.
+          Free and open source. Opening names from the Lichess chess-openings dataset (CC0). Board by cm-chessboard
+          with pieces by Cburnett (Wikimedia Commons, CC BY-SA 3.0), rules by chess.js, scheduling by ts-fsrs. No accounts, no tracking: your progress stays on your device.
         </p>
       </div>
     </footer>

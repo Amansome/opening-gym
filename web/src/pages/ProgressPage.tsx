@@ -1,11 +1,12 @@
 import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
-import { progress } from "../lib/progress";
+import { localDayKey, progress } from "../lib/progress";
 import type { ScoreEntry } from "../lib/progress";
 import { courses, getCourse } from "../lib/courses";
 import { Button } from "../components/ui/Button";
 import { Icon } from "../components/ui/Icon";
 import { ProgressBar } from "../components/ui/ProgressBar";
+import "../styles/heatmap.css";
 import { useCourseProgressMap, useDocumentMeta, useStreak } from "../components/ui/hooks";
 
 function useTopScores(mode: "drill" | "time"): ScoreEntry[] {
@@ -25,6 +26,117 @@ function useTopScores(mode: "drill" | "time"): ScoreEntry[] {
     };
   }, [mode]);
   return scores;
+}
+
+function useActivity(): Record<string, number> | undefined {
+  const [activity, setActivity] = useState<Record<string, number>>();
+  useEffect(() => {
+    let alive = true;
+    const run = () =>
+      progress.getActivity().then(
+        (a) => alive && setActivity(a),
+        () => {},
+      );
+    run();
+    const off = progress.subscribe(run);
+    return () => {
+      alive = false;
+      off();
+    };
+  }, []);
+  return activity;
+}
+
+const HEATMAP_WEEKS = 12;
+const WEEKDAYS = ["Mon", "", "Wed", "", "Fri", "", "Sun"];
+
+function heatLevel(n: number): 0 | 1 | 2 | 3 | 4 {
+  if (n <= 0) return 0;
+  if (n === 1) return 1;
+  if (n <= 3) return 2;
+  if (n <= 6) return 3;
+  return 4;
+}
+
+interface HeatCell { key: string; date: Date; count: number; level: number; future: boolean; today: boolean }
+
+/** Cells for the last 12 weeks (Monday-first columns), ending with the current week. */
+function buildHeatmap(activity: Record<string, number>, now = new Date()): { weeks: HeatCell[][]; total: number; activeDays: number } {
+  const todayKey = localDayKey(now.getTime());
+  const sinceMonday = (now.getDay() + 6) % 7;
+  const weeks: HeatCell[][] = [];
+  let total = 0;
+  let activeDays = 0;
+  for (let w = 0; w < HEATMAP_WEEKS; w++) {
+    const col: HeatCell[] = [];
+    for (let d = 0; d < 7; d++) {
+      const date = new Date(now.getFullYear(), now.getMonth(), now.getDate() - sinceMonday - (HEATMAP_WEEKS - 1 - w) * 7 + d);
+      const key = localDayKey(date.getTime());
+      const future = key > todayKey;
+      const count = future ? 0 : (activity[key] ?? 0);
+      total += count;
+      if (count > 0) activeDays++;
+      col.push({ key, date, count, level: heatLevel(count), future, today: key === todayKey });
+    }
+    weeks.push(col);
+  }
+  return { weeks, total, activeDays };
+}
+
+function cellLabel(c: HeatCell): string {
+  const day = c.date.toLocaleDateString(undefined, { weekday: "short", month: "short", day: "numeric", year: "numeric" });
+  return `${day}: ${c.count === 0 ? "no lines" : c.count === 1 ? "1 line" : `${c.count} lines`} completed`;
+}
+
+function ActivityHeatmap({ activity }: { activity: Record<string, number> | undefined }) {
+  const { weeks, total, activeDays } = buildHeatmap(activity ?? {});
+  return (
+    <section className="section-block" aria-labelledby="activity-h">
+      <h2 id="activity-h">Activity</h2>
+      <p className="muted heatmap-summary">
+        {total === 0
+          ? "No lines completed in the last 12 weeks. Finish a line to light up today."
+          : `${total} ${total === 1 ? "line" : "lines"} completed on ${activeDays} ${activeDays === 1 ? "day" : "days"} in the last 12 weeks.`}
+      </p>
+      <div className="heatmap-wrap">
+        <div className="heatmap" role="group" aria-label="Activity over the last 12 weeks, one square per day">
+          <div className="heatmap-days" aria-hidden="true">
+            {WEEKDAYS.map((d, i) => <span key={i}>{d}</span>)}
+          </div>
+          <ol className="heatmap-weeks" style={{ listStyle: "none", margin: 0, padding: 0 }}>
+            {weeks.map((col, wi) => {
+              const first = col[0].date;
+              const prev = wi > 0 ? weeks[wi - 1][0].date : undefined;
+              const label = !prev || prev.getMonth() !== first.getMonth() ? first.toLocaleDateString(undefined, { month: "short" }) : "";
+              return (
+                <li key={col[0].key} className="heatmap-week">
+                  <span className="heatmap-month" aria-hidden="true">{label}</span>
+                  {col.map((c) => (
+                    <span
+                      key={c.key}
+                      className="heatmap-cell"
+                      data-level={c.level}
+                      data-today={c.today || undefined}
+                      data-future={c.future || undefined}
+                      role="img"
+                      aria-label={cellLabel(c)}
+                      aria-hidden={c.future || undefined}
+                      title={cellLabel(c)}
+                    />
+                  ))}
+                </li>
+              );
+            })}
+          </ol>
+        </div>
+      </div>
+      <div className="heatmap-legend" aria-hidden="true">
+        Less
+        {[0, 1, 2, 3, 4].map((l) => <span key={l} className="heatmap-cell" data-level={l} />)}
+        More
+      </div>
+    </section>
+  );
 }
 
 function ScoreList({ title, unit, scores, icon }: { title: string; unit: string; scores: ScoreEntry[]; icon: "flame" | "clock" }) {
@@ -184,6 +296,7 @@ export default function ProgressPage() {
   const map = useCourseProgressMap(courses);
   const drill = useTopScores("drill");
   const time = useTopScores("time");
+  const activity = useActivity();
 
   const rows = courses
     .map((c) => ({ c, p: map[c.id] }))
@@ -222,6 +335,8 @@ export default function ProgressPage() {
           <span>due for review</span>
         </div>
       </div>
+
+      <ActivityHeatmap activity={activity} />
 
       <section className="section-block" aria-labelledby="courses-h">
         <h2 id="courses-h">Courses</h2>

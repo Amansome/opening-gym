@@ -130,17 +130,18 @@ describe("no IndexedDB at all (jsdom / private mode)", () => {
 
 describe("schema versioning and migration", () => {
   const rec = (extra: Record<string, unknown> = {}) => ({
-    schemaVersion: 1,
+    schemaVersion: 2,
+    activity: {},
     streak: { current: 2, best: 4, lastDay: "2025-06-10" },
     scores: { global: { drill: [], time: [] }, byCourse: {} },
     ...extra,
   });
 
-  it("stamps schemaVersion: 1 on stored meta and on exports", async () => {
+  it("stamps the current schemaVersion on stored meta and on exports", async () => {
     const { p, backend } = setup();
     await learnLines(p, italian, 1);
-    expect((backend.data.get("meta") as { schemaVersion: number }).schemaVersion).toBe(1);
-    expect(JSON.parse(await p.exportAll()).schemaVersion).toBe(1);
+    expect((backend.data.get("meta") as { schemaVersion: number }).schemaVersion).toBe(SCHEMA_VERSION);
+    expect(JSON.parse(await p.exportAll()).schemaVersion).toBe(SCHEMA_VERSION);
   });
 
   it("migrate() applies stepwise migrations in order", () => {
@@ -217,7 +218,7 @@ describe("schema versioning and migration", () => {
     const donor = setup();
     await learnLines(donor.p, italian, 1);
     await p.importAll(await donor.p.exportAll());
-    expect((backend.data.get("meta") as { schemaVersion: number }).schemaVersion).toBe(1);
+    expect((backend.data.get("meta") as { schemaVersion: number }).schemaVersion).toBe(SCHEMA_VERSION);
     vi.restoreAllMocks();
   });
 

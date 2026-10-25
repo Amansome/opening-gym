@@ -1,0 +1,15 @@
+# Cloudflare Pages and Netlify. Hashed build output never changes; entry documents must always revalidate.
+/assets/*
+  Cache-Control: public, max-age=31536000, immutable
+/icons/*
+  Cache-Control: public, max-age=604800
+/engine/*
+  Cache-Control: public, max-age=86400
+/sw.js
+  Cache-Control: no-cache
+/index.html
+  Cache-Control: no-cache
+/shell.html
+  Cache-Control: no-cache
+/manifest.webmanifest
+  Cache-Control: no-cache

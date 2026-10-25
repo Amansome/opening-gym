@@ -11,3 +11,4 @@ export { ProgressDataError } from "./snapshot";
 
 /** The app-wide instance: IndexedDB ("opening-gym" / "kv") with memory-only fallback. */
 export const progress: ProgressApi = createProgress({ backend: idbBackend() });
+export { localDayKey } from "./dates";

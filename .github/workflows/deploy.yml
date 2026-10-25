@@ -1,0 +1,97 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      # Project sites live at https://<user>.github.io/<repo>/, so the app needs that sub-path as its base.
+      # For a custom domain or a <user>.github.io root site, set the repository variables
+      # SITE_URL (e.g. https://openings.example.org) and BASE_PATH (/).
+      SITE_URL: ${{ vars.SITE_URL || format('https://{0}.github.io', github.repository_owner) }}
+      BASE_PATH: ${{ vars.BASE_PATH || format('/{0}/', github.event.repository.name) }}
+      PRERENDER_STRICT: "1"
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: |
+            package-lock.json
+            web/package-lock.json
+
+      # The root install provides chess.js for scripts/validate.js; web/ is the app.
+      - name: Install dependencies
+        run: |
+          npm ci
+          npm ci --prefix web
+
+      # Playwright renders the pages for SEO (web/scripts/prerender.mjs). It is not an app dependency,
+      # so install it globally; the scripts fall back to the global install.
+      - name: Install Playwright and Chromium
+        run: |
+          npm install -g playwright
+          playwright install --with-deps chromium
+
+      - name: Validate course data
+        run: npm run validate
+
+      - name: Check generated data is up to date
+        working-directory: web
+        run: |
+          npm run data
+          git diff --exit-code -- src/data/courses.json
+
+      - name: Type-check and test
+        working-directory: web
+        run: |
+          npx tsc -b
+          npm test
+
+      - name: Build (includes prerender, sitemap.xml, robots.txt)
+        working-directory: web
+        run: npm run build
+
+      - name: End-to-end smoke test against the production build
+        working-directory: web
+        run: |
+          npx vite preview --port 4173 --strictPort &
+          for i in $(seq 1 30); do curl -sf "http://localhost:4173${BASE_PATH}" > /dev/null && break; sleep 1; done
+          BASE_URL="http://localhost:4173${BASE_PATH%/}" npm run e2e
+
+      # GitHub Pages serves 404.html for unknown URLs: use the clean app shell so deep links still boot the SPA.
+      - name: SPA fallback and .nojekyll
+        working-directory: web/dist
+        run: |
+          cp shell.html 404.html
+          touch .nojekyll
+
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: web/dist
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

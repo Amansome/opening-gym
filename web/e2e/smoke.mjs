@@ -1,14 +1,14 @@
-// End-to-end smoke test against a running server (default http://localhost:4173).
-//   npx vite build && npx vite preview --port 4173 &  node e2e/smoke.mjs
-// Plays the first Learn line of a few courses by clicking squares, checks the celebration,
-// reloads to verify progress persisted in IndexedDB, and visits every route checking for console errors.
-import { createRequire } from "node:module";
-import { execSync } from "node:child_process";
+// End-to-end smoke test against a RUNNING production preview (default http://localhost:4173).
+//   npm run build && npx vite preview --port 4173 &   then   npm run e2e      (or: node e2e/smoke.mjs)
+//   BASE_URL=http://localhost:4178 npm run e2e          to point it at another port or a deployed site
+// It needs a production build because it tests the service worker and the prerendered pages.
+// Checks: plays the first Learn line of a few courses by clicking squares, progress persistence and the
+// activity heatmap, /analysis /check /create render without console errors, sitemap.xml/robots.txt and the
+// prerendered SEO tags, OFFLINE reloads of the main pages (plus playing a line offline), and mobile overflow.
 import fs from "node:fs";
+import { loadPlaywright } from "../scripts/lib/playwright.mjs";
 
-let pw;
-try { pw = await import("playwright"); } catch { pw = createRequire(execSync("npm root -g").toString().trim() + "/")("playwright"); }
-const { chromium } = pw;
+const { chromium } = await loadPlaywright();
 
 const BASE = process.env.BASE_URL ?? "http://localhost:4173";
 const OUT = process.env.SHOTS ?? "e2e/shots";
@@ -18,7 +18,7 @@ fs.mkdirSync(OUT, { recursive: true });
 const errors = [];
 const browser = await chromium.launch();
 const ctx = await browser.newContext({ viewport: { width: 1400, height: 900 } });
-const page = await ctx.newPage();
+let page = await ctx.newPage();
 page.on("console", (m) => { if (m.type() === "error") errors.push(`${page.url()}: ${m.text()}`); });
 page.on("pageerror", (e) => errors.push(`${page.url()}: ${e.message}`));
 
@@ -72,21 +72,107 @@ const progressText = await page.locator("main").innerText();
 results.push(/1\s*\/\s*\d+|learned/i.test(progressText) ? "PASS progress page renders after reload" : "FAIL progress page");
 await page.screenshot({ path: `${OUT}/progress.png`, fullPage: true });
 
+// activity heatmap: today's cell must show the lines learned above
+{
+  const cells = await page.locator(".heatmap-cell[role=img]").count();
+  const today = await page.locator('.heatmap-cell[data-today="true"]').first().getAttribute("aria-label").catch(() => null);
+  results.push(cells === 84 && /[1-9]\d* lines? completed/.test(today ?? "")
+    ? `PASS activity heatmap: 84 cells, today = "${today}"`
+    : `FAIL activity heatmap (cells=${cells}, today=${today})`);
+  await page.locator("#activity-h").scrollIntoViewIfNeeded();
+  await page.locator("section[aria-labelledby=activity-h]").screenshot({ path: `${OUT}/heatmap.png` });
+}
+
 await page.goto(`${BASE}/dojo`, { waitUntil: "networkidle" });
 await page.waitForTimeout(800);
 results.push((await page.locator(".og-board").count()) ? "PASS dojo shows a board" : "FAIL dojo has no board");
 await page.screenshot({ path: `${OUT}/dojo.png` });
 
+// tool pages render without console errors
+for (const route of ["/analysis", "/check", "/create"]) {
+  try {
+    await page.goto(BASE + route, { waitUntil: "networkidle" });
+    await page.waitForSelector("#root h1", { timeout: 10000 });
+    await page.waitForTimeout(500);
+    results.push(`PASS ${route} renders ("${(await page.locator("#root h1").first().innerText()).trim()}")`);
+  } catch (e) { results.push(`FAIL ${route} did not render: ${e.message.split("\n")[0]}`); }
+}
+
+// sitemap, robots and prerendered SEO tags (served by the build; skipped checks are reported, not failed, when SKIP_PRERENDER was used)
+{
+  const sitemap = await ctx.request.get(BASE + "/sitemap.xml");
+  const xml = sitemap.ok() ? await sitemap.text() : "";
+  const missing = courses.filter((c) => !xml.includes(`/opening/${c.id}</loc>`));
+  results.push(sitemap.ok() && xml.includes("<urlset") && !missing.length
+    ? `PASS sitemap.xml lists ${(xml.match(/<loc>/g) ?? []).length} URLs incl. all ${courses.length} openings`
+    : `FAIL sitemap.xml (status ${sitemap.status()}, missing ${missing.length} openings)`);
+  const robots = await ctx.request.get(BASE + "/robots.txt");
+  results.push(robots.ok() && /Sitemap: .+sitemap\.xml/.test(await robots.text()) ? "PASS robots.txt points at the sitemap" : "FAIL robots.txt");
+
+  // raw HTML, no JavaScript: what a crawler sees
+  for (const c of courses.filter((x) => x.article?.faq?.length).slice(0, 2)) {
+    const raw = await (await ctx.request.get(`${BASE}/opening/${c.id}`)).text();
+    const ok = /<title>[^<]*<\/title>/.test(raw) && /<link rel="canonical" href="[^"]+\/opening\//.test(raw) && raw.includes('property="og:title"')
+      && raw.includes('name="twitter:card"') && raw.includes("FAQPage") && /<h1[ >]/.test(raw);
+    results.push(ok ? `PASS prerendered HTML of /opening/${c.id} has title, canonical, og/twitter, FAQ JSON-LD, h1`
+                    : `FAIL prerendered HTML of /opening/${c.id} lacks SEO tags (was the build run without prerender?)`);
+  }
+}
+
+// OFFLINE: the service worker must now control the page and have the app cached.
+{
+  const online = await ctx.newPage();
+  online.on("pageerror", (e) => errors.push(`offline-setup ${online.url()}: ${e.message}`));
+  await online.goto(BASE + "/", { waitUntil: "networkidle" });
+  const controlled = await online.waitForFunction(() => !!navigator.serviceWorker?.controller, null, { timeout: 15000 }).then(() => true, () => false);
+  results.push(controlled ? "PASS service worker controls the page" : "FAIL service worker never took control (is this a production build?)");
+  // pages the person visited online; the precache should make even unvisited ones work
+  for (const r of ["/openings", "/opening/london-system"]) await online.goto(BASE + r, { waitUntil: "networkidle" });
+  await online.close();
+
+  if (controlled) {
+    await ctx.setOffline(true);
+    const off = await ctx.newPage();
+    const offErrors = [];
+    off.on("console", (m) => { if (m.type() === "error") offErrors.push(`${m.text()}`); });
+    off.on("pageerror", (e) => offErrors.push(e.message));
+    for (const r of ["/", "/openings", "/opening/london-system", "/dojo", "/about", "/progress", "/opening/caro-kann"]) {
+      try {
+        await off.goto(BASE + r, { waitUntil: "load" });
+        await off.waitForSelector("#root h1", { timeout: 10000 });
+        results.push(`PASS offline reload ${r}`);
+      } catch (e) { results.push(`FAIL offline reload ${r}: ${e.message.split("\n")[0]}`); await off.screenshot({ path: `${OUT}/offline-fail${r.replace(/\//g, "-")}.png` }); }
+    }
+    // dojo trainer offline (courses were started above, so it has lines to train)
+    await off.goto(BASE + "/dojo", { waitUntil: "load" });
+    await off.waitForSelector(".og-board", { timeout: 10000 }).then(
+      () => results.push("PASS offline dojo shows a board"),
+      () => results.push("FAIL offline dojo has no board"),
+    );
+    await off.screenshot({ path: `${OUT}/offline-dojo.png` });
+    await off.screenshot({ path: `${OUT}/offline-home.png` }).catch(() => {});
+    // learn a line completely offline
+    const keep = page; // playFirstLine uses the module-level `page`
+    page = off;
+    try { const l = await playFirstLine("london-system"); results.push(`PASS learn london-system OFFLINE / ${l.name}`); }
+    catch (e) { results.push(`FAIL learn london-system offline: ${e.message.split("\n")[0]}`); await off.screenshot({ path: `${OUT}/offline-learn-fail.png` }); }
+    page = keep;
+    if (offErrors.length) results.push(`FAIL console errors while offline:\n  ${[...new Set(offErrors)].join("\n  ")}`);
+    await off.close();
+    await ctx.setOffline(false);
+  }
+}
+
 // every route, mobile overflow
 const mob = await browser.newContext({ viewport: { width: 360, height: 780 } });
 const mp = await mob.newPage();
 mp.on("pageerror", (e) => errors.push(`${mp.url()}: ${e.message}`));
-for (const r of ["/", "/openings", "/dojo", "/progress", "/about", "/nope", ...courses.map((c) => `/opening/${c.id}`)]) {
+for (const r of ["/", "/openings", "/dojo", "/progress", "/about", "/analysis", "/check", "/create", "/nope", ...courses.map((c) => `/opening/${c.id}`)]) {
   await mp.goto(BASE + r, { waitUntil: "networkidle" });
   const over = await mp.evaluate(() => document.documentElement.scrollWidth - window.innerWidth);
   if (over > 0) results.push(`FAIL overflow ${r} by ${over}px`);
 }
-results.push("checked mobile overflow on " + (6 + courses.length) + " routes");
+results.push("checked mobile overflow on " + (9 + courses.length) + " routes");
 await browser.close();
 console.log(results.join("\n"));
 console.log(errors.length ? "CONSOLE ERRORS:\n" + [...new Set(errors)].join("\n") : "no console errors");

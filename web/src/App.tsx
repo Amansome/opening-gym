@@ -24,7 +24,8 @@ const routes: RouteObject[] = [
   },
 ];
 
-const router = createBrowserRouter(routes);
+// BASE_PATH (e.g. /opening-gym/ on GitHub Pages project sites) becomes Vite's base URL; the router must match it.
+const router = createBrowserRouter(routes, { basename: import.meta.env.BASE_URL.replace(/\/$/, "") || "/" });
 
 export default function App() {
   return <RouterProvider router={router} />;

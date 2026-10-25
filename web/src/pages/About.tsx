@@ -16,8 +16,11 @@ const FAQ: { q: string; a: string }[] = [
 const CREDITS: { name: string; what: string; licence: string }[] = [
   { name: "Lichess chess-openings", what: "Opening names and ECO codes for every position", licence: "CC0" },
   { name: "chess.js", what: "Move legality, SAN and PGN handling", licence: "BSD-2-Clause" },
-  { name: "cm-chessboard", what: "The interactive chessboard and piece set", licence: "MIT (pieces: CC BY-SA 3.0, Colin M.L. Burnett)" },
+  { name: "cm-chessboard", what: "The interactive chessboard", licence: "MIT" },
+  { name: "Chess pieces by Colin M.L. Burnett (Cburnett) and Rfc1394, via Wikimedia Commons", what: "The piece set on every board, as shipped with cm-chessboard", licence: "CC BY-SA 3.0" },
   { name: "ts-fsrs", what: "FSRS spaced-repetition scheduling", licence: "MIT" },
+  { name: "idb-keyval", what: "Saving your progress in the browser's IndexedDB", licence: "Apache-2.0" },
+  { name: "Stockfish.js", what: "The analysis engine, running in your browser as a separate program", licence: "GPL-3.0" },
   { name: "React, Vite and React Router", what: "The app itself", licence: "MIT" },
 ];
 

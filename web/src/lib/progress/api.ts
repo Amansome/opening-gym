@@ -47,6 +47,8 @@ export interface ProgressApi {
   recordScore(entry: Omit<ScoreEntry, "at">): Promise<void>;
   topScores(mode: "drill" | "time", courseId?: string, limit?: number): Promise<ScoreEntry[]>;
   getStreak(): Promise<StreakInfo>;
+  /** Lines completed per local calendar day ("YYYY-MM-DD" -> count), for the activity heatmap. Days with no activity are absent. */
+  getActivity(): Promise<Record<string, number>>;
   /** Course ids the user has started, for Dojo and the home page. */
   startedCourses(): Promise<string[]>;
   exportAll(): Promise<string>; // JSON backup

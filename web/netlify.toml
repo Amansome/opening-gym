@@ -1,0 +1,55 @@
+# Netlify. Connect the repository and these settings apply as they are.
+# Prerendering (SEO static HTML) needs Playwright + Chromium, which Netlify's build image does not have:
+# without it the build still succeeds and ships the plain SPA (see web/scripts/prerender.mjs). For the full
+# SEO build, deploy from GitHub Actions (see .github/workflows/deploy.yml) or install Playwright in the build command.
+# Set SITE_URL (your public URL) in Site settings > Environment variables.
+
+[build]
+  base = "web"
+  # The root install gives scripts/validate.js its chess.js; web/ is the app.
+  command = "(cd .. && npm ci) && npm ci && npm run data && npm test && npm run build"
+  publish = "dist"
+
+[build.environment]
+  NODE_VERSION = "22"
+
+# Real files win (prerendered pages, assets); everything else boots the single-page app.
+[[redirects]]
+  from = "/*"
+  to = "/shell.html"
+  status = 200
+
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/icons/*"
+  [headers.values]
+    Cache-Control = "public, max-age=604800"
+
+[[headers]]
+  for = "/engine/*"
+  [headers.values]
+    Cache-Control = "public, max-age=86400"
+
+[[headers]]
+  for = "/sw.js"
+  [headers.values]
+    Cache-Control = "no-cache"
+
+[[headers]]
+  for = "/index.html"
+  [headers.values]
+    Cache-Control = "no-cache"
+
+[[headers]]
+  for = "/shell.html"
+  [headers.values]
+    Cache-Control = "no-cache"
+
+[[headers]]
+  for = "/manifest.webmanifest"
+  [headers.values]
+    Cache-Control = "no-cache"

@@ -9,6 +9,7 @@ import { createScheduler, type Scheduler } from "./scheduler";
 import { addScore, listScores, removeCourseScores } from "./scores";
 import { courseStorageKey, META_KEY, metaRecord, ProgressDataError, snapshotFromRecords, validateSnapshot } from "./snapshot";
 import { memoryBackend, type KvBackend } from "./storage";
+import { bumpActivity } from "./activity";
 import { bumpStreak, streakInfo } from "./streak";
 import { computeUnlocks } from "./unlocks";
 
@@ -182,10 +183,9 @@ export function createProgress(opts: ProgressOptions = {}): ProgressApi {
         const put = [courseStorageKey(course.id)];
         if (result.completed) {
           const next = bumpStreak(snap.streak, now);
-          if (next !== snap.streak) {
-            snap.streak = next;
-            put.push(META_KEY);
-          }
+          if (next !== snap.streak) snap.streak = next;
+          snap.activity = bumpActivity(snap.activity, now);
+          put.push(META_KEY);
         }
         await persist(put);
         notify();
@@ -229,6 +229,8 @@ export function createProgress(opts: ProgressOptions = {}): ProgressApi {
     topScores: (mode, courseId, limit = DEFAULT_TOP) => serial(() => listScores(snap.scores, mode, courseId, limit)),
 
     getStreak: () => serial((): StreakInfo => streakInfo(snap.streak, clock())),
+
+    getActivity: () => serial(() => ({ ...snap.activity })),
 
     startedCourses: () =>
       serial(() =>

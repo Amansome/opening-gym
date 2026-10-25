@@ -6,7 +6,10 @@ import { COURSE_SCORE_LIMIT, GLOBAL_SCORE_LIMIT } from "./scores";
 
 /** Upgrade functions keyed by the version they upgrade FROM (v -> v+1). Add one when SCHEMA_VERSION is bumped. */
 export type Migrations = Record<number, (data: Record<string, unknown>) => Record<string, unknown>>;
-export const MIGRATIONS: Migrations = {};
+export const MIGRATIONS: Migrations = {
+  // 1 -> 2: per-day activity history. Earlier versions did not record it, so it starts empty.
+  1: (data) => ({ ...data, activity: {} }),
+};
 
 export class ProgressDataError extends Error {
   constructor(message: string) {
@@ -87,6 +90,18 @@ function validateStreak(v: unknown): StreakState {
   return { current, best, lastDay: lastDay as string };
 }
 
+function validateActivity(v: unknown): Record<string, number> {
+  if (v === undefined || v === null) return {};
+  if (!isObj(v)) return fail("activity is not an object");
+  const out: Record<string, number> = {};
+  for (const [day, n] of Object.entries(v)) {
+    if (!isDayKey(day)) fail(`activity key ${day}`);
+    const c = count(n, `activity.${day}`);
+    if (c > 0) out[day] = c;
+  }
+  return out;
+}
+
 function scoreList(v: unknown, mode: "drill" | "time", where: string, limit: number): ScoreEntry[] {
   if (!Array.isArray(v)) return fail(`${where} is not a list`);
   return v.slice(0, limit * 4).map((e, i) => {
@@ -124,6 +139,7 @@ export function validateSnapshot(raw: unknown): Snapshot {
   const snap = emptySnapshot();
   snap.streak = validateStreak(data.streak);
   snap.scores = validateScores(data.scores);
+  snap.activity = validateActivity(data.activity);
   for (const [id, c] of Object.entries(data.courses)) snap.courses[id] = validateCourseState(c, id);
   return snap;
 }
@@ -158,6 +174,7 @@ export function snapshotFromRecords(records: Record<string, unknown>): LoadResul
       if (stored !== SCHEMA_VERSION) dirty = true;
       snap.streak = validateStreak(migrated.streak);
       snap.scores = validateScores(migrated.scores);
+      snap.activity = validateActivity(migrated.activity);
       for (const [id, c] of Object.entries(migrated.courses as Record<string, unknown>)) {
         try {
           snap.courses[id] = validateCourseState(c, id);
@@ -175,6 +192,6 @@ export function snapshotFromRecords(records: Record<string, unknown>): LoadResul
   return { snapshot: snap, dirty };
 }
 
-export function metaRecord(snap: Snapshot): { schemaVersion: number; streak: StreakState; scores: ScoreBook } {
-  return { schemaVersion: SCHEMA_VERSION, streak: snap.streak, scores: snap.scores };
+export function metaRecord(snap: Snapshot): { schemaVersion: number; streak: StreakState; scores: ScoreBook; activity: Record<string, number> } {
+  return { schemaVersion: SCHEMA_VERSION, streak: snap.streak, scores: snap.scores, activity: snap.activity };
 }

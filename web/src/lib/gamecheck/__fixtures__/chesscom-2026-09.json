@@ -1,0 +1,80 @@
+{
+  "games": [
+    {
+      "url": "https://www.chess.com/game/live/200000001",
+      "time_control": "300",
+      "end_time": 1789000000,
+      "rated": true,
+      "time_class": "blitz",
+      "rules": "chess",
+      "pgn": "[Event \"Live Chess\"]\n[Site \"Chess.com\"]\n[Date \"2026.09.12\"]\n[Round \"-\"]\n[White \"bishop_bob\"]\n[Black \"GymFan\"]\n[Result \"0-1\"]\n[ECOUrl \"https://www.chess.com/openings/Caro-Kann-Defense-Classical-Variation-4...Bf5\"]\n[TimeControl \"300\"]\n[Termination \"bishop_bob won by resignation\"]\n\n1. e4 {[%clk 0:09:59.0]} 1... c6 {[%clk 0:09:58.1]} 2. d4 {[%clk 0:08:57.2]} 2... d5 {[%clk 0:08:56.3]} 3. Nc3 {[%clk 0:07:55.4]} 3... dxe4 {[%clk 0:07:54.5]} 4. Nxe4 {[%clk 0:06:53.6]} 4... Bf5 {[%clk 0:06:52.7]} 5. Ng3 {[%clk 0:05:51.8]} 5... Bg6 {[%clk 0:05:50.9]} 6. h4 {[%clk 0:04:49.0]} 6... h6 {[%clk 0:04:48.1]} 7. Nf3 {[%clk 0:03:47.2]} 7... Nd7 {[%clk 0:03:46.3]} 8. h5 {[%clk 0:02:45.4]} 8... Bh7 {[%clk 0:02:44.5]} 9. Bd3 {[%clk 0:01:43.6]} 9... Bxd3 {[%clk 0:01:42.7]} 10. Qxd3 {[%clk 0:09:41.8]} 10... e6 {[%clk 0:09:40.9]} 0-1",
+      "white": {
+        "rating": 1480,
+        "result": "resigned",
+        "username": "bishop_bob"
+      },
+      "black": {
+        "rating": 1500,
+        "result": "win",
+        "username": "GymFan"
+      }
+    },
+    {
+      "url": "https://www.chess.com/game/live/200000002",
+      "time_control": "300",
+      "end_time": 1789100000,
+      "rated": true,
+      "time_class": "rapid",
+      "rules": "chess",
+      "pgn": "[Event \"Live Chess\"]\n[Site \"Chess.com\"]\n[Date \"2026.09.12\"]\n[Round \"-\"]\n[White \"GymFan\"]\n[Black \"pawn_pusher\"]\n[Result \"1-0\"]\n[ECOUrl \"https://www.chess.com/openings/Italian-Game-Evans-Gambit\"]\n[TimeControl \"300\"]\n[Termination \"GymFan won by resignation\"]\n\n1. e4 {[%clk 0:09:59.0]} 1... e5 {[%clk 0:09:58.1]} 2. Nf3 {[%clk 0:08:57.2]} 2... Nc6 {[%clk 0:08:56.3]} 3. Bc4 {[%clk 0:07:55.4]} 3... Bc5 {[%clk 0:07:54.5]} 4. b4 {[%clk 0:06:53.6]} 4... Bxb4 {[%clk 0:06:52.7]} 5. c3 {[%clk 0:05:51.8]} 5... Ba5 {[%clk 0:05:50.9]} 6. d4 {[%clk 0:04:49.0]} 6... exd4 {[%clk 0:04:48.1]} 7. O-O {[%clk 0:03:47.2]} 1-0",
+      "white": {
+        "rating": 1480,
+        "result": "win",
+        "username": "GymFan"
+      },
+      "black": {
+        "rating": 1500,
+        "result": "resigned",
+        "username": "pawn_pusher"
+      }
+    },
+    {
+      "url": "https://www.chess.com/game/live/200000003",
+      "time_control": "300",
+      "end_time": 1789200000,
+      "rated": true,
+      "time_class": "bullet",
+      "rules": "bughouse",
+      "pgn": "[Event \"Live Chess\"]\n[Site \"Chess.com\"]\n[Date \"2026.09.12\"]\n[Round \"-\"]\n[White \"GymFan\"]\n[Black \"fischer_fan\"]\n[Result \"1-0\"]\n[ECOUrl \"https://www.chess.com/openings/C50-Italian-Game\"]\n[TimeControl \"300\"]\n[Termination \"GymFan won by resignation\"]\n\n1. e4 {[%clk 0:09:59.0]} 1... e5 {[%clk 0:09:58.1]} 2. Nf3 {[%clk 0:08:57.2]} 2... Nc6 {[%clk 0:08:56.3]} 3. Bc4 {[%clk 0:07:55.4]} 3... Bc5 {[%clk 0:07:54.5]} 4. c3 {[%clk 0:06:53.6]} 4... Nf6 {[%clk 0:06:52.7]} 5. d3 {[%clk 0:05:51.8]} 1-0",
+      "white": {
+        "rating": 1480,
+        "result": "win",
+        "username": "GymFan"
+      },
+      "black": {
+        "rating": 1500,
+        "result": "resigned",
+        "username": "fischer_fan"
+      }
+    },
+    {
+      "url": "https://www.chess.com/game/live/200000004",
+      "time_control": "300",
+      "end_time": 1789300000,
+      "rated": true,
+      "time_class": "rapid",
+      "rules": "chess",
+      "pgn": "[Event \"Live Chess\"]\n[Site \"Chess.com\"]\n[Date \"2026.09.12\"]\n[Round \"-\"]\n[White \"pete_the_pawn\"]\n[Black \"GymFan\"]\n[Result \"1/2-1/2\"]\n[ECOUrl \"https://www.chess.com/openings/Queens-Gambit-Declined\"]\n[TimeControl \"300\"]\n[Termination \"pete_the_pawn won by resignation\"]\n\n1. d4 {[%clk 0:09:59.0]} 1... d5 {[%clk 0:09:58.1]} 2. c4 {[%clk 0:08:57.2]} 2... e6 {[%clk 0:08:56.3]} 3. Nc3 {[%clk 0:07:55.4]} 3... Nf6 {[%clk 0:07:54.5]} 4. Bg5 {[%clk 0:06:53.6]} 4... Be7 {[%clk 0:06:52.7]} 5. e3 {[%clk 0:05:51.8]} 5... O-O {[%clk 0:05:50.9]} 1/2-1/2",
+      "white": {
+        "rating": 1480,
+        "result": "agreed",
+        "username": "pete_the_pawn"
+      },
+      "black": {
+        "rating": 1500,
+        "result": "agreed",
+        "username": "GymFan"
+      }
+    }
+  ]
+}

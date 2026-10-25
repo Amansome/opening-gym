@@ -1,0 +1,42 @@
+{
+  "games": [
+    {
+      "url": "https://www.chess.com/game/live/100000001",
+      "time_control": "300",
+      "end_time": 1788000000,
+      "rated": true,
+      "time_class": "blitz",
+      "rules": "chess",
+      "pgn": "[Event \"Live Chess\"]\n[Site \"Chess.com\"]\n[Date \"2026.09.12\"]\n[Round \"-\"]\n[White \"GymFan\"]\n[Black \"oldfriend\"]\n[Result \"1-0\"]\n[ECOUrl \"https://www.chess.com/openings/C50-Italian-Game\"]\n[TimeControl \"300\"]\n[Termination \"GymFan won by resignation\"]\n\n1. e4 {[%clk 0:09:59.0]} 1... e5 {[%clk 0:09:58.1]} 2. Nf3 {[%clk 0:08:57.2]} 2... Nc6 {[%clk 0:08:56.3]} 3. Bc4 {[%clk 0:07:55.4]} 3... Bc5 {[%clk 0:07:54.5]} 4. c3 {[%clk 0:06:53.6]} 4... Nf6 {[%clk 0:06:52.7]} 5. d3 {[%clk 0:05:51.8]} 5... d6 {[%clk 0:05:50.9]} 6. O-O {[%clk 0:04:49.0]} 6... O-O {[%clk 0:04:48.1]} 1-0",
+      "white": {
+        "rating": 1480,
+        "result": "win",
+        "username": "GymFan"
+      },
+      "black": {
+        "rating": 1500,
+        "result": "resigned",
+        "username": "oldfriend"
+      }
+    },
+    {
+      "url": "https://www.chess.com/game/live/100000002",
+      "time_control": "300",
+      "end_time": 1788100000,
+      "rated": true,
+      "time_class": "blitz",
+      "rules": "chess",
+      "pgn": "[Event \"Live Chess\"]\n[Site \"Chess.com\"]\n[Date \"2026.09.12\"]\n[Round \"-\"]\n[White \"GymFan\"]\n[Black \"oldfriend2\"]\n[Result \"1-0\"]\n[ECOUrl \"https://www.chess.com/openings/C50-Italian-Game\"]\n[TimeControl \"300\"]\n[Termination \"GymFan won by resignation\"]\n\n1. e4 {[%clk 0:09:59.0]} 1... e5 {[%clk 0:09:58.1]} 2. Nf3 {[%clk 0:08:57.2]} 2... Nc6 {[%clk 0:08:56.3]} 3. Bc4 {[%clk 0:07:55.4]} 3... Nf6 {[%clk 0:07:54.5]} 4. d3 {[%clk 0:06:53.6]} 4... Be7 {[%clk 0:06:52.7]} 5. O-O {[%clk 0:05:51.8]} 5... O-O {[%clk 0:05:50.9]} 1-0",
+      "white": {
+        "rating": 1480,
+        "result": "win",
+        "username": "GymFan"
+      },
+      "black": {
+        "rating": 1500,
+        "result": "resigned",
+        "username": "oldfriend2"
+      }
+    }
+  ]
+}

@@ -425,7 +425,7 @@ describe("export / import / reset", () => {
   it("round-trips everything through export -> import into a fresh instance", async () => {
     const a = await populated();
     const json = await a.p.exportAll();
-    expect(JSON.parse(json)).toMatchObject({ app: "opening-gym", schemaVersion: 1 });
+    expect(JSON.parse(json)).toMatchObject({ app: "opening-gym", schemaVersion: 2 });
     const b = setup({ start: a.clock.now() });
     await b.p.importAll(json);
     expect(await b.p.getCourseProgress(italian)).toEqual(await a.p.getCourseProgress(italian));
