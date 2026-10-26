@@ -4,3 +4,8 @@ web/dist/
 dist/
 *.log
 web/e2e/shots/
+
+# impeccable working files (review captures, build state)
+.impeccable/review/
+.impeccable/build/
+.impeccable/mocks/
