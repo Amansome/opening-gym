@@ -15,7 +15,9 @@
 @media (min-width: 720px) {
   .heatmap { --heat-gap: 5px; column-gap: 12px; }
   .heatmap-days { font-size: 0.85rem; }
-  .heatmap-cell { aspect-ratio: 2 / 1; border-radius: 4px; }
+  /* square day cells, capped so 12 weeks read as a calendar rather than a bar chart */
+  .heatmap { max-width: 620px; }
+  .heatmap-cell { aspect-ratio: 1; border-radius: 4px; }
 }
 .heatmap-cell[data-level="1"] { background: color-mix(in srgb, var(--court-blue) 38%, var(--floor)); box-shadow: none; }
 .heatmap-cell[data-level="2"] { background: color-mix(in srgb, var(--court-blue) 62%, var(--floor)); box-shadow: none; }
