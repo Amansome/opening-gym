@@ -8,7 +8,7 @@
   --og-on-mode: var(--on-court);
   --og-mode-fg: var(--accent-fg); /* the mode colour as text or icon on a table: 4.5:1 */
 
-  --og-housing: #1f160b;
+  --og-housing: var(--scoreboard);
   --og-housing-text: #f6ebd8;
   --og-housing-dim: #d0bc98;
   --og-lit-green: #7fdca7;

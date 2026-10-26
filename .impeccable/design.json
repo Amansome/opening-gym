@@ -1,0 +1,644 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-26T17:41:29+00:00",
+  "title": "Design System: Opening Gym",
+  "extensions": {
+    "colorMeta": {
+      "maple-floor": {
+        "role": "neutral",
+        "displayName": "Maple Floor",
+        "canonical": "#e8cd9c",
+        "oklch": "oklch(86% 0.071 82)",
+        "tonalRamp": [
+          "#161106",
+          "#352913",
+          "#574521",
+          "#7a6234",
+          "#9b8254",
+          "#bda476",
+          "#dbc8a6",
+          "#faedd6"
+        ],
+        "afterHours": "#1d150d"
+      },
+      "worn-lane": {
+        "role": "neutral",
+        "displayName": "Worn Lane",
+        "canonical": "#dcbb82",
+        "oklch": "oklch(81% 0.083 81)",
+        "tonalRamp": [
+          "#181004",
+          "#37290d",
+          "#5a4318",
+          "#7f6128",
+          "#a08149",
+          "#c2a36d",
+          "#dfc79f",
+          "#fcecd2"
+        ],
+        "afterHours": "#140e08"
+      },
+      "folding-table": {
+        "role": "neutral",
+        "displayName": "Folding Table",
+        "canonical": "#fbf8f1",
+        "oklch": "oklch(98% 0.010 87)",
+        "tonalRamp": [
+          "#121110",
+          "#2c2b28",
+          "#494743",
+          "#686660",
+          "#898680",
+          "#aaa7a1",
+          "#cccac5",
+          "#f0eeeb"
+        ],
+        "afterHours": "#2a2017"
+      },
+      "recessed-table": {
+        "role": "neutral",
+        "displayName": "Recessed Table",
+        "canonical": "#f2eadb",
+        "oklch": "oklch(94% 0.022 83)",
+        "tonalRamp": [
+          "#13110e",
+          "#2e2b25",
+          "#4c473d",
+          "#6c6558",
+          "#8d8578",
+          "#aea799",
+          "#cfcabf",
+          "#f2eee7"
+        ],
+        "afterHours": "#33281d"
+      },
+      "table-hairline": {
+        "role": "neutral",
+        "displayName": "Table Hairline",
+        "canonical": "#d8c6a3",
+        "oklch": "oklch(83% 0.051 84)",
+        "tonalRamp": [
+          "#151109",
+          "#322a1b",
+          "#52462e",
+          "#746444",
+          "#958463",
+          "#b6a685",
+          "#d6c9b0",
+          "#f6eedd"
+        ],
+        "afterHours": "#4a3b2b"
+      },
+      "chalk-line": {
+        "role": "neutral",
+        "displayName": "Chalk Line",
+        "canonical": "#9a7f52",
+        "oklch": "oklch(61% 0.070 80)",
+        "tonalRamp": [
+          "#171006",
+          "#362913",
+          "#584422",
+          "#7b6135",
+          "#9d8255",
+          "#bea377",
+          "#dcc8a6",
+          "#fbedd6"
+        ],
+        "afterHours": "#8a7455"
+      },
+      "gym-ink": {
+        "role": "neutral",
+        "displayName": "Gym Ink",
+        "canonical": "#22190d",
+        "oklch": "oklch(22% 0.026 74)",
+        "tonalRamp": [
+          "#14110e",
+          "#302a24",
+          "#4f463c",
+          "#6f6456",
+          "#908475",
+          "#b1a697",
+          "#d2c9be",
+          "#f3ede6"
+        ],
+        "afterHours": "#f6ebd8"
+      },
+      "soft-ink": {
+        "role": "neutral",
+        "displayName": "Soft Ink",
+        "canonical": "#5b4628",
+        "oklch": "oklch(41% 0.053 75)",
+        "tonalRamp": [
+          "#161109",
+          "#34291a",
+          "#55452d",
+          "#786243",
+          "#998262",
+          "#bba484",
+          "#d9c8b0",
+          "#f9eddc"
+        ],
+        "afterHours": "#d0bc98"
+      },
+      "chalk-white": {
+        "role": "neutral",
+        "displayName": "Chalk White",
+        "canonical": "#ffffff",
+        "oklch": "oklch(100% 0.000 90)",
+        "tonalRamp": [
+          "#121212",
+          "#2b2b2b",
+          "#484848",
+          "#666666",
+          "#868686",
+          "#a8a8a8",
+          "#cacaca",
+          "#eeeeee"
+        ]
+      },
+      "court-blue": {
+        "role": "primary",
+        "displayName": "Court Blue",
+        "canonical": "#1f4fbf",
+        "oklch": "oklch(47% 0.184 263)",
+        "tonalRamp": [
+          "#05102b",
+          "#0e275e",
+          "#1a4096",
+          "#2b5ccd",
+          "#497ff3",
+          "#6ca3ff",
+          "#9ec9ff",
+          "#d1efff"
+        ],
+        "afterHours": "#6f95f2"
+      },
+      "court-green": {
+        "role": "secondary",
+        "displayName": "Court Green",
+        "canonical": "#1a7a43",
+        "oklch": "oklch(51% 0.122 153)",
+        "tonalRamp": [
+          "#031609",
+          "#07351a",
+          "#0a562c",
+          "#197942",
+          "#429b62",
+          "#69bd84",
+          "#9fdcb0",
+          "#d2fadc"
+        ],
+        "afterHours": "#45c07a"
+      },
+      "court-red": {
+        "role": "secondary",
+        "displayName": "Court Red",
+        "canonical": "#c22f27",
+        "oklch": "oklch(54% 0.185 28)",
+        "tonalRamp": [
+          "#260503",
+          "#540c09",
+          "#861410",
+          "#b9241e",
+          "#e04d41",
+          "#ff7465",
+          "#ffa899",
+          "#ffd9ce"
+        ],
+        "afterHours": "#f0675d"
+      },
+      "court-yellow": {
+        "role": "secondary",
+        "displayName": "Court Yellow",
+        "canonical": "#f2b705",
+        "oklch": "oklch(81% 0.166 85)",
+        "tonalRamp": [
+          "#1c0f00",
+          "#402500",
+          "#683e00",
+          "#905900",
+          "#b37b00",
+          "#d59e00",
+          "#eec46a",
+          "#ffebb3"
+        ],
+        "afterHours": "#f7c948"
+      },
+      "blue-ink": {
+        "role": "primary",
+        "displayName": "Blue Ink",
+        "canonical": "#1a43a3",
+        "oklch": "oklch(42% 0.162 263)",
+        "tonalRamp": [
+          "#061028",
+          "#122858",
+          "#21428d",
+          "#335fc1",
+          "#5181e7",
+          "#74a4ff",
+          "#a3caff",
+          "#d4efff"
+        ],
+        "afterHours": "#9db6f7"
+      },
+      "green-ink": {
+        "role": "secondary",
+        "displayName": "Green Ink",
+        "canonical": "#146136",
+        "oklch": "oklch(44% 0.101 154)",
+        "tonalRamp": [
+          "#06160b",
+          "#10331e",
+          "#1d5432",
+          "#2f774a",
+          "#519869",
+          "#76ba8b",
+          "#a7d9b5",
+          "#d7f8e0"
+        ],
+        "afterHours": "#6fd69b"
+      },
+      "red-ink": {
+        "role": "secondary",
+        "displayName": "Red Ink",
+        "canonical": "#a1241d",
+        "oklch": "oklch(47% 0.162 28)",
+        "tonalRamp": [
+          "#240705",
+          "#4f130e",
+          "#7f211a",
+          "#b0342a",
+          "#d6584b",
+          "#fa7d6e",
+          "#ffad9f",
+          "#ffdcd2"
+        ],
+        "afterHours": "#ff958c"
+      },
+      "yellow-ink": {
+        "role": "secondary",
+        "displayName": "Yellow Ink",
+        "canonical": "#7a5a00",
+        "oklch": "oklch(49% 0.100 84)",
+        "tonalRamp": [
+          "#181002",
+          "#382903",
+          "#5c4303",
+          "#81600d",
+          "#a28137",
+          "#c4a35e",
+          "#e0c795",
+          "#fdedcb"
+        ],
+        "afterHours": "#f7c948"
+      },
+      "highlighter": {
+        "role": "neutral",
+        "displayName": "Highlighter",
+        "canonical": "#fbe08a",
+        "oklch": "oklch(91% 0.110 93)",
+        "tonalRamp": [
+          "#171101",
+          "#362a00",
+          "#584500",
+          "#7c6300",
+          "#9d842b",
+          "#bfa654",
+          "#dcca8f",
+          "#fbeec8"
+        ],
+        "afterHours": "#5a4710"
+      },
+      "scoreboard-housing": {
+        "role": "neutral",
+        "displayName": "Scoreboard Housing",
+        "canonical": "#1f1608",
+        "oklch": "oklch(21% 0.029 77)",
+        "tonalRamp": [
+          "#14110d",
+          "#302a23",
+          "#4f463a",
+          "#6f6454",
+          "#908473",
+          "#b2a695",
+          "#d2c9bc",
+          "#f4eee5"
+        ],
+        "afterHours": "#100a04"
+      },
+      "scoreboard-text": {
+        "role": "neutral",
+        "displayName": "Scoreboard Text",
+        "canonical": "#f6ebd8",
+        "oklch": "oklch(94% 0.028 81)",
+        "tonalRamp": [
+          "#14110d",
+          "#2f2b23",
+          "#4e473a",
+          "#6e6554",
+          "#8f8574",
+          "#b0a695",
+          "#d1cabc",
+          "#f3eee5"
+        ]
+      },
+      "board-maple": {
+        "role": "neutral",
+        "displayName": "Board Maple",
+        "canonical": "#eed7a9",
+        "oklch": "oklch(89% 0.065 84)",
+        "tonalRamp": [
+          "#161107",
+          "#342a15",
+          "#554525",
+          "#786339",
+          "#998358",
+          "#baa57b",
+          "#d9c9a9",
+          "#f8edd8"
+        ],
+        "afterHours": "#d8bf8c"
+      },
+      "board-blue": {
+        "role": "neutral",
+        "displayName": "Board Blue",
+        "canonical": "#6585c6",
+        "oklch": "oklch(62% 0.106 264)",
+        "tonalRamp": [
+          "#0a1120",
+          "#1c2a49",
+          "#2f4675",
+          "#4664a2",
+          "#6585c6",
+          "#87a7e8",
+          "#b1cbfd",
+          "#ddefff"
+        ],
+        "afterHours": "#4d6aa8"
+      },
+      "board-coordinate": {
+        "role": "neutral",
+        "displayName": "Board Coordinate",
+        "canonical": "#3b2a12",
+        "oklch": "oklch(30% 0.045 74)",
+        "tonalRamp": [
+          "#15110b",
+          "#332a1d",
+          "#544532",
+          "#766349",
+          "#978368",
+          "#b8a48a",
+          "#d8c8b4",
+          "#f7eddf"
+        ],
+        "afterHours": "#e8d6b3"
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display",
+        "purpose": "Home hero only; uppercase Saira Condensed 800, lh 0.93."
+      },
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "Section and page headings; balanced wrapping."
+      },
+      "title": {
+        "displayName": "Title",
+        "purpose": "Panel titles, article subheads, lane names."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Plain-English reading text in the system UI stack; articles at 1.07rem/1.7, 70ch."
+      },
+      "label": {
+        "displayName": "Label",
+        "purpose": "Buttons, tabs, chips, badges, table heads; uppercase Saira Condensed 600."
+      },
+      "score": {
+        "displayName": "Score",
+        "purpose": "Graduate numerals for scores, streaks and counts; zeros are set in Saira Condensed 800."
+      }
+    },
+    "shadows": [
+      {
+        "name": "table",
+        "value": "0 1px 0 rgb(80 50 10 / 0.08), 0 8px 22px rgb(80 50 10 / 0.16)",
+        "purpose": "Trainer panel, board mat, demo table, sticky filters, overlays. Dark: 0 1px 0 rgb(0 0 0 / 0.3), 0 10px 26px rgb(0 0 0 / 0.45)."
+      },
+      {
+        "name": "table-small",
+        "value": "0 1px 0 rgb(80 50 10 / 0.08), 0 3px 8px rgb(80 50 10 / 0.12)",
+        "purpose": "Standard panels, tables, default buttons. Dark panels add a 1px line ring."
+      },
+      {
+        "name": "result-disc",
+        "value": "0 0 0 2px var(--table), 0 2px 5px rgb(34 25 13 / 0.4)",
+        "purpose": "Tick and cross disc on a board square."
+      }
+    ],
+    "motion": [
+      {
+        "name": "ease-out",
+        "value": "cubic-bezier(0.22, 1, 0.36, 1)",
+        "purpose": "Default easing for buttons, progress fills (320 to 500ms), demo note settle (400ms)."
+      },
+      {
+        "name": "ease-trainer",
+        "value": "cubic-bezier(0.16, 1, 0.3, 1)",
+        "purpose": "Trainer progress, eval bar and the end-of-run court line painting across (720ms)."
+      },
+      {
+        "name": "reduced-motion",
+        "value": "0.01ms",
+        "purpose": "All transitions and animations collapse under prefers-reduced-motion."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "nav-streak",
+        "value": "560px"
+      },
+      {
+        "name": "desktop",
+        "value": "720px"
+      },
+      {
+        "name": "trainer-table",
+        "value": "820px"
+      },
+      {
+        "name": "hero-split",
+        "value": "960px"
+      },
+      {
+        "name": "article-toc",
+        "value": "1000px"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "The one action per screen: Pick an opening, Let's go. Court blue, white signage lettering.",
+      "html": "<button class=\"ds-btn-primary\">Pick an opening</button>",
+      "css": ".ds-btn-primary{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:0 20px;border-radius:8px;border:2px solid var(--court-blue);background:var(--court-blue);color:#fff;font-family:var(--font-display);font-weight:600;font-size:1.1rem;letter-spacing:.05em;text-transform:uppercase;line-height:1;cursor:pointer;box-shadow:var(--shadow-sm);transition:transform .12s cubic-bezier(.22,1,.36,1),box-shadow .15s}.ds-btn-primary:hover{transform:translateY(-1px);box-shadow:var(--shadow)}.ds-btn-primary:active{transform:translateY(1px);box-shadow:none}.ds-btn-primary:focus-visible{outline:3px solid var(--court-blue);outline-offset:2px}"
+    },
+    {
+      "name": "Default Button",
+      "kind": "button",
+      "refersTo": "button-default",
+      "description": "Secondary actions on a table: folding-table fill, chalk-line border.",
+      "html": "<button class=\"ds-btn\">Restart</button>",
+      "css": ".ds-btn{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:0 20px;border-radius:8px;border:2px solid var(--line-strong);background:var(--table);color:var(--ink);font-family:var(--font-display);font-weight:600;font-size:1.1rem;letter-spacing:.05em;text-transform:uppercase;line-height:1;cursor:pointer;box-shadow:var(--shadow-sm);transition:background .15s,border-color .15s}.ds-btn:hover{border-color:var(--court-blue);background:var(--table-2)}.ds-btn:focus-visible{outline:3px solid var(--court-blue);outline-offset:2px}"
+    },
+    {
+      "name": "Quick-pick Chip",
+      "kind": "chip",
+      "refersTo": "chip",
+      "description": "A suggested opening as an outlined blue chip; fills blue on hover.",
+      "html": "<a class=\"ds-chip\" href=\"#\">London System</a>",
+      "css": ".ds-chip{display:inline-flex;align-items:center;min-height:36px;padding:5px 12px;border-radius:8px;border:2px solid var(--court-blue);color:var(--accent-fg);background:transparent;font-family:var(--font-display);font-weight:600;font-size:1.1rem;letter-spacing:.02em;text-decoration:none;transition:background .12s,color .12s}.ds-chip:hover{background:var(--court-blue);color:#fff}.ds-chip:focus-visible{outline:3px solid var(--court-blue);outline-offset:2px}"
+    },
+    {
+      "name": "Difficulty Badge",
+      "kind": "chip",
+      "refersTo": "badge-beginner",
+      "description": "Small signage tag; tone sets border and ink colour on a 10% tint.",
+      "html": "<span class=\"ds-badge\">Beginner</span>",
+      "css": ".ds-badge{display:inline-flex;align-items:center;padding:1px 8px;border-radius:6px;border:1.5px solid var(--court-green);background:color-mix(in srgb,var(--court-green) 10%,var(--table));color:var(--success-fg);font-family:var(--font-display);font-weight:600;font-size:.95rem;line-height:1.5;letter-spacing:.04em;text-transform:uppercase}"
+    },
+    {
+      "name": "Search Field",
+      "kind": "input",
+      "refersTo": "input",
+      "description": "44px field with a chalk-line border; hover and focus turn court blue.",
+      "html": "<input class=\"ds-input\" type=\"search\" placeholder=\"Search openings\" aria-label=\"Search openings\">",
+      "css": ".ds-input{box-sizing:border-box;width:100%;min-height:44px;padding:0 14px;border-radius:10px;border:2px solid var(--line-strong);background:var(--table);color:var(--ink);font:inherit;caret-color:var(--court-blue)}.ds-input::placeholder{color:var(--ink-soft);opacity:1}.ds-input:hover,.ds-input:focus-visible{border-color:var(--court-blue);outline:none}"
+    },
+    {
+      "name": "Site Navigation",
+      "kind": "nav",
+      "refersTo": "site-header",
+      "description": "Court-blue band with a yellow sideline; the current page is a yellow underline.",
+      "html": "<nav class=\"ds-nav\" aria-label=\"Main\"><a href=\"#\">Openings</a><a href=\"#\" aria-current=\"page\">Dojo</a><a href=\"#\">Progress</a><a href=\"#\">About</a></nav>",
+      "css": ".ds-nav{display:flex;align-items:stretch;height:60px;background:var(--header-bg);border-bottom:5px solid var(--court-yellow);padding:0 12px}.ds-nav a{display:flex;align-items:center;padding:0 14px;color:color-mix(in srgb,#fff 84%,transparent);text-decoration:none;font-family:var(--font-display);font-weight:600;font-size:1.15rem;letter-spacing:.07em;text-transform:uppercase}.ds-nav a:hover{color:#fff;background:color-mix(in srgb,#fff 10%,transparent)}.ds-nav a[aria-current=page]{color:#fff;box-shadow:inset 0 -5px 0 var(--court-yellow)}.ds-nav a:focus-visible{outline:3px solid var(--court-yellow);outline-offset:-3px}"
+    },
+    {
+      "name": "Mode Tab Strip",
+      "kind": "nav",
+      "refersTo": "tab-active",
+      "description": "Standard tabs; the selected tab is marked by its mode's painted line.",
+      "html": "<div class=\"ds-tabs\" role=\"tablist\"><button class=\"ds-tab is-active\" role=\"tab\" aria-selected=\"true\">Learn</button><button class=\"ds-tab ds-practice\" role=\"tab\">Practice</button><button class=\"ds-tab ds-drill\" role=\"tab\">Drill</button><button class=\"ds-tab ds-time\" role=\"tab\">Time</button></div>",
+      "css": ".ds-tabs{display:flex;border-bottom:2px solid var(--line);background:var(--table);max-width:420px}.ds-tab{--c:var(--court-blue);flex:1;min-height:46px;margin-bottom:-2px;padding:6px 4px 4px;border:0;border-bottom:5px solid transparent;border-radius:4px 4px 0 0;background:transparent;color:var(--ink-soft);font:800 1.02rem/1 var(--font-display);letter-spacing:.07em;text-transform:uppercase;cursor:pointer}.ds-practice{--c:var(--court-green)}.ds-drill{--c:var(--court-red)}.ds-time{--c:var(--court-yellow)}.ds-tab:hover:not(.is-active){color:var(--ink);background:var(--table-2)}.ds-tab.is-active{color:var(--ink);border-bottom-color:var(--c);background:color-mix(in srgb,var(--c) 10%,var(--table))}.ds-tab:focus-visible{outline:3px solid var(--court-blue);outline-offset:-3px}"
+    },
+    {
+      "name": "Scoreboard",
+      "kind": "custom",
+      "refersTo": "scoreboard",
+      "description": "Dark wall scoreboard with yellow Graduate numerals; a zero is set in the display numerals.",
+      "html": "<div class=\"ds-score\"><h3 class=\"ds-score-title\">Caro-Kann Defence</h3><div class=\"ds-score-cell\"><span class=\"ds-score-label\">Line</span><span class=\"ds-score-value\">1 <small>of 9</small></span></div></div>",
+      "css": ".ds-score{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:12px;max-width:420px;padding:8px 14px;border-radius:8px;background:#1f160b;color:#f6ebd8}.ds-score-title{margin:0;font:800 1.2rem/1.15 var(--font-display);letter-spacing:.05em;text-transform:uppercase;color:#f6ebd8}.ds-score-cell{display:flex;flex-direction:column;gap:5px}.ds-score-label{font:600 .8rem/1 var(--font-display);letter-spacing:.12em;text-transform:uppercase;color:#d0bc98}.ds-score-value{font:400 1.75rem/1 var(--font-score);color:var(--court-yellow);font-variant-numeric:tabular-nums}.ds-score-value small{font-size:.82rem;color:#d0bc98}"
+    },
+    {
+      "name": "Coach's Note",
+      "kind": "custom",
+      "refersTo": "panel",
+      "description": "A caption hung under a painted court line whose colour states the verdict. Not a speech bubble.",
+      "html": "<div class=\"ds-note\"><div class=\"ds-note-line\"></div><div class=\"ds-note-body\"><span class=\"ds-note-state\">Correct</span><p>The e-pawn takes the centre and frees the bishop and queen to develop.</p></div></div>",
+      "css": ".ds-note{--line:var(--court-green);max-width:380px}.ds-note-line{height:6px;background:var(--line)}.ds-note-body{display:flex;flex-direction:column;gap:9px;padding:12px 2px 2px}.ds-note-state{font:800 1.05rem/1 var(--font-display);letter-spacing:.09em;text-transform:uppercase;color:var(--success-fg)}.ds-note p{margin:0;max-width:62ch;font-size:1.06rem;line-height:1.55;color:var(--ink)}"
+    },
+    {
+      "name": "Court Map Lanes",
+      "kind": "custom",
+      "refersTo": "panel",
+      "description": "Signature: each line of a course as a lane. Learned solid blue, due yellow, new an empty chalk outline.",
+      "html": "<ul class=\"ds-cm\"><li class=\"ds-lane\" data-status=\"learned\"><span class=\"ds-lane-name\">Classical 4...Bf5</span><span class=\"ds-lane-status\">Learned</span><span class=\"ds-track\"><span class=\"ds-run\"></span></span></li><li class=\"ds-lane\" data-status=\"due\"><span class=\"ds-lane-name\">Advance: 4.Nf3</span><span class=\"ds-lane-status ds-due\">Due</span><span class=\"ds-track\"><span class=\"ds-run\"></span></span></li><li class=\"ds-lane\" data-status=\"new\"><span class=\"ds-lane-name\">Fantasy 3.f3</span><span class=\"ds-lane-status\">New</span><span class=\"ds-track\"></span></li></ul>",
+      "css": ".ds-cm{list-style:none;margin:0;padding:12px 16px;max-width:420px;border-top:6px solid var(--court-blue);border-radius:14px;background:var(--table);box-shadow:var(--shadow-sm)}.ds-lane{display:grid;grid-template-columns:minmax(0,1fr) auto;grid-template-areas:'n s' 't t';gap:5px 10px;padding:7px 10px 8px;border-radius:8px}.ds-lane+.ds-lane{border-top:1px solid var(--line)}.ds-lane-name{grid-area:n;font:600 1.18rem/1.1 var(--font-display);color:var(--ink)}.ds-lane-status{grid-area:s;font:600 .95rem/1.15 var(--font-display);letter-spacing:.06em;text-transform:uppercase;color:var(--ink-soft)}.ds-lane[data-status=learned] .ds-lane-status{color:var(--accent-fg)}.ds-due{background:var(--court-yellow);color:var(--on-yellow)!important;padding:0 6px;border-radius:3px}.ds-track{grid-area:t;position:relative;height:12px;border-radius:3px;background:var(--table-2);box-shadow:inset 0 0 0 1px var(--line)}.ds-run{position:absolute;inset:0;border-radius:3px}.ds-lane[data-status=learned] .ds-run{background:var(--court-blue)}.ds-lane[data-status=due] .ds-run{background:var(--court-yellow);box-shadow:inset 0 0 0 1.5px color-mix(in srgb,var(--ink) 55%,var(--court-yellow))}.ds-lane[data-status=new] .ds-track{box-shadow:inset 0 0 0 1.5px color-mix(in srgb,var(--court-blue) 45%,transparent)}"
+    },
+    {
+      "name": "Folding Table Panel",
+      "kind": "card",
+      "refersTo": "panel",
+      "description": "The container for work: folding-table fill, 14px corners, soft offset shadow and a 6px painted top rule.",
+      "html": "<section class=\"ds-panel\"><h3 class=\"ds-panel-title\">No idea what to pick?</h3><p>First opening as White? Start with the London System.</p></section>",
+      "css": ".ds-panel{display:flex;flex-direction:column;gap:12px;max-width:340px;padding:18px 20px 20px;border-top:6px solid var(--court-yellow);border-radius:14px;background:var(--table);box-shadow:var(--shadow-sm);color:var(--ink)}.ds-panel-title{margin:0;font:800 1.5rem/1.1 var(--font-display)}.ds-panel p{margin:0}"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Tournament-Day Gym",
+    "overview": "A school gym set up for a scholastic chess tournament. The floor is sanded maple, the work sits on white folding tables, and everything that organizes the page is a line painted on the floor in a court colour. You warm up, run your lines, and score; the interface reads like the room you do that in, not like an app shell. Light (\"day\") is the default. The dark theme is \"after hours\": a varnished dark floor under arena light, same structure and same line colours, lifted for the dark.\n\nDensity is working-gym, not showroom: panels are close to their content, headings are signage-loud, and the board is always the biggest thing on a trainer screen. Depth is a table resting on a floor, not a card floating in space. Colour is spent on meaning. Each practice mode owns one painted line colour, and the court-blue header band and primary actions are the only large colour fields.\n\nThe system refuses the category default of a dark app shell with a purple accent, a white coach speech bubble beside the board, and a grid of mode tiles (a brand commitment in PRODUCT.md). The coach's note is a caption hung under a painted line. Modes are a tab strip and a list of lanes.",
+    "keyCharacteristics": [
+      "Maple floor ground, folding-table panels, court lines as the only structural ornament.",
+      "One line colour per mode: Learn blue, Practice green, Drill red, Time yellow, Dojo black.",
+      "Signage headings (Saira Condensed, uppercase at page level), varsity numerals (Graduate) for scores and streaks, plain system UI for reading.",
+      "Standard web controls throughout; the world lends type, colour, density and the lane motif, never control shapes.",
+      "Soft offset shadows, single elevation step per surface; no glass, no gradients as decoration."
+    ],
+    "rules": [
+      {
+        "name": "The One Line, One Meaning Rule",
+        "body": "A painted colour always means the same thing: blue Learn/brand, green Practice/correct, red Drill/mistake, yellow Time/due/your-move, black Dojo. Do not recolour a line for variety; do not introduce a fifth line colour.",
+        "section": "colors"
+      },
+      {
+        "name": "The Ink Form Rule",
+        "body": "Court colours are paint, not type. When a court colour has to be text or an icon on a table, use its Ink form (blue, green, red, yellow). Paint stays for lines, fills and discs.",
+        "section": "colors"
+      },
+      {
+        "name": "The After Hours Rule",
+        "body": "Dark theme keeps the same roles with lifted values: floor #1d150d, table #2a2017, ink #f6ebd8, soft ink #d0bc98, and paints lifted to blue #6f95f2, green #45c07a, red #f0675d, yellow #f7c948, board dark squares #4d6aa8. Focus rings switch from blue to yellow. It is not an inverted palette; the wood stays warm.",
+        "section": "colors"
+      },
+      {
+        "name": "The Zero Numeral Rule",
+        "body": "Graduate's zero is a bare oval that reads as an icon. Any numeral string that starts with 0 is set in Saira Condensed 800 at a slightly larger size (`data-zero`), everywhere a score appears. Never show a zero in Graduate.",
+        "section": "typography"
+      },
+      {
+        "name": "The Signage Case Rule",
+        "body": "Uppercase is for signage: page titles, buttons, tabs, table heads, scoreboard labels. Sentences, notes and article text stay sentence case in the system face. Uppercase never carries more than a few words.",
+        "section": "typography"
+      },
+      {
+        "name": "The Wordmark Rule",
+        "body": "The only place Graduate appears as lettering rather than numerals is the wordmark in the header and footer.",
+        "section": "typography"
+      },
+      {
+        "name": "The Line Under, Not Box Around Rule",
+        "body": "Group and section headings take a painted line, not a bordered box. Boxes are for things that hold work: a folding-table panel.",
+        "section": "layout"
+      },
+      {
+        "name": "The Table On The Floor Rule",
+        "body": "Shadows describe a physical table on a floor: soft, offset downward, brown-tinted (never black, never a coloured glow, never a zero-blur block). One elevation per surface; do not stack a border under a wide shadow on the same panel.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "**Do** let a horizontal painted line (6px) announce structure: under a page head, above a panel, under a group title.",
+      "**Do** give every mode its one line colour (Learn blue, Practice green, Drill red, Time yellow, Dojo black) on its tab line, progress fill, trainer button and end-of-run panel.",
+      "**Do** set scores, streaks and counts in Graduate with tabular numerals, and set any value starting with 0 in Saira Condensed 800.",
+      "**Do** keep the body in the system UI stack at 16px with 65 to 75ch measure and let Saira Condensed carry only signage: headings, labels, buttons, tabs.",
+      "**Do** use Ink forms (#1a43a3, #146136, #a1241d, #7a5a00) for any court colour used as text on cream; keep text on yellow at Gym Ink.",
+      "**Do** draw lanes with a state that has a text twin: Learned, Due, New always appear as words beside their paint.",
+      "**Do** keep standard web controls (buttons, tabs, selects, inputs, details) and theme their browser surfaces from the palette: selection is yellow, caret and accent are blue, scrollbars are Chalk Line on Worn Lane.",
+      "**Do** keep light as the default (\"day\") and dark as \"after hours\" with the same roles in lifted values.",
+      "**Do** animate with the exponential ease-out (`cubic-bezier(0.22, 1, 0.36, 1)`, trainer `0.16, 1, 0.3, 1`): progress fills grow over 320 to 500ms, the end-of-run line paints across over 720ms, the demo note settles in over 400ms; reduced motion cuts all of it."
+    ],
+    "donts": [
+      "**Don't** use a purple accent, a dark app shell as the default theme, a white speech bubble beside the board, or a grid of mode tiles. Modes are tabs and lanes.",
+      "**Don't** use a vertical stripe: painted lines run along the top or bottom of a surface, never as a coloured left or right border on cards, rows or callouts.",
+      "**Don't** give a court colour a second meaning, or colour a line decoratively; a line with no state to report is Chalk Line or Table Hairline.",
+      "**Don't** use the system sans for page titles, or Graduate for body or headings; the world's two display voices are Saira Condensed (signage) and Graduate (numerals only).",
+      "**Don't** shadow with zero offset glows or hard offset blocks; shadows are brown, soft and downward.",
+      "**Don't** nest panels inside panels; recessed areas are tonal (Recessed Table), not carded.",
+      "**Don't** let a lane's length read as progress: a new line is an empty outlined track, and only learned or due lanes are painted, at full width.",
+      "**Don't** load fonts from a remote host; the faces are self-hosted."
+    ]
+  }
+}
