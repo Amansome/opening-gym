@@ -85,6 +85,8 @@ export interface PlayerShellProps {
   controls: ControlSpec[];
   /** the mode tab strip */
   tabs?: ReactNode;
+  /** back link in the scoreboard (phones) */
+  backTo?: { to: string; label: string };
   /** the lane picker (see PlayerLayout) */
   lanes?: ReactNode;
 }
@@ -126,7 +128,7 @@ export function PlayerShell(p: PlayerShellProps) {
           </div>
         )
       }
-      scoreboard={<Scoreboard title={p.title} stats={p.stats ?? []} streakDays={p.streakDays} />}
+      scoreboard={<Scoreboard title={p.title} stats={p.stats ?? []} streakDays={p.streakDays} backTo={p.backTo} />}
       bar={p.bar}
       coach={<CoachNote note={p.note} actions={p.noteActions} badge={p.noteBadge} footer={footer} />}
       board={<Board {...p.board} />}

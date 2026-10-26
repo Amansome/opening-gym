@@ -9,10 +9,11 @@ export type LaneStatus = "learned" | "due" | "new" | "trap";
 
 const STATUS_LABEL: Record<LaneStatus, string> = { learned: "Learned", due: "Due", new: "New", trap: "Trap" };
 
-const MODE_COLOR: Partial<Record<Mode, string>> = {
-  learn: "var(--court-blue)",
-  practice: "var(--court-green)",
-  drill: "var(--court-red)",
+/** the lane paint, and the same colour as readable text on a table */
+const MODE_COLOR: Partial<Record<Mode, [string, string]>> = {
+  learn: ["var(--court-blue)", "var(--accent-fg)"],
+  practice: ["var(--court-green)", "var(--success-fg)"],
+  drill: ["var(--court-red)", "var(--danger-fg)"],
 };
 
 /** New lines and traps open in Learn; lines you know open in Practice. */
@@ -74,7 +75,7 @@ export function CourtMap({ course, mode = "learn", variant = "full", onPick, cur
   const dueCount = lanes.filter((l) => l.status === "due").length;
   const base = `/opening/${course.id}`;
   const headId = `cm-title-${course.id}-${variant}`;
-  const laneColor = MODE_COLOR[mode] ?? "var(--court-blue)";
+  const [laneColor, laneFg] = MODE_COLOR[mode] ?? MODE_COLOR.learn!;
 
   const summary = (
     <p className="cm-summary">
@@ -86,7 +87,7 @@ export function CourtMap({ course, mode = "learn", variant = "full", onPick, cur
   return (
     <div
       className={`cm cm--${variant}`}
-      style={{ ["--lane" as string]: laneColor } as CSSProperties}
+      style={{ ["--lane" as string]: laneColor, ["--lane-fg" as string]: laneFg } as CSSProperties}
       role={picker ? "group" : undefined}
       aria-labelledby={picker ? headId : undefined}
     >

@@ -2,6 +2,7 @@
    Learned lanes are painted solid in the mode colour, due lanes in yellow, new lanes are a faint outline in the Learn blue. */
 .cm {
   --lane: var(--court-blue);
+  --lane-fg: var(--accent-fg);
   --cm-new: var(--court-blue);
   --cm-due-edge: color-mix(in srgb, var(--ink) 55%, var(--court-yellow));
   --cm-track-h: 12px;
@@ -51,7 +52,7 @@
 .cm-name { grid-area: name; min-width: 0; font: 600 1.18rem/1.1 var(--font-display); letter-spacing: 0.01em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .cm-meta { grid-area: meta; display: inline-flex; align-items: baseline; gap: 8px; font-size: 0.84rem; color: var(--ink-soft); white-space: nowrap; }
 .cm-status { font: 600 0.95rem/1.15 var(--font-display); letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-soft); }
-.cm-status[data-status="learned"] { color: var(--accent-fg); }
+.cm-status[data-status="learned"] { color: var(--lane-fg); }
 .cm-status[data-status="due"] { color: var(--on-yellow); background: var(--court-yellow); padding: 0 6px; border-radius: 3px; }
 .cm-status[data-status="trap"] { color: var(--danger-fg); }
 
@@ -83,5 +84,8 @@
 
 /* ---- picker: sits in the trainer's folding table under the control row ---- */
 .cm--picker { display: flex; flex-direction: column; min-height: 0; gap: 6px; }
+.cm--picker { --cm-track-h: 10px; }
 .cm--picker .cm-head { padding: 0 2px; }
+.cm--picker .cm-link { gap: 3px 10px; padding: 5px 10px 6px; }
+.cm--picker .cm-name { font-size: 1.12rem; }
 .cm--picker .cm-lanes { flex: 1 1 auto; min-height: 0; overflow-y: auto; overscroll-behavior: contain; margin: 0 -4px; padding: 0 4px; scrollbar-gutter: stable; }

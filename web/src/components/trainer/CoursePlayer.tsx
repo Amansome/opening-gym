@@ -1,5 +1,4 @@
 import { useCallback, useState } from "react";
-import { Link } from "react-router-dom";
 import type { Course, Line, Mode } from "../../lib/types";
 import { CourtMap, laneTarget } from "../ui/CourtMap";
 import type { LaneStatus } from "../ui/CourtMap";
@@ -24,17 +23,6 @@ interface Pick {
   lineId: string;
   mode: Mode;
   seq: number;
-}
-
-function BackLink() {
-  return (
-    <Link to="/openings" className="og-back" data-testid="trainer-back">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-        <path d="m15 18-6-6 6-6" />
-      </svg>
-      Openings
-    </Link>
-  );
 }
 
 function CoursePlayerInner({ course, initialMode, initialLine }: CoursePlayerProps) {
@@ -71,12 +59,8 @@ function CoursePlayerInner({ course, initialMode, initialLine }: CoursePlayerPro
     selectMode,
     pick: active?.lineId,
     lanes: (currentLineId) => <CourtMap course={course} mode={mode} variant="picker" onPick={onPick} currentLineId={currentLineId} />,
-    tabs: (
-      <>
-        <BackLink />
-        <ModeTabs mode={mode} progress={cp} onSelect={selectMode} />
-      </>
-    ),
+    backTo: { to: "/openings", label: "Openings" },
+    tabs: <ModeTabs mode={mode} progress={cp} onSelect={selectMode} />,
   };
 
   switch (mode) {

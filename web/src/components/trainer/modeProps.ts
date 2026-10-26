@@ -13,6 +13,8 @@ export interface ModeProps {
   selectMode: (mode: Mode) => void;
   /** a line chosen from the lane picker (or ?line=): Learn plays exactly this line, Practice puts it first in the queue */
   pick?: string;
+  /** where the scoreboard's back link goes (phones, where the breadcrumb is hidden) */
+  backTo?: { to: string; label: string };
   /** the lane picker for the panel; pass the line on the board so its lane is marked */
   lanes?: (currentLineId?: string) => ReactNode;
 }

@@ -54,8 +54,11 @@ export function CoachNote({ note, actions, badge, footer }: CoachNoteProps) {
   const actionsRef = useRef<HTMLDivElement>(null);
   const savedY = useRef<number | null>(null);
   const hasActions = !!actions;
+  const mountedAt = useRef(typeof performance !== "undefined" ? performance.now() : 0);
   useEffect(() => {
     if (typeof window === "undefined" || !window.matchMedia("(max-width: 819px)").matches) return;
+    // The first view is laid out to show the button where it is; only buttons that appear later need bringing into view.
+    if (performance.now() - mountedAt.current < 800) return;
     const behavior: ScrollBehavior = window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth";
     if (hasActions) {
       if (savedY.current === null) savedY.current = window.scrollY;

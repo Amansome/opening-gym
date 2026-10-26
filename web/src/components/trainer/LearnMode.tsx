@@ -31,7 +31,7 @@ function moveLabel(ply: number, san: string): string {
   return `${Math.ceil(ply / 2)}${ply % 2 === 1 ? "." : "..."}${san}`;
 }
 
-export function LearnMode({ course, cp, streak, refreshStreak, tabs, selectMode, pick, lanes }: ModeProps) {
+export function LearnMode({ course, cp, streak, refreshStreak, tabs, selectMode, pick, lanes, backTo }: ModeProps) {
   const [current, setCurrent] = useState<Current | null>(null);
   const [runId, setRunId] = useState(0);
   const [cel, setCel] = useState<Celebration | null>(null);
@@ -266,6 +266,7 @@ export function LearnMode({ course, cp, streak, refreshStreak, tabs, selectMode,
       controls={controls}
       tabs={tabs}
       lanes={lanes?.(line?.id)}
+      backTo={backTo}
     />
   );
 }

@@ -13,7 +13,7 @@ import type { ModeProps } from "./modeProps";
 
 type Phase = "ready" | "playing" | "over";
 
-export function TimeMode({ course, cp, streak, refreshStreak, tabs, selectMode }: ModeProps) {
+export function TimeMode({ course, cp, streak, refreshStreak, tabs, selectMode, backTo }: ModeProps) {
   const [phase, setPhase] = useState<Phase>("ready");
   const [line, setLine] = useState<Line | undefined>();
   const [runId, setRunId] = useState(0);
@@ -168,6 +168,7 @@ export function TimeMode({ course, cp, streak, refreshStreak, tabs, selectMode }
       overlay={overlay}
       controls={controls}
       tabs={tabs}
+      backTo={backTo}
     />
   );
 }

@@ -31,9 +31,10 @@ export interface QueuePracticeProps {
   emptyText: string;
   /** the lane picker, given the line on the board */
   lanes?: (currentLineId?: string) => ReactNode;
+  backTo?: { to: string; label: string };
 }
 
-export function QueuePractice({ mode, fallbackTitle, loadItems, streak, refreshStreak, tabs, extraActions, emptyText, lanes }: QueuePracticeProps) {
+export function QueuePractice({ mode, fallbackTitle, loadItems, streak, refreshStreak, tabs, extraActions, emptyText, lanes, backTo }: QueuePracticeProps) {
   const [items, setItems] = useState<QueueItem[] | null>(null);
   const [idx, setIdx] = useState(0);
   const [runId, setRunId] = useState(0);
@@ -186,6 +187,7 @@ export function QueuePractice({ mode, fallbackTitle, loadItems, streak, refreshS
       controls={controls}
       tabs={tabs}
       lanes={lanes?.(item?.line.id)}
+      backTo={backTo}
     />
   );
 }

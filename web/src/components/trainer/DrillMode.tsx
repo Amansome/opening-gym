@@ -17,7 +17,7 @@ interface RunOver {
   record: boolean;
 }
 
-export function DrillMode({ course, cp, streak, refreshStreak, tabs, selectMode }: ModeProps) {
+export function DrillMode({ course, cp, streak, refreshStreak, tabs, selectMode, backTo }: ModeProps) {
   const [line, setLine] = useState<Line | undefined>();
   const [runId, setRunId] = useState(0);
   const [count, setCount] = useState(0);
@@ -133,6 +133,7 @@ export function DrillMode({ course, cp, streak, refreshStreak, tabs, selectMode 
       overlay={overlay}
       controls={controls}
       tabs={tabs}
+      backTo={backTo}
     />
   );
 }
