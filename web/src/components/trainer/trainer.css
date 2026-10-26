@@ -41,7 +41,7 @@
 
 /* stage = eval bar + board mat. The board is the biggest thing on the screen. */
 .og-player__stage {
-  --og-eval-w: 24px;
+  --og-eval-w: 26px;
   --og-eval-gap: 10px;
   display: flex;
   align-items: stretch;
@@ -91,9 +91,9 @@
   right: 0;
   text-align: center;
   font-family: var(--font-score);
-  font-size: 0.6rem;
+  font-size: 0.68rem;
   line-height: 1;
-  padding: 5px 0;
+  padding: 6px 0;
   white-space: nowrap;
   overflow: hidden;
 }
@@ -262,7 +262,7 @@
   display: flex;
   flex-direction: column;
   gap: 9px;
-  min-height: 8.5rem;
+  min-height: 6.5rem;
   max-height: min(46dvh, 25rem);
   padding: 12px 2px 2px;
   overflow-y: auto;
@@ -361,7 +361,8 @@
 .og-btn:disabled { opacity: 0.45; cursor: not-allowed; }
 
 /* ---- controls ---- */
-.og-controls { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); gap: 6px; }
+.og-controls { display: grid; grid-auto-flow: column; grid-auto-columns: minmax(0, 1fr); justify-content: center; gap: 6px; }
+.og-controls:has(> :only-child) { grid-auto-columns: minmax(0, 120px); }
 .og-control {
   appearance: none;
   box-sizing: border-box;
@@ -528,56 +529,68 @@
 .og-empty h2 { margin: 12px 0 6px; font: 800 1.9rem/1.1 var(--font-display); letter-spacing: 0.03em; text-transform: uppercase; }
 .og-empty p { max-width: 40ch; margin: 0 auto 18px; color: var(--ink-soft); }
 
-/* ---- mobile: the table dissolves; tabs + scoreboard, board, note, sticky action bar ---- */
+/* ---- mobile: the table dissolves; tabs + scoreboard, board (eval strip in its top margin), note, sticky action bar ---- */
 @media (max-width: 819px) {
   .og-player {
     display: flex;
     flex-direction: column;
     align-items: stretch;
-    gap: 12px;
+    gap: 10px;
     min-height: calc(100dvh - var(--header-h, 60px));
-    padding: 10px 16px 0;
+    padding: 6px 16px 0;
   }
   .og-player__panel { display: contents; }
   .og-player__top {
     order: 1;
-    gap: 8px;
-    padding: 6px 8px 10px;
+    gap: 6px;
+    padding: 4px 8px 8px;
     background: var(--table);
     border-radius: var(--radius);
     box-shadow: var(--shadow-sm);
   }
   .og-player__stage {
     order: 2;
+    position: relative;
     width: 100%;
     min-width: 0;
-    flex-direction: column;
-    --og-eval-w: 16px;
-    --og-eval-gap: 8px;
   }
   .og-player__board { width: 100%; flex: none; }
+  .og-boardframe { --og-pad: 18px; }
   .og-player__coach {
     order: 3;
     overflow: hidden;
-    padding: 0 14px 12px;
+    padding: 0 14px 10px;
     background: var(--table);
     border-radius: var(--radius);
     box-shadow: var(--shadow-sm);
   }
   .og-note__line { margin: 0 -14px; }
-  .og-note__body { min-height: 0; max-height: 30dvh; padding-top: 10px; gap: 7px; }
+  .og-note__body { min-height: 0; max-height: 34dvh; padding-top: 8px; gap: 6px; }
   .og-note__text { font-size: 1rem; line-height: 1.5; }
-  .og-note__prompt { font-size: 1.45rem; }
-  .og-opening { min-height: 0; margin-top: 8px; padding-top: 8px; }
+  /* on a phone the instruction comes right after the verdict, before the explanation */
+  .og-note__prompt { order: -1; font-size: 1.5rem; }
+  .og-note__state { order: -2; }
+  .og-note__actions { padding-top: 8px; }
+  .og-opening { min-height: 0; margin-top: 6px; padding-top: 6px; }
   .og-opening:empty { display: none; }
 
-  /* horizontal bar above the board: White on the left unless the board is flipped */
-  .og-eval { flex: 0 0 var(--og-eval-w); width: 100%; height: var(--og-eval-w); }
+  /* the eval strip lies in the board frame's top margin, aligned with the squares: White on the left unless the board is flipped */
+  .og-eval {
+    position: absolute;
+    z-index: 2;
+    top: 2px;
+    left: 18px;
+    right: 18px;
+    width: auto;
+    height: 14px;
+    border-radius: 2px;
+    box-shadow: none;
+  }
   .og-eval__fill { top: 0; bottom: 0; height: auto; width: calc(var(--og-eval-share, 0.5) * 100%); transition-property: width; }
   .og-eval[data-orient="white"] .og-eval__fill { left: 0; right: auto; }
   .og-eval[data-orient="black"] .og-eval__fill { right: 0; left: auto; }
   .og-eval__mid { top: 0; bottom: 0; left: calc(50% - 1px); right: auto; width: 2px; height: auto; }
-  .og-eval__label { top: 0 !important; bottom: 0 !important; left: auto; right: auto; width: auto; padding: 0 6px; display: flex; align-items: center; }
+  .og-eval__label { top: 0 !important; bottom: 0 !important; left: auto; right: auto; width: auto; padding: 0 5px; font-size: 0.6rem; display: flex; align-items: center; }
   .og-eval[data-lead="white"][data-orient="white"] .og-eval__label,
   .og-eval[data-lead="black"][data-orient="black"] .og-eval__label { left: 0; }
   .og-eval[data-lead="white"][data-orient="black"] .og-eval__label,
@@ -589,14 +602,17 @@
     bottom: 0;
     z-index: 5;
     margin: auto -16px 0;
-    padding: 8px 16px calc(8px + env(safe-area-inset-bottom));
+    padding: 6px 16px calc(6px + env(safe-area-inset-bottom));
     background: var(--floor);
     border-top: 3px solid var(--line);
   }
-  .og-control { min-height: 48px; }
+  .og-controls { gap: 5px; }
+  .og-control { min-height: 46px; padding-top: 4px; gap: 3px; font-size: 0.72rem; letter-spacing: 0.04em; }
 
-  .og-tab { min-height: 40px; font-size: 0.98rem; letter-spacing: 0.05em; }
-  .og-score { grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 10px; padding: 8px 12px; }
+  .og-tab { min-height: 38px; font-size: 0.98rem; letter-spacing: 0.05em; }
+  .og-tabs { gap: 4px; }
+  .og-tabs__hint { font-size: 0.82rem; }
+  .og-score { grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 10px; padding: 7px 12px; }
   .og-score__title { font-size: 1.05rem; }
   .og-score__cells { gap: 14px; }
   .og-score__cell { gap: 4px; }
