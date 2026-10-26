@@ -59,6 +59,8 @@
 /* the lane itself: a strip of court, painted from the baseline to where the line ends */
 .cm-track { grid-area: track; position: relative; height: var(--cm-track-h); border-radius: 3px; background: var(--table-2); box-shadow: inset 0 0 0 1px var(--line); }
 .cm-run { position: absolute; left: 0; top: 0; bottom: 0; width: calc(var(--end) * 1%); min-width: 14px; box-sizing: border-box; border-radius: 3px; transition: background-color 0.2s; }
+/* A learned (or due) line is a whole lane painted: full width, so it never reads as half done. */
+.cm-lane[data-status="learned"] .cm-run, .cm-lane[data-status="due"] .cm-run { width: 100%; }
 .cm-lane[data-status="learned"] .cm-run { background: var(--lane); }
 .cm-lane[data-status="due"] .cm-run { background: var(--court-yellow); box-shadow: inset 0 0 0 1.5px var(--cm-due-edge); }
 /* A new line has nothing painted yet: show the empty lane only, so length never reads as progress. */
