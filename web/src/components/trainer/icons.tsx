@@ -18,7 +18,11 @@ export type IconName =
   | "trophy"
   | "warning"
   | "gauge"
-  | "search";
+  | "search"
+  | "cross"
+  | "checks"
+  | "fork"
+  | "play";
 
 const PATHS: Record<IconName, ReactNode> = {
   book: <path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v15H6.5A2.5 2.5 0 0 0 4 20.5v-15zM4 20.5A2.5 2.5 0 0 0 6.5 23H20v-5" />,
@@ -54,6 +58,17 @@ const PATHS: Record<IconName, ReactNode> = {
       <path d="M8 12h8" />
     </>
   ),
+  cross: <path d="M6 6l12 12M18 6L6 18" />,
+  checks: <path d="M2.5 13l4.5 4.5L15 8M11 16l2 2L22 8" />,
+  fork: (
+    <>
+      <circle cx="6" cy="5" r="2" />
+      <circle cx="6" cy="19" r="2" />
+      <circle cx="18" cy="9" r="2" />
+      <path d="M6 7v10M18 11c0 4-4 4-10 7" />
+    </>
+  ),
+  play: <path d="M7 4l12 8-12 8z" />,
   search: (
     <>
       <circle cx="10.5" cy="10.5" r="6.5" />
@@ -63,7 +78,7 @@ const PATHS: Record<IconName, ReactNode> = {
 };
 
 export function Icon({ name, size = 20, className }: { name: IconName; size?: number; className?: string }) {
-  const filled = name === "flame" || name === "star" || name === "knight";
+  const filled = name === "flame" || name === "star" || name === "knight" || name === "play";
   return (
     <svg
       className={className}

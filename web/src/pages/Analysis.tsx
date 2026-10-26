@@ -28,6 +28,7 @@ import {
   whiteShare,
 } from "../lib/engine";
 import type { EngineLine, Game, Score } from "../lib/engine";
+import { ToolIcon } from "./tool-icons";
 import "./analysis.css";
 
 const ENGINE_KEY = "opening-gym:analysis-engine";
@@ -433,16 +434,16 @@ export default function Analysis() {
 
           <div className="an-controls" role="group" aria-label="Move navigation">
             <button type="button" className="an-ctl" onClick={() => go(0)} disabled={ply === 0} aria-label="First position" title="First (Home)">
-              <span aria-hidden="true">⏮</span>
+              <ToolIcon name="first" />
             </button>
             <button type="button" className="an-ctl" onClick={() => go(ply - 1)} disabled={ply === 0} aria-label="Previous move" title="Previous (←)">
-              <Icon name="chevron" className="an-flip-x" size={20} />
+              <ToolIcon name="prev" />
             </button>
             <button type="button" className="an-ctl" onClick={() => go(ply + 1)} disabled={ply >= last} aria-label="Next move" title="Next (→)">
-              <Icon name="chevron" size={20} />
+              <ToolIcon name="next" />
             </button>
             <button type="button" className="an-ctl" onClick={() => go(last)} disabled={ply >= last} aria-label="Last position" title="Last (End)">
-              <span aria-hidden="true">⏭</span>
+              <ToolIcon name="last" />
             </button>
             <button type="button" className="an-ctl an-ctl-wide" onClick={() => setFlipped((f) => !f)} aria-label="Flip board" title="Flip board (F)">
               <Icon name="repeat" size={18} />
@@ -451,7 +452,7 @@ export default function Analysis() {
           </div>
 
           <div className="an-opening" data-named={named ? "yes" : "no"}>
-            <span className="an-eyebrow">Opening</span>
+            <span className="sr-only">Opening: </span>
             {eco && <span className="an-eco">{eco[1]}</span>}
             <strong className="an-opening-name">
               {named ? (eco ? eco[2] : named.name) : ply === 0 && fen === START_FEN ? "Starting position" : "Not a named opening (yet)"}
@@ -462,7 +463,7 @@ export default function Analysis() {
         </section>
 
         <aside className="an-side">
-          <section className="an-card an-engine" aria-label="Engine">
+          <section className="an-card an-engine" aria-label="Engine" data-lane="blue">
             <div className="an-card-head">
               <h2>Stockfish</h2>
               <label className="an-switch">
@@ -490,11 +491,16 @@ export default function Analysis() {
               ) : over ? (
                 <p className="muted">Game over, nothing to calculate.</p>
               ) : (
-                <p className="muted">
-                  Depth <strong className="an-depth">{depth || "…"}</strong>
-                  {depth ? ` / ${TARGET_DEPTH}` : ""}
-                  {fresh && view?.done ? " · done" : fresh && depth ? " · thinking…" : ""}
-                </p>
+                <>
+                  <p className="muted">
+                    Depth <strong className="an-depth">{depth || "…"}</strong>
+                    {depth ? ` / ${TARGET_DEPTH}` : ""}
+                    {fresh && view?.done ? " · done" : fresh && depth ? " · thinking…" : ""}
+                  </p>
+                  <div className="an-depthbar" aria-hidden="true" data-done={(fresh && view?.done) || undefined}>
+                    <span style={{ width: `${Math.min(100, Math.round((depth / TARGET_DEPTH) * 100))}%` }} />
+                  </div>
+                </>
               )}
             </div>
 
@@ -514,8 +520,10 @@ export default function Analysis() {
             </ol>
           </section>
 
-          <section className="an-card an-courses" aria-label="Courses containing this position">
-            <h2>This position is in your courses:</h2>
+          <section className="an-card an-courses" aria-label="Courses containing this position" data-lane="green">
+            <div className="an-card-head">
+              <h2>This position is in your courses:</h2>
+            </div>
             {hits.length === 0 ? (
               <p className="muted">
                 None of the courses cover it.{" "}
@@ -556,10 +564,15 @@ export default function Analysis() {
             )}
           </section>
 
-          <section className="an-card" aria-label="Moves">
+          <section className="an-card" aria-label="Moves" data-lane="black">
             <div className="an-card-head">
               <h2>Moves</h2>
-              <span className="muted an-kbd">← → Home End</span>
+              <span className="an-kbd" aria-label="Keyboard: left and right arrows, Home, End">
+                <kbd>←</kbd>
+                <kbd>→</kbd>
+                <kbd>Home</kbd>
+                <kbd>End</kbd>
+              </span>
             </div>
             {caption && <p className="muted an-caption">{caption}</p>}
             <div className="an-moves" ref={listRef} role="list" tabIndex={-1}>
@@ -589,8 +602,10 @@ export default function Analysis() {
             </div>
           </section>
 
-          <section className="an-card an-tools" aria-label="Load and export">
-            <h2>Load or share</h2>
+          <section className="an-card an-tools" aria-label="Load and export" data-lane="yellow">
+            <div className="an-card-head">
+              <h2>Load or share</h2>
+            </div>
             <label className="an-label" htmlFor="an-input">Paste a FEN or PGN</label>
             <textarea
               id="an-input"

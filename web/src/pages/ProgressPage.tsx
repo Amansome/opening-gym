@@ -93,6 +93,7 @@ function ActivityHeatmap({ activity }: { activity: Record<string, number> | unde
   return (
     <section className="section-block" aria-labelledby="activity-h">
       <h2 id="activity-h">Activity</h2>
+      <div className="panel heat-panel">
       <p className="muted heatmap-summary">
         {total === 0
           ? "No lines completed in the last 12 weeks. Finish a line to light up today."
@@ -135,14 +136,15 @@ function ActivityHeatmap({ activity }: { activity: Record<string, number> | unde
         {[0, 1, 2, 3, 4].map((l) => <span key={l} className="heatmap-cell" data-level={l} />)}
         More
       </div>
+      </div>
     </section>
   );
 }
 
 function ScoreList({ title, unit, scores, icon }: { title: string; unit: string; scores: ScoreEntry[]; icon: "flame" | "clock" }) {
   return (
-    <div className="panel">
-      <h3 className="panel-title"><Icon name={icon} size={18} /> {title}</h3>
+    <div className="panel score-panel">
+      <h3 className="panel-title"><Icon name={icon} size={20} /> {title}</h3>
       {scores.length === 0 ? (
         <p className="muted">No scores yet. Unlock this mode by learning a few lines.</p>
       ) : (
@@ -230,24 +232,32 @@ function DataSection() {
         Everything is stored in this browser, on your device. Export a backup before clearing browser data or moving to
         another device.
       </p>
-      <div className="data-grid">
-        <div className="panel">
-          <h3 className="panel-title"><Icon name="download" size={18} /> Export backup</h3>
-          <p className="muted">Download all your progress as a JSON file.</p>
-          <Button onClick={doExport}><Icon name="download" size={16} /> Export backup</Button>
+      <div className="panel data-rows">
+        <div className="data-row">
+          <div className="data-text">
+            <h3>Export backup</h3>
+            <p className="muted">Download all your progress as a JSON file.</p>
+          </div>
+          <div className="data-action">
+            <Button onClick={doExport}><Icon name="download" size={16} /> Export backup</Button>
+          </div>
         </div>
-        <div className="panel">
-          <h3 className="panel-title"><Icon name="upload" size={18} /> Import backup</h3>
-          <p className="muted">Restore from a file you exported earlier. This replaces your current progress.</p>
-          <input
-            ref={fileRef}
-            id="import-file"
-            type="file"
-            accept="application/json,.json"
-            className="sr-only"
-            onChange={(e) => onFile(e.target.files?.[0])}
-          />
-          <Button onClick={() => fileRef.current?.click()}><Icon name="upload" size={16} /> Choose backup file</Button>
+        <div className="data-row">
+          <div className="data-text">
+            <h3>Import backup</h3>
+            <p className="muted">Restore from a file you exported earlier. This replaces your current progress.</p>
+          </div>
+          <div className="data-action">
+            <input
+              ref={fileRef}
+              id="import-file"
+              type="file"
+              accept="application/json,.json"
+              className="sr-only"
+              onChange={(e) => onFile(e.target.files?.[0])}
+            />
+            <Button onClick={() => fileRef.current?.click()}><Icon name="upload" size={16} /> Choose backup file</Button>
+          </div>
           {pending ? (
             <div className="confirm" role="alertdialog" aria-label="Confirm import">
               <p>Replace all progress with <strong>{pending.name}</strong>? This cannot be undone.</p>
@@ -258,19 +268,23 @@ function DataSection() {
             </div>
           ) : null}
         </div>
-        <div className="panel">
-          <h3 className="panel-title"><Icon name="reset" size={18} /> Reset a course</h3>
-          <p className="muted">Forget what you learned in one opening and start it again.</p>
-          <label className="select-wrap">
-            <span className="sr-only">Course to reset</span>
-            <select value={resetId} onChange={(e) => { setResetId(e.target.value); setConfirmReset(false); }}>
-              <option value="">Choose a course…</option>
-              {courses.map((c) => <option key={c.id} value={c.id}>{c.title}</option>)}
-            </select>
-          </label>
-          {resetId && !confirmReset ? (
-            <Button variant="danger" onClick={() => setConfirmReset(true)}>Reset this course</Button>
-          ) : null}
+        <div className="data-row">
+          <div className="data-text">
+            <h3>Reset a course</h3>
+            <p className="muted">Forget what you learned in one opening and start it again.</p>
+          </div>
+          <div className="data-action data-reset">
+            <label className="select-wrap">
+              <span className="sr-only">Course to reset</span>
+              <select value={resetId} onChange={(e) => { setResetId(e.target.value); setConfirmReset(false); }}>
+                <option value="">Choose a course…</option>
+                {courses.map((c) => <option key={c.id} value={c.id}>{c.title}</option>)}
+              </select>
+            </label>
+            {resetId && !confirmReset ? (
+              <Button variant="danger" onClick={() => setConfirmReset(true)}>Reset this course</Button>
+            ) : null}
+          </div>
           {resetId && confirmReset ? (
             <div className="confirm" role="alertdialog" aria-label="Confirm reset">
               <p>Delete all progress for <strong>{getCourse(resetId)?.title}</strong>?</p>
@@ -313,28 +327,35 @@ export default function ProgressPage() {
         <p className="page-lead">Stored only on this device. No account, nothing uploaded.</p>
       </header>
 
-      <div className="stat-grid">
-        <div className="stat">
-          <Icon name="flame" size={22} />
-          <strong>{streak?.current ?? 0}</strong>
-          <span>day streak{streak?.todayDone ? " (done today)" : ""}</span>
+      <section className="scoreboard" aria-label="Scoreboard">
+        <div className="sb-main">
+          <p className="sb-num" aria-hidden="true">{streak?.current ?? 0}</p>
+          <p className="sb-label">
+            <span className="sr-only">{streak?.current ?? 0} </span>day streak{streak?.todayDone ? " (done today)" : ""}
+          </p>
+          <p className="sb-note">
+            {streak?.todayDone
+              ? "A line is done today. See you tomorrow."
+              : (streak?.current ?? 0) > 0
+                ? "Finish a line today to keep it going."
+                : "Finish a line to start a streak."}
+          </p>
         </div>
-        <div className="stat">
-          <Icon name="trophy" size={22} />
-          <strong>{streak?.best ?? 0}</strong>
-          <span>best streak</span>
-        </div>
-        <div className="stat">
-          <Icon name="check" size={22} />
-          <strong>{totalLearned}</strong>
-          <span>lines learned</span>
-        </div>
-        <div className="stat">
-          <Icon name="repeat" size={22} />
-          <strong>{totalDue}</strong>
-          <span>due for review</span>
-        </div>
-      </div>
+        <dl className="sb-stats">
+          <div className="sb-stat">
+            <dt>best streak</dt>
+            <dd>{streak?.best ?? 0}</dd>
+          </div>
+          <div className="sb-stat">
+            <dt>lines learned</dt>
+            <dd>{totalLearned}</dd>
+          </div>
+          <div className="sb-stat">
+            <dt>due for review</dt>
+            <dd>{totalDue}</dd>
+          </div>
+        </dl>
+      </section>
 
       <ActivityHeatmap activity={activity} />
 
@@ -347,7 +368,7 @@ export default function ProgressPage() {
             <Link className="btn" data-variant="primary" data-size="md" to="/openings">Pick an opening</Link>
           </div>
         ) : (
-          <ul className="progress-list">
+          <ul className="progress-list panel">
             {startedRows.map(({ c, p }) => (
               <li key={c.id}>
                 <div className="progress-row-head">
@@ -357,7 +378,7 @@ export default function ProgressPage() {
                     {p && p.dueCount > 0 ? <strong className="due-pill">{p.dueCount} due</strong> : null}
                   </span>
                 </div>
-                <ProgressBar value={p?.learnedCount ?? 0} max={p?.totalLines ?? 0} label={`${c.title} progress`} />
+                <ProgressBar value={p?.learnedCount ?? 0} max={p?.totalLines ?? 0} due={p?.dueCount ?? 0} label={`${c.title} progress`} />
               </li>
             ))}
           </ul>
@@ -382,7 +403,7 @@ export default function ProgressPage() {
 
       <section className="section-block" aria-labelledby="scores-h">
         <h2 id="scores-h">Best scores</h2>
-        <div className="data-grid two">
+        <div className="score-grid">
           <ScoreList title="Drill: longest streak" unit="in a row" scores={drill} icon="flame" />
           <ScoreList title="Time: most lines in 60s" unit="lines" scores={time} icon="clock" />
         </div>

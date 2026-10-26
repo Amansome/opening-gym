@@ -1966,6 +1966,731 @@ module.exports = [
     ],
   },
 
+  {
+    id: "ponziani-opening",
+    title: "Ponziani Opening",
+    side: "white",
+    level: "beginner",
+    eco: "C44",
+    summary:
+      "1.e4 e5 2.Nf3 Nc6 3.c3: White prepares d4 to build a full pawn centre. It is an old, simple system with little theory and some neat traps (3...d5 4.Qa4! and the pinned knight), but objectively Black has several comfortable answers, so treat it as a practical weapon rather than an attempt to refute 1...e5.",
+    ideas: [
+      "3.c3 prepares d4, so that White gets the ideal pawn centre; Black must react at once with ...d5, ...Nf6 or ...f5.",
+      "After 3...d5, 4.Qa4! pins the knight on c6 against the king; defending e5 with 4...Bd6? loses a piece to 5.exd5.",
+      "Against 3...Nf6 4.d4 Nxe4 do not rush 5.d5 (5...Bc5! is awkward); 5.Bd3 keeps things equal and healthy.",
+      "Do not expect an opening edge: the aim is a comfortable position with a clear plan and few lines to learn.",
+    ],
+    style: "Classical",
+    article: {
+      whatIs:
+        "The Ponziani Opening is 1.e4 e5 2.Nf3 Nc6 3.c3. White prepares to play d4 and take the full centre, and it avoids the heavy theory of the Ruy Lopez and the Italian. It is simple and flexible, but it also gives Black time, so with best play Black equalises comfortably.",
+      howToReach:
+        "Play 1.e4 e5 2.Nf3 Nc6 and then 3.c3. If Black replies 3...Nf6, continue 4.d4. After 3...d5 use 4.Qa4, and after 3...f5 play 4.d4.",
+      pros: [
+        "Very little theory: c3 and d4 is the plan against nearly every reply.",
+        "A flexible pawn centre with a safe king and natural development.",
+        "Traps such as 3...d5 4.Qa4 Bd6? 5.exd5 catch careless opponents.",
+        "Keeps the game balanced and gives you the initiative in the centre.",
+        "It teaches the basics of the open centre: pawn tension, pins and piece activity.",
+      ],
+      cons: [
+        "Objectively Black equalises or is slightly better with 3...d5 or 3...Nf6, so White has no advantage.",
+        "3.c3 takes away the c3 square from the knight, which makes development less natural.",
+        "Black can steer into Berlin-like or French-like positions where the extra tempo for Black is a real asset.",
+        "The pawn thrust d4-d5 can overextend White if Black plays accurately.",
+      ],
+      variations: [
+        {
+          name: "3...d5 4.Qa4, the trap",
+          pgn: "1.e4 e5 2.Nf3 Nc6 3.c3 d5 4.Qa4 Bd6 5.exd5 Nf6 6.dxc6 bxc6 7.d3",
+          text:
+            "Black defends e5 the wrong way. The knight on c6 is pinned, so 5.exd5 wins it, and White emerges a piece up.",
+        },
+        {
+          name: "3...d5 4.Qa4 Bd7",
+          pgn: "1.e4 e5 2.Nf3 Nc6 3.c3 d5 4.Qa4 Bd7 5.exd5 Nd4 6.Qd1 Nxf3+ 7.Qxf3 Nf6 8.Be2 Bd6 9.c4",
+          text:
+            "The correct defence. The queen has served its purpose, and the game is level, with plenty of play for both sides.",
+        },
+        {
+          name: "3...Nf6 4.d4 Nxe4 5.Bd3",
+          pgn: "1.e4 e5 2.Nf3 Nc6 3.c3 Nf6 4.d4 Nxe4 5.Bd3 d5 6.Nxe5 Nxe5 7.dxe5 Bc5 8.O-O O-O 9.Nd2 f5 10.c4",
+          text:
+            "The healthiest approach. Black has a strong central knight on e4, but White gets a good development and play for the pawn.",
+        },
+        {
+          name: "3...Nf6 4.d4 exd4 5.e5",
+          pgn: "1.e4 e5 2.Nf3 Nc6 3.c3 Nf6 4.d4 exd4 5.e5 Ne4 6.Qe2 f5 7.exf6 d5 8.Nbd2 Qxf6 9.Nxe4 dxe4 10.Qxe4+ Be7",
+          text:
+            "A sharp line. White wins back material with a lead in development, but Black has the better pawn structure.",
+        },
+        {
+          name: "3...d6 4.d4 Nf6 5.Bb5",
+          pgn: "1.e4 e5 2.Nf3 Nc6 3.c3 d6 4.d4 Nf6 5.Bb5 a6 6.Bxc6+ bxc6 7.O-O exd4 8.cxd4 Be7 9.Qc2 Bd7 10.h3",
+          text:
+            "A Philidor-type position. White has the centre and the bishop pair, but Black's structure is solid.",
+        },
+      ],
+      againstIt:
+        "The soundest answers are 3...Nf6 4.d4 Nxe4 (trying to exploit the early d5 push), and 3...d5 4.Qa4 Bd7 5.exd5 Nd4. In both cases Black gets an equal game. Black should avoid 4...Bd6? or other moves that leave the c6 knight pinned.",
+      plans: {
+        white:
+          "Build the centre with d4, develop with Bd3 or Bc4, and castle. Keep an eye on the pin on c6 when you play Qa4, and avoid pushing d5 too early, since it can leave pieces loose.",
+        black:
+          "Hit the centre immediately with ...d5 or ...Nf6, and recapture on d4 to get a free game. Be careful about the pin after Qa4, defend e5 with ...f6 or ...Bd7, and use the extra tempo for development.",
+      },
+      history:
+        "The opening is named after Domenico Ponziani, an 18th-century Italian player and writer who analysed it. For a long time it was regarded as an inferior alternative to the Italian and Ruy Lopez because it gives Black time, and it is still not a top-level choice. It lives on as a straightforward system with few theoretical demands.",
+      faq: [
+        {
+          q: "Is the Ponziani Opening good?",
+          a:
+            "It is playable and healthy, but it does not give White an opening advantage. Black has several comfortable ways to equalise, so it is best used as a low-theory system.",
+        },
+        {
+          q: "What is the best response to the Ponziani?",
+          a:
+            "3...Nf6 4.d4 Nxe4 and 3...d5 4.Qa4 Bd7 are the most solid. Black must avoid 4...Bd6?, which loses a piece to the pin on c6.",
+        },
+        {
+          q: "Why play 4.Qa4 against 3...d5?",
+          a:
+            "The queen pins the knight on c6 to the king along the diagonal and attacks the e5 pawn indirectly. Black has to play carefully, and 4...Bd7 or 4...f6 are the correct defences.",
+        },
+        {
+          q: "Is the Ponziani better than the Italian?",
+          a:
+            "Not objectively: the Italian gives White more chances for an advantage. But the Ponziani needs less memorisation, which is why many club players enjoy it.",
+        },
+      ],
+    },
+    lines: [
+      {
+        name: "Quick win: 3...d5 4.Qa4 Bd6? 5.exd5!",
+        moves: "1.e4 e5 2.Nf3 Nc6 3.c3 d5 4.Qa4 Bd6 5.exd5 Nf6 6.dxc6 bxc6 7.d3",
+        notes: {
+          "3.c3": "The Ponziani: White prepares d4 to take the full centre.",
+          "3...d5": "Black hits the centre at once, and this is the most direct response.",
+          "4.Qa4": "The queen pins the knight on c6 to the king, attacking the e5 pawn.",
+          "4...Bd6": "A mistake: it defends e5 but leaves the pinned knight on c6 exposed.",
+          "5.exd5": "The pawn attacks the pinned knight on c6, and Black cannot save it.",
+          "5...Nf6": "Black develops, but the knight on c6 is lost.",
+          "6.dxc6": "White wins a whole knight.",
+          "6...bxc6": "Black recaptures a pawn.",
+          "7.d3": "A solid move. White is a clean piece up.",
+        },
+      },
+      {
+        name: "3...d5 4.Qa4 Bd7: the main line",
+        moves: "1.e4 e5 2.Nf3 Nc6 3.c3 d5 4.Qa4 Bd7 5.exd5 Nd4 6.Qd1 Nxf3+ 7.Qxf3 Nf6 8.Be2 Bd6 9.c4",
+        notes: {
+          "4...Bd7": "The best defence: the bishop breaks the pin.",
+          "5.exd5": "White takes a pawn, keeping the initiative.",
+          "5...Nd4": "Black attacks the queen, a typical trick.",
+          "6.Qd1": "The queen retreats to a safe square.",
+          "6...Nxf3+": "Trades off the knight.",
+          "7.Qxf3": "The queen is active again.",
+          "7...Nf6": "Black develops and attacks the pawn on d5.",
+          "8.Be2": "Develops and prepares to castle.",
+          "8...Bd6": "Develops the bishop and eyes the kingside.",
+          "9.c4": "Supports the pawn on d5 and gains space. The position is balanced.",
+        },
+      },
+      {
+        name: "3...Nf6 4.d4 Nxe4 5.Bd3",
+        moves: "1.e4 e5 2.Nf3 Nc6 3.c3 Nf6 4.d4 Nxe4 5.Bd3 d5 6.Nxe5 Nxe5 7.dxe5 Bc5 8.O-O O-O 9.Nd2 f5 10.c4",
+        notes: {
+          "3...Nf6": "Black attacks the e4 pawn at once.",
+          "4.d4": "The point of c3: White takes the centre.",
+          "4...Nxe4": "Black takes the pawn, giving White a choice.",
+          "5.Bd3": "Attacks the knight on e4. This is safer than 5.d5, which runs into 5...Bc5!.",
+          "5...d5": "Black protects the knight.",
+          "6.Nxe5": "White takes the pawn and opens the position.",
+          "6...Nxe5": "Black trades.",
+          "7.dxe5": "White regains the centre.",
+          "7...Bc5": "Develops with a threat on f2.",
+          "8.O-O": "White castles to safety.",
+          "8...O-O": "Black castles.",
+          "9.Nd2": "Challenges the knight on e4.",
+          "9...f5": "Black supports the knight on e4 and the e5 pawn is now fixed.",
+          "10.c4": "White strikes at the centre. The position is roughly balanced.",
+        },
+      },
+      {
+        name: "3...Nf6 4.d4 exd4 5.e5",
+        moves: "1.e4 e5 2.Nf3 Nc6 3.c3 Nf6 4.d4 exd4 5.e5 Ne4 6.Qe2 f5 7.exf6 d5 8.Nbd2 Qxf6 9.Nxe4 dxe4 10.Qxe4+ Be7",
+        notes: {
+          "4...exd4": "Black takes the pawn in the centre.",
+          "5.e5": "White gains space and hits the knight on f6.",
+          "5...Ne4": "The knight jumps to a strong centralised square.",
+          "6.Qe2": "Attacks the knight on e4 and pins it against the queen's file.",
+          "6...f5": "Black defends the knight.",
+          "7.exf6": "White takes en passant.",
+          "7...d5": "Black defends the knight and the centre.",
+          "8.Nbd2": "Attacks the knight on e4 again.",
+          "8...Qxf6": "Black recaptures and eyes the knight on f3.",
+          "9.Nxe4": "White trades.",
+          "9...dxe4": "Black recaptures.",
+          "10.Qxe4+": "Check! White wins a pawn.",
+          "10...Be7": "Black blocks the check. White is slightly better.",
+        },
+      },
+      {
+        name: "3...d6 4.d4 Nf6 5.Bb5",
+        moves: "1.e4 e5 2.Nf3 Nc6 3.c3 d6 4.d4 Nf6 5.Bb5 a6 6.Bxc6+ bxc6 7.O-O exd4 8.cxd4 Be7 9.Qc2 Bd7 10.h3",
+        notes: {
+          "3...d6": "A solid Philidor-style reply.",
+          "4.d4": "White takes the centre.",
+          "4...Nf6": "Black attacks the e4 pawn.",
+          "5.Bb5": "Pins the knight on c6 and prepares to castle.",
+          "5...a6": "Black asks the bishop what it wants to do.",
+          "6.Bxc6+": "White doubles Black's pawns.",
+          "6...bxc6": "Black recaptures with the b-pawn.",
+          "7.O-O": "White castles.",
+          "7...exd4": "Black opens the centre.",
+          "8.cxd4": "White recaptures with a good centre.",
+          "8...Be7": "Black develops.",
+          "9.Qc2": "Protects the e4 pawn.",
+          "9...Bd7": "Black develops.",
+          "10.h3": "White has a solid, slightly better position.",
+        },
+      },
+      {
+        name: "3...f5 4.d4 fxe4 5.Nxe5",
+        moves: "1.e4 e5 2.Nf3 Nc6 3.c3 f5 4.d4 fxe4 5.Nxe5 Nf6 6.Nd2 Qe7 7.Nxc6 dxc6 8.Be2 Be6",
+        notes: {
+          "3...f5": "A sharp response that tries to play for an attack.",
+          "4.d4": "White hits the centre.",
+          "4...fxe4": "Black takes a pawn.",
+          "5.Nxe5": "White takes the e5 pawn, with a powerful knight.",
+          "5...Nf6": "Black develops and eyes the e4 pawn.",
+          "6.Nd2": "Prepares to attack e4.",
+          "6...Qe7": "Black pins the knight on e5 and defends the e4 pawn.",
+          "7.Nxc6": "White trades off the strong knight.",
+          "7...dxc6": "Black recaptures.",
+          "8.Be2": "Develops with a solid position.",
+          "8...Be6": "Black develops. White is slightly better.",
+        },
+      },
+      {
+        name: "3...Bc5 4.d4 exd4 5.cxd4",
+        moves: "1.e4 e5 2.Nf3 Nc6 3.c3 Bc5 4.d4 exd4 5.cxd4 Bb4+ 6.Nc3 d5 7.exd5 Qxd5 8.Bd3 Qh5",
+        notes: {
+          "3...Bc5": "Black develops the bishop to attack f2.",
+          "4.d4": "White hits the centre and forces the issue.",
+          "4...exd4": "Black takes.",
+          "5.cxd4": "White takes back and attacks the bishop.",
+          "5...Bb4+": "A check that wins time.",
+          "6.Nc3": "A good developing move.",
+          "6...d5": "Black strikes at the centre.",
+          "7.exd5": "White takes.",
+          "7...Qxd5": "The queen is centralised, but White is ahead in development.",
+          "8.Bd3": "Develops with a threat to castle.",
+          "8...Qh5": "The queen avoids attack. White is slightly better.",
+        },
+      },
+    ],
+  },
+  {
+    id: "bishops-opening",
+    title: "Bishop's Opening",
+    side: "white",
+    level: "beginner",
+    eco: "C23-C24",
+    summary:
+      "1.e4 e5 2.Bc4: White develops the bishop first and keeps every option open. Against 2...Nf6 the calm 3.d3 gives a safe, flexible game, and Black's greedy 3...Nxe4? simply loses a piece. Against 2...Nc6 and 2...Bc5 White often transposes into quiet Italian-style set-ups.",
+    ideas: [
+      "2.Bc4 eyes f7 at once, and the bishop sits where it can't be harassed by ...d6 and ...Nf6 without a fight.",
+      "3.d3 against 2...Nf6 is the safe move: it defends e4 and Black's 3...Nxe4? 4.dxe4 loses a piece.",
+      "Delay Nf3 so that you can choose between f4, Nc3 and d4 depending on Black's setup.",
+      "Many lines transpose to the Italian Game (Giuoco Pianissimo), so the plans you learn there apply here too.",
+    ],
+    style: "Classical",
+    article: {
+      whatIs:
+        "The Bishop's Opening starts 1.e4 e5 2.Bc4. White develops the bishop to its best diagonal and decides later how to place the knights and the f-pawn. It is flexible and has little forced theory, which makes it popular with players who want a healthy game without learning long lines.",
+      howToReach:
+        "Play 1.e4 e5 2.Bc4. Against 2...Nf6 continue 3.d3, against 2...Nc6 play 3.Nf3, and against 2...Bc5 play 3.Nf3 followed by c3.",
+      pros: [
+        "Very flexible: it can transpose into the Italian Game or become an independent system.",
+        "Black's most natural replies, 2...Nf6 3.d3 Nxe4?, lose material.",
+        "No long forced theory; mostly moves based on common sense (d3, Nf3, c3, O-O).",
+        "It avoids the sharpest lines of the Two Knights and the Evans Gambit unless you want them.",
+        "The move order gives you choices, so you can adapt to your opponent.",
+      ],
+      cons: [
+        "White gets at most a tiny edge; Black has several equal systems.",
+        "A slow d3-plan can look passive against ...d5, which Black can play early.",
+        "Black can try 2...Nf6 3.d3 c6 4.Nf3 d5, reaching a comfortable Philidor-style structure.",
+        "You do not get the instant attack of the Danish or the Vienna gambits.",
+      ],
+      variations: [
+        {
+          name: "Black grabs on e4",
+          pgn: "1.e4 e5 2.Bc4 Nf6 3.d3 Nxe4 4.dxe4 Qh4 5.Qe2",
+          text:
+            "A typical greedy blunder. White simply recaptures and is a piece up, and the queen sortie on h4 is easily parried.",
+        },
+        {
+          name: "3...c6 with ...d5",
+          pgn: "1.e4 e5 2.Bc4 Nf6 3.d3 c6 4.Nf3 d5 5.Bb3 Bd6 6.Nc3 O-O 7.O-O dxe4 8.Nxe4 Nxe4 9.dxe4 Na6 10.Qe2 Nc5 11.Rd1",
+          text:
+            "Black builds a Philidor-style centre. White keeps the bishop pair and a healthy position, with a slight pull.",
+        },
+        {
+          name: "2...Nc6 3.Nf3 Nf6 4.d3",
+          pgn: "1.e4 e5 2.Bc4 Nc6 3.Nf3 Nf6 4.d3 Be7 5.Nc3 d6 6.a4 a5 7.O-O O-O 8.Re1 Nb4 9.h3",
+          text:
+            "A quiet Italian-style position. White's plan is to castle, play Re1 and then aim for a central break.",
+        },
+        {
+          name: "2...Bc5 3.Nf3 d6 4.c3",
+          pgn: "1.e4 e5 2.Bc4 Bc5 3.Nf3 d6 4.c3 Nf6 5.d4 exd4 6.cxd4 Bb4+ 7.Bd2 Bxd2+ 8.Nbxd2 d5 9.exd5",
+          text:
+            "White builds a classical centre. After the bishops are traded, the pawn on d5 gives White a comfortable game.",
+        },
+      ],
+      againstIt:
+        "The most solid replies are 2...Nf6 3.d3 c6 4.Nf3 d5, or 2...Nc6 3.Nf3 Nf6 and 2...Bc5. Black must avoid 3...Nxe4? and play ...d5 or ...d6 at the right moment. If you play Black, aim for a Philidor-style or Italian-style setup and trade the bishop if needed.",
+      plans: {
+        white:
+          "Develop with d3, Nf3, O-O and Re1, then decide: play c3 and d4, or push the f-pawn with f4 when the position allows. Keep an eye on a trade of your bishop and avoid weakening f2.",
+        black:
+          "Put a pawn on d5 or d6, develop the pieces naturally, and consider ...Bc5 or ...Be7 with ...O-O. Do not take on e4 without a clear reason, since the d-pawn recaptures.",
+      },
+      history:
+        "The Bishop's Opening is one of the oldest ways of playing 1.e4 e5 and appears in some of the oldest chess books. It was popular in the 19th century and later often transposed to the Italian Game. Today it is mostly a flexible alternative used by players who like a low-theory system.",
+      faq: [
+        {
+          q: "Is the Bishop's Opening good?",
+          a:
+            "Yes, it is a sound and flexible opening. It does not give White a big advantage, but it keeps lots of options and avoids heavy theory.",
+        },
+        {
+          q: "What is the difference between the Bishop's Opening and the Italian?",
+          a:
+            "In the Italian Game the knight goes to f3 first; in the Bishop's Opening the bishop comes out first. Many lines transpose, but the Bishop's Opening gives White extra choices.",
+        },
+        {
+          q: "Why does 2...Nf6 3.d3 Nxe4 lose a piece?",
+          a:
+            "After 4.dxe4 White has won a knight for a pawn. The queen sortie 4...Qh4 does not help because White can defend with 5.Qe2.",
+        },
+        {
+          q: "Is the Bishop's Opening good for beginners?",
+          a:
+            "Yes. The ideas are simple (develop, castle, keep e4 safe), and the middlegame plans are easy to understand.",
+        },
+      ],
+    },
+    lines: [
+      {
+        name: "Quick win: 3...Nxe4? 4.dxe4",
+        moves: "1.e4 e5 2.Bc4 Nf6 3.d3 Nxe4 4.dxe4 Qh4 5.Qe2",
+        notes: {
+          "2.Bc4": "The Bishop's Opening. The bishop eyes f7 and White keeps flexible.",
+          "2...Nf6": "Black attacks the e4 pawn.",
+          "3.d3": "Defends e4 solidly and opens the bishop on c1.",
+          "3...Nxe4": "A common mistake: the d3 pawn protects e4, so this just loses a piece.",
+          "4.dxe4": "White wins a knight for a pawn.",
+          "4...Qh4": "Black hopes for a trap with ...Qxe4+ and ...Qxf2+.",
+          "5.Qe2": "A calm defence: the queen covers e4 and f2, and White stays a piece up.",
+        },
+      },
+      {
+        name: "Main line: 3...c6 with ...d5",
+        moves: "1.e4 e5 2.Bc4 Nf6 3.d3 c6 4.Nf3 d5 5.Bb3 Bd6 6.Nc3 O-O 7.O-O dxe4 8.Nxe4 Nxe4 9.dxe4 Na6 10.Qe2 Nc5 11.Rd1",
+        notes: {
+          "3...c6": "Prepares ...d5 with a Philidor-style structure.",
+          "4.Nf3": "Develops and attacks the e5 pawn.",
+          "4...d5": "Black strikes at the centre.",
+          "5.Bb3": "Keeps the bishop on the a2-g8 diagonal and avoids ...d4.",
+          "5...Bd6": "Develops the bishop and defends e5.",
+          "6.Nc3": "Develops and adds pressure to the centre.",
+          "6...O-O": "Black castles.",
+          "7.O-O": "White castles too.",
+          "7...dxe4": "Black clarifies the centre.",
+          "8.Nxe4": "White takes with the knight.",
+          "8...Nxe4": "Black trades.",
+          "9.dxe4": "White recaptures with the pawn and opens the d-file.",
+          "9...Na6": "The knight heads for c5.",
+          "10.Qe2": "Supports the e4 pawn and prepares Rd1.",
+          "10...Nc5": "Black attacks the bishop on b3.",
+          "11.Rd1": "White takes the open d-file. The position is balanced.",
+        },
+      },
+      {
+        name: "3...Be7 4.Nf3 c6",
+        moves: "1.e4 e5 2.Bc4 Nf6 3.d3 Be7 4.Nf3 c6 5.O-O Qc7 6.Re1 O-O 7.Bb3 d6 8.h3 Nbd7 9.Be3",
+        notes: {
+          "3...Be7": "A solid move that prepares castling.",
+          "4.Nf3": "Develops.",
+          "4...c6": "Prepares ...d5 or ...d6.",
+          "5.O-O": "White castles.",
+          "5...Qc7": "Supports the e5 pawn and the centre.",
+          "6.Re1": "Defends e4 and supports a later d4.",
+          "6...O-O": "Black castles.",
+          "7.Bb3": "Keeps the bishop safe from ...d5.",
+          "7...d6": "Black builds a solid structure.",
+          "8.h3": "Stops ...Bg4 and ...Ng4.",
+          "8...Nbd7": "Develops.",
+          "9.Be3": "White develops. The game is balanced and quiet.",
+        },
+      },
+      {
+        name: "3...Nc6 4.Nf3 Bc5",
+        moves: "1.e4 e5 2.Bc4 Nf6 3.d3 Nc6 4.Nf3 Bc5 5.Nc3 a6 6.a3 d6 7.Ba2 h6 8.O-O",
+        notes: {
+          "3...Nc6": "Develops and defends e5.",
+          "4.Nf3": "Develops and attacks the e5 pawn.",
+          "4...Bc5": "Black develops the bishop.",
+          "5.Nc3": "Develops and prepares a3.",
+          "5...a6": "Prevents Nb5 and Bb5.",
+          "6.a3": "Stops ...Bb4 and prepares b4.",
+          "6...d6": "Supports e5.",
+          "7.Ba2": "Keeps the bishop on the a2-g8 diagonal.",
+          "7...h6": "Prevents Bg5.",
+          "8.O-O": "White castles with a calm position.",
+        },
+      },
+      {
+        name: "3...Bc5 4.Nf3 d6",
+        moves: "1.e4 e5 2.Bc4 Nf6 3.d3 Bc5 4.Nf3 d6 5.c3 O-O 6.O-O Bb6 7.a4 c6 8.Re1",
+        notes: {
+          "3...Bc5": "A natural developing move.",
+          "4.Nf3": "Develops and attacks e5.",
+          "4...d6": "Supports e5.",
+          "5.c3": "Prepares d4 and gives the bishop a retreat.",
+          "5...O-O": "Black castles.",
+          "6.O-O": "White castles.",
+          "6...Bb6": "The bishop avoids d4.",
+          "7.a4": "Threatens a5 to trap the bishop.",
+          "7...c6": "Prepares ...a5 or ...d5.",
+          "8.Re1": "Supports the centre. A pleasant Italian-style position.",
+        },
+      },
+      {
+        name: "3...d5 4.exd5 Nxd5",
+        moves: "1.e4 e5 2.Bc4 Nf6 3.d3 d5 4.exd5 Nxd5 5.Nf3 Nc6 6.O-O Bc5 7.d4 exd4 8.Re1+ Nce7 9.Nbd2",
+        notes: {
+          "3...d5": "Black strikes at the centre immediately.",
+          "4.exd5": "White takes a pawn and opens the e-file.",
+          "4...Nxd5": "Black recaptures and attacks the bishop on c4.",
+          "5.Nf3": "Develops.",
+          "5...Nc6": "Develops and attacks the knight.",
+          "6.O-O": "White castles.",
+          "6...Bc5": "Black develops the bishop.",
+          "7.d4": "White hits the centre at the right time.",
+          "7...exd4": "Black takes the pawn.",
+          "8.Re1+": "Check! White uses the open e-file.",
+          "8...Nce7": "Black blocks the check.",
+          "9.Nbd2": "Develops. White has a lead in development and a small edge.",
+        },
+      },
+      {
+        name: "2...Nc6 3.Nf3 Nf6 4.d3",
+        moves: "1.e4 e5 2.Bc4 Nc6 3.Nf3 Nf6 4.d3 Be7 5.Nc3 d6 6.a4 a5 7.O-O O-O 8.Re1 Nb4 9.h3",
+        notes: {
+          "2...Nc6": "Black develops and defends e5.",
+          "3.Nf3": "Develops and attacks e5.",
+          "3...Nf6": "Black attacks the e4 pawn.",
+          "4.d3": "A calm move that defends e4 and keeps the position closed.",
+          "4...Be7": "Black prepares to castle.",
+          "5.Nc3": "Develops.",
+          "5...d6": "Supports e5.",
+          "6.a4": "Stops ...b5 and gains space.",
+          "6...a5": "Black stops the push.",
+          "7.O-O": "White castles.",
+          "7...O-O": "Black castles.",
+          "8.Re1": "Supports the centre.",
+          "8...Nb4": "The knight looks for activity.",
+          "9.h3": "Stops ...Bg4 and keeps the position balanced.",
+        },
+      },
+      {
+        name: "2...Bc5 3.Nf3 d6 4.c3",
+        moves: "1.e4 e5 2.Bc4 Bc5 3.Nf3 d6 4.c3 Nf6 5.d4 exd4 6.cxd4 Bb4+ 7.Bd2 Bxd2+ 8.Nbxd2 d5 9.exd5",
+        notes: {
+          "2...Bc5": "Black mirrors White's development.",
+          "3.Nf3": "Develops and attacks e5.",
+          "3...d6": "Supports e5.",
+          "4.c3": "Prepares d4 to take the centre.",
+          "4...Nf6": "Develops and attacks e4.",
+          "5.d4": "White strikes at the centre.",
+          "5...exd4": "Black takes.",
+          "6.cxd4": "White recaptures and attacks the bishop.",
+          "6...Bb4+": "Black checks.",
+          "7.Bd2": "Blocks the check.",
+          "7...Bxd2+": "Black trades.",
+          "8.Nbxd2": "White recaptures.",
+          "8...d5": "Black strikes at the centre.",
+          "9.exd5": "White has a slightly better position, with the more active pieces.",
+        },
+      },
+      {
+        name: "2...Bc5 3.Nf3 Nc6 4.c3",
+        moves: "1.e4 e5 2.Bc4 Bc5 3.Nf3 Nc6 4.c3 Nf6 5.d4 exd4 6.O-O d6 7.cxd4 Bb6 8.d5 Ne5 9.Nxe5",
+        notes: {
+          "3...Nc6": "Develops and defends e5.",
+          "4.c3": "Prepares d4, with a good centre.",
+          "4...Nf6": "Attacks the e4 pawn.",
+          "5.d4": "White strikes in the centre.",
+          "5...exd4": "Black takes.",
+          "6.O-O": "White castles and offers the pawn back in exchange for a lead in development.",
+          "6...d6": "Black refuses the pawn and develops.",
+          "7.cxd4": "White recaptures with a centre pawn.",
+          "7...Bb6": "The bishop retreats from the attack.",
+          "8.d5": "White gains space and attacks the knight.",
+          "8...Ne5": "The knight goes to a strong square.",
+          "9.Nxe5": "White trades. The position is balanced.",
+        },
+      },
+    ],
+  },
+  {
+    id: "smith-morra-gambit",
+    title: "Smith-Morra Gambit",
+    side: "white",
+    level: "intermediate",
+    eco: "B21",
+    summary:
+      "1.e4 c5 2.d4 cxd4 3.c3: White sacrifices a pawn for quick development, open lines and an easy attack. Objectively the gambit is roughly equal to slightly dubious (engines see Black fine with best play), but Black has many ways to go wrong, and the declines 3...Nf6 and 3...d3 are easy to handle.",
+    ideas: [
+      "After 3...dxc3 4.Nxc3 White has a lead in development: Bc4, Nf3, O-O, Qe2 and Rd1 put pieces on open lines against the Black king.",
+      "Aim at the d-file and the e5/f7 squares; Nd5 and e5 are the typical tactical breaks.",
+      "Decline wisely: 3...Nf6 4.e5! Nd5 5.cxd4 gets a free-flowing game, and 3...d3 4.Bxd3 gives a quick lead in development.",
+      "Be honest: if Black keeps accurate, defends calmly and trades pieces, White is simply a pawn down, so play for pressure, not tricks.",
+    ],
+    style: "Gambit",
+    article: {
+      whatIs:
+        "The Smith-Morra Gambit starts 1.e4 c5 2.d4 cxd4 3.c3. White offers a pawn, and after 3...dxc3 4.Nxc3 White trades it for rapid development, open lines and chances against the king. It avoids the vast Sicilian theory and sets practical problems, though objectively Black can defend.",
+      howToReach:
+        "Play 1.e4 c5 2.d4 cxd4 3.c3. If Black accepts with 3...dxc3, continue 4.Nxc3 Nc6 5.Nf3 and follow with Bc4, O-O and Qe2. If Black declines, use the lines below.",
+      pros: [
+        "Avoids the huge main-line Sicilian theory: one move order for nearly all Black replies.",
+        "Fast development and open lines; natural plans with Bc4, O-O, Qe2 and Rd1.",
+        "Black has many ways to go wrong, such as 3...Nf6 4.e5 Ne4? 5.Qxd4.",
+        "Many Sicilian players have little experience against it, so the practical results are good.",
+        "Teaches how to play with an initiative and how to use open files.",
+      ],
+      cons: [
+        "Objectively Black is fine with careful play, so you have to prove the compensation.",
+        "If Black consolidates with ...d6, ...e6 and ...Nf6, White has only a small initiative left.",
+        "Some declines (3...d5, 3...e6) give a normal position where the gambit is just a Sicilian without an extra pawn.",
+        "You must be willing to play without the pawn for a long time.",
+      ],
+      variations: [
+        {
+          name: "Main line: 5...d6 6.Bc4 e6",
+          pgn: "1.e4 c5 2.d4 cxd4 3.c3 dxc3 4.Nxc3 Nc6 5.Nf3 d6 6.Bc4 e6 7.O-O Nf6 8.Qe2 Be7 9.Rd1 Bd7 10.Bf4 e5 11.Bg5 Bg4 12.Bxf6 Bxf6 13.Qd3 O-O",
+          text:
+            "The classical set-up. White has an easy plan, but Black can reach a solid position, and engines see the game as nearly equal.",
+        },
+        {
+          name: "3...Nf6 4.e5 Nd5",
+          pgn: "1.e4 c5 2.d4 cxd4 3.c3 Nf6 4.e5 Nd5 5.cxd4 d6 6.Nf3 Nc6 7.Bc4 Nb6 8.Bb3 dxe5 9.Nxe5 Nxe5 10.dxe5 Qxd1+ 11.Bxd1 Bd7",
+          text:
+            "The standard way to meet the Nf6 decline. White has a lead in development and a good space advantage.",
+        },
+        {
+          name: "3...Nf6 4.e5 Ne4? 5.Qxd4",
+          pgn: "1.e4 c5 2.d4 cxd4 3.c3 Nf6 4.e5 Ne4 5.Qxd4 f5 6.f3 Nc6 7.Qe3 d5 8.fxe4 dxe4 9.Qg3",
+          text:
+            "The knight jumped to a dead-end square. The queen takes on d4, the knight is attacked twice, and White wins a piece.",
+        },
+        {
+          name: "3...d5 4.exd5 Qxd5 5.cxd4",
+          pgn: "1.e4 c5 2.d4 cxd4 3.c3 d5 4.exd5 Qxd5 5.cxd4 Nc6 6.Nf3 Bg4 7.Be2 e6 8.O-O Nf6 9.Nc3 Qa5 10.Be3 Be7 11.h3",
+          text:
+            "A normal, open position in which White is a tempo ahead in development. Nothing special, but fully playable.",
+        },
+        {
+          name: "3...e6 4.cxd4 d5 5.e5",
+          pgn: "1.e4 c5 2.d4 cxd4 3.c3 e6 4.cxd4 d5 5.e5 Nc6 6.Nf3 Nge7 7.Na3 Bd7 8.Nc2 f6 9.Bd3",
+          text:
+            "A French-style position that White plays without any gambit risks; the knight goes to c2 to support d4.",
+        },
+      ],
+      againstIt:
+        "Black's soundest reply is simply to accept with 3...dxc3 4.Nxc3 Nc6 5.Nf3 and then play ...d6 and ...e6 or ...a6, trade pieces and blunt the attack. Declining with 3...Nf6 4.e5 Nd5 or 3...d5 4.exd5 Qxd5 also works, but then White gets an easy game. The danger for Black is greed and passivity: ignoring development in the opening costs more than a pawn.",
+      plans: {
+        white:
+          "Develop quickly: Nc3, Nf3, Bc4, O-O, Qe2 and Rd1, then aim for e5 or Nd5 at the right moment. Be happy to play for pressure and avoid committing pieces too early.",
+        black:
+          "Accept the pawn, develop the pieces naturally with ...Nc6, ...d6, ...e6 and ...Nf6, and trade the active white pieces. Close the lines near the king and stay a pawn up.",
+      },
+      history:
+        "The gambit is named after Pierre Morra and Ben Smith, two players who championed 3.c3 in the 20th century. It has long been popular at club level because it avoids the heavy theory of the Open Sicilian. Strong players have also used it as a surprise weapon, though it is rarely seen in elite games.",
+      faq: [
+        {
+          q: "Is the Smith-Morra Gambit good?",
+          a:
+            "Objectively Black can hold with good defence, so it is not a way to refute the Sicilian. But the gambit is playable, avoids vast theory, and gives White plenty of practical chances.",
+        },
+        {
+          q: "Should Black accept the Smith-Morra Gambit?",
+          a:
+            "Yes, accepting with 3...dxc3 4.Nxc3 Nc6 5.Nf3 and then ...d6 or ...e6 is the most solid. Careful defence and piece trades are the best antidote.",
+        },
+        {
+          q: "How do I play against 3...Nf6?",
+          a:
+            "Play 4.e5, which forces the knight to move. After 4...Nd5 recapture on d4 with 5.cxd4; 4...Ne4? is a blunder because of 5.Qxd4.",
+        },
+        {
+          q: "What if Black declines with 3...d3?",
+          a:
+            "Take the pawn with 4.Bxd3 and develop with Nf3, Qe2 and O-O. White has an easy lead in development, though Black is still safe.",
+        },
+      ],
+    },
+    lines: [
+      {
+        name: "Quick win: 3...Nf6 4.e5 Ne4? 5.Qxd4",
+        moves: "1.e4 c5 2.d4 cxd4 3.c3 Nf6 4.e5 Ne4 5.Qxd4 f5 6.f3 Nc6 7.Qe3 d5 8.fxe4 dxe4 9.Qg3",
+        notes: {
+          "3.c3": "The Smith-Morra Gambit: White offers a pawn for quick development.",
+          "3...Nf6": "Black declines the pawn and attacks e4.",
+          "4.e5": "Attacks the knight and gains space.",
+          "4...Ne4": "A mistake: the knight steps into a trap.",
+          "5.Qxd4": "White takes the pawn back with a double attack on the knight.",
+          "5...f5": "Black defends the knight with a pawn, but weakens the king.",
+          "6.f3": "Attacks the knight again; Black cannot hold it.",
+          "6...Nc6": "Black counterattacks the queen.",
+          "7.Qe3": "The queen retreats, keeping the pressure.",
+          "7...d5": "Black adds a defender to the knight.",
+          "8.fxe4": "White takes the knight.",
+          "8...dxe4": "Black recaptures with the pawn.",
+          "9.Qg3": "White is a piece up for a pawn.",
+        },
+      },
+      {
+        name: "Main line: 5...d6 6.Bc4 e6",
+        moves: "1.e4 c5 2.d4 cxd4 3.c3 dxc3 4.Nxc3 Nc6 5.Nf3 d6 6.Bc4 e6 7.O-O Nf6 8.Qe2 Be7 9.Rd1 Bd7 10.Bf4 e5 11.Bg5 Bg4 12.Bxf6 Bxf6 13.Qd3 O-O",
+        notes: {
+          "3...dxc3": "Black accepts the gambit pawn.",
+          "4.Nxc3": "White recaptures with development. The pawn is the price of a lead in development.",
+          "4...Nc6": "Black develops.",
+          "5.Nf3": "Develops with the idea of Bc4.",
+          "5...d6": "Black prepares ...e6 and supports the centre.",
+          "6.Bc4": "The bishop eyes f7 and the h1-a8 diagonal.",
+          "6...e6": "Closes the diagonal for the bishop and prepares ...Nf6.",
+          "7.O-O": "White castles to bring the rook into play.",
+          "7...Nf6": "Develops and attacks the e4 pawn.",
+          "8.Qe2": "Defends e4 and prepares Rd1.",
+          "8...Be7": "Black prepares to castle.",
+          "9.Rd1": "The rook takes the open file against the queen's side.",
+          "9...Bd7": "Develops the last minor piece.",
+          "10.Bf4": "The bishop eyes d6 and e5.",
+          "10...e5": "Black attacks the bishop.",
+          "11.Bg5": "Pins the knight on f6 against the bishop on e7.",
+          "11...Bg4": "Black counter-pins the knight on f3.",
+          "12.Bxf6": "White removes a defender of the centre.",
+          "12...Bxf6": "Black recaptures.",
+          "13.Qd3": "A good square for the queen. Black has a solid position, and the game is about level.",
+        },
+      },
+      {
+        name: "Accepted: 5...e6 6.Bc4 a6",
+        moves: "1.e4 c5 2.d4 cxd4 3.c3 dxc3 4.Nxc3 Nc6 5.Nf3 e6 6.Bc4 a6 7.O-O Nge7 8.Bb3 b5 9.a4 b4 10.Nd5 Na5 11.Ba2",
+        notes: {
+          "5...e6": "A common alternative to ...d6.",
+          "6.Bc4": "Develops and eyes f7.",
+          "6...a6": "Prepares ...b5 to drive the bishop back.",
+          "7.O-O": "White castles.",
+          "7...Nge7": "Develops while keeping the pawn on f7 protected.",
+          "8.Bb3": "Keeps the bishop on the diagonal.",
+          "8...b5": "Black gains space on the queenside.",
+          "9.a4": "Attacks the pawn chain.",
+          "9...b4": "Black chases the knight.",
+          "10.Nd5": "A typical Morra sacrifice-like jump: the knight takes a strong post.",
+          "10...Na5": "Black attacks the bishop.",
+          "11.Ba2": "The bishop keeps the long diagonal. The position is balanced.",
+        },
+      },
+      {
+        name: "3...Nf6 4.e5 Nd5",
+        moves: "1.e4 c5 2.d4 cxd4 3.c3 Nf6 4.e5 Nd5 5.cxd4 d6 6.Nf3 Nc6 7.Bc4 Nb6 8.Bb3 dxe5 9.Nxe5 Nxe5 10.dxe5 Qxd1+ 11.Bxd1 Bd7",
+        notes: {
+          "4...Nd5": "The best retreat.",
+          "5.cxd4": "White recaptures and has a big centre.",
+          "5...d6": "Black attacks the e5 pawn.",
+          "6.Nf3": "Develops and defends e5.",
+          "6...Nc6": "Adds pressure to the d4 and e5 pawns.",
+          "7.Bc4": "Attacks the knight on d5.",
+          "7...Nb6": "The knight retreats and attacks the bishop.",
+          "8.Bb3": "The bishop retreats, staying on the diagonal.",
+          "8...dxe5": "Black takes.",
+          "9.Nxe5": "White recaptures with a strong knight.",
+          "9...Nxe5": "Black trades.",
+          "10.dxe5": "White recaptures with a pawn on e5.",
+          "10...Qxd1+": "Black trades queens.",
+          "11.Bxd1": "White recaptures. The position is roughly balanced.",
+        },
+      },
+      {
+        name: "3...d5 4.exd5 Qxd5",
+        moves: "1.e4 c5 2.d4 cxd4 3.c3 d5 4.exd5 Qxd5 5.cxd4 Nc6 6.Nf3 Bg4 7.Be2 e6 8.O-O Nf6 9.Nc3 Qa5 10.Be3 Be7 11.h3",
+        notes: {
+          "3...d5": "Black strikes at the centre, a standard decline.",
+          "4.exd5": "White takes the pawn.",
+          "4...Qxd5": "Black recaptures and the queen is active.",
+          "5.cxd4": "White regains the pawn.",
+          "5...Nc6": "Black develops and attacks the d4 pawn.",
+          "6.Nf3": "Develops and defends d4.",
+          "6...Bg4": "Pins the knight.",
+          "7.Be2": "Develops and unpins.",
+          "7...e6": "Black supports the centre.",
+          "8.O-O": "White castles.",
+          "8...Nf6": "Develops.",
+          "9.Nc3": "Hits the queen.",
+          "9...Qa5": "The queen moves.",
+          "10.Be3": "Develops.",
+          "10...Be7": "Black prepares to castle.",
+          "11.h3": "White asks the bishop what it wants to do. The position is level.",
+        },
+      },
+      {
+        name: "3...d3 4.Bxd3",
+        moves: "1.e4 c5 2.d4 cxd4 3.c3 d3 4.Bxd3 Nc6 5.Nf3 e5 6.Qe2 Be7 7.O-O Nf6 8.Rd1 O-O 9.h3 Re8",
+        notes: {
+          "3...d3": "Black keeps the pawn for a moment by pushing it, a decline.",
+          "4.Bxd3": "White takes the pawn and has an easy lead in development.",
+          "4...Nc6": "Develops.",
+          "5.Nf3": "Develops.",
+          "5...e5": "Black takes space in the centre.",
+          "6.Qe2": "Develops and supports e4.",
+          "6...Be7": "Black prepares to castle.",
+          "7.O-O": "White castles.",
+          "7...Nf6": "Develops.",
+          "8.Rd1": "Takes the open file.",
+          "8...O-O": "Black castles.",
+          "9.h3": "Stops ...Bg4.",
+          "9...Re8": "Black defends. The game is balanced.",
+        },
+      },
+      {
+        name: "3...e6 4.cxd4 d5 5.e5",
+        moves: "1.e4 c5 2.d4 cxd4 3.c3 e6 4.cxd4 d5 5.e5 Nc6 6.Nf3 Nge7 7.Na3 Bd7 8.Nc2 f6 9.Bd3",
+        notes: {
+          "3...e6": "Black declines quietly, heading for a French-style position.",
+          "4.cxd4": "White takes back and has a strong centre.",
+          "4...d5": "Black strikes at the centre.",
+          "5.e5": "White gains space.",
+          "5...Nc6": "Black attacks d4.",
+          "6.Nf3": "Develops and defends d4.",
+          "6...Nge7": "Develops.",
+          "7.Na3": "Heads for c2 to support d4 and avoid blocking the c-pawn.",
+          "7...Bd7": "Develops.",
+          "8.Nc2": "The knight supports d4.",
+          "8...f6": "Black attacks the e5 pawn.",
+          "9.Bd3": "Develops. White has a pleasant space advantage.",
+        },
+      },
+    ],
+  },
+
   // ───────────────────────────── BLACK ─────────────────────────────
   {
     id: "caro-kann",
@@ -3842,6 +4567,616 @@ module.exports = [
           "4.Qe2": "Attacks the knight along the e-file. Black must reply 4...Qe7.",
           "4...Nf6": "A blunder that loses the queen.",
           "5.Nc6+": "A royal fork: the knight attacks the king and the queen. (Correct is 4...Qe7 5.Qxe4 d6 6.d4 dxe5 7.dxe5 with equality.)",
+        },
+      },
+    ],
+  },
+  {
+    id: "rousseau-gambit",
+    title: "Rousseau Gambit",
+    side: "black",
+    level: "beginner",
+    eco: "C50",
+    summary:
+      "1.e4 e5 2.Nf3 Nc6 3.Bc4 f5!?: Black hits the centre at once and offers the e5 pawn for open lines. It is objectively dubious (engines give White a clear edge after 4.d3 or 4.d4), but the natural-looking replies 4.Nc3? and 4.Nxe5? lose material outright.",
+    ideas: [
+      "3...f5 attacks e4 immediately; if White ignores it, ...fxe4 opens the f-file and gives Black the centre.",
+      "Know the two big traps: 4.Nc3? fxe4 5.Nxe4? d5! forks bishop and knight, and 4.Nxe5? Nxe5 5.d4? Nxc4 simply wins a piece.",
+      "Against the sound 4.d3 do not rush ...fxe4: develop with ...Nf6 first and keep the tension.",
+      "Be honest with yourself: if White declines the tricks and develops calmly, Black is the one fighting for equality.",
+    ],
+    style: "Gambit",
+    article: {
+      whatIs:
+        "The Rousseau Gambit is the move 3...f5 after 1.e4 e5 2.Nf3 Nc6 3.Bc4. Black attacks e4 straight away and is ready to give up the e5 pawn or the shelter in front of the king in return for open lines and quick counterplay. It is objectively dubious, but several natural White moves run into tactics.",
+      howToReach:
+        "Play 1.e4 e5 2.Nf3 Nc6. If White plays the Italian 3.Bc4, answer 3...f5. After 3.Bb5, 3.d4 or any other third move you are outside this course.",
+      pros: [
+        "Natural White replies such as 4.Nc3?, 4.Nxe5? and 4.Ng5? lose material at once.",
+        "Easy to learn: the plan is ...fxe4, ...Nf6, ...d5 or ...d6 and castle, with no long theory to memorise.",
+        "Opponents rarely know it, so you get a fight from move three.",
+        "The half-open f-file gives you play against f2 as soon as you have castled.",
+        "A good school for tactics around e4, f2 and the e1-h4 diagonal.",
+      ],
+      cons: [
+        "Objectively unsound: after 4.d3 or 4.d4 White keeps a clear edge.",
+        "Moving the f-pawn weakens your king, and ideas like Ng5 and Qh5+ can become dangerous.",
+        "White can decline with a quiet 4.d3 and Black has no forced route to compensation.",
+        "Strong players who know the right moves leave you worse; the opening is a practical weapon, not a sound repertoire.",
+      ],
+      variations: [
+        {
+          name: "The 4.Nc3 trap",
+          pgn: "1.e4 e5 2.Nf3 Nc6 3.Bc4 f5 4.Nc3 fxe4 5.Nxe4 d5 6.Bd3 dxe4 7.Bxe4 Nf6",
+          text:
+            "A natural developing move loses material. After 5.Nxe4 the pawn fork 5...d5 wins a piece, and Black stays clearly ahead after 7...Nf6.",
+        },
+        {
+          name: "Greedy 4.Nxe5",
+          pgn: "1.e4 e5 2.Nf3 Nc6 3.Bc4 f5 4.Nxe5 Nxe5 5.d4 Nxc4",
+          text:
+            "White grabs the pawn and attacks the knight, but the knight takes the bishop on c4 and White is a full piece down.",
+        },
+        {
+          name: "Solid 4.d3 with 5.Nc3",
+          pgn: "1.e4 e5 2.Nf3 Nc6 3.Bc4 f5 4.d3 Nf6 5.Nc3 Bb4 6.O-O Bxc3 7.bxc3 fxe4 8.dxe4 d6 9.a4 Na5",
+          text:
+            "The sound way to meet the gambit. Black develops, pins and trades the knight, then takes on e4 with a playable but slightly worse position.",
+        },
+        {
+          name: "4.d4 exd4",
+          pgn: "1.e4 e5 2.Nf3 Nc6 3.Bc4 f5 4.d4 exd4 5.e5 d5 6.exd6 Qxd6 7.O-O Bd7 8.Re1+ Be7",
+          text:
+            "White opens the centre. Black has developed pieces and a lead in space on the kingside, but the extra pawn and the e-file give White the better game.",
+        },
+        {
+          name: "Taking on f5",
+          pgn: "1.e4 e5 2.Nf3 Nc6 3.Bc4 f5 4.exf5 e4 5.Nd4 Nf6 6.Nxc6 dxc6 7.d3 Bxf5 8.Nc3 exd3",
+          text:
+            "The greedy 4.exf5 is not a mistake but it hands Black time: ...e4 kicks the knight and the position is roughly level.",
+        },
+      ],
+      againstIt:
+        "The simplest plan is 4.d3 followed by Nc3, O-O and a slow build-up, answering ...fxe4 with dxe4. 4.d4 is also strong: the centre opens and the extra pawn tells. Avoid the pawn-grabs and the natural 4.Nc3 and 4.Nxe5, and avoid 4.Ng5? Qxg5, which drops a knight.",
+      plans: {
+        white:
+          "Play d3 (or d4), develop the pieces, castle and only then look at the centre. If Black takes on e4, recapture with a pawn so that you keep the better structure, and use Ng5 only when it is a real threat.",
+        black:
+          "Hit e4, develop with ...Nf6, ...Bb4 or ...Bc5 and ...d6, and castle. Keep pieces active, avoid early queen moves, and be ready to use the f-file and the pins on White's knight.",
+      },
+      history:
+        "The gambit is named after a 19th-century player called Rousseau and appears in old gambit literature. It has never been part of top-level theory and survives mainly as a surprise weapon for club and online games. Its reputation rests on traps rather than on soundness.",
+      faq: [
+        {
+          q: "Is the Rousseau Gambit good?",
+          a:
+            "Not objectively. With best play White keeps a clear advantage, mostly because Black's king is weakened. As a practical weapon against players who do not know it, it can score well.",
+        },
+        {
+          q: "How should White meet the Rousseau Gambit?",
+          a:
+            "Stay calm. 4.d3 and 4.d4 both give White the better game. Avoid 4.Nc3? fxe4 5.Nxe4? d5, and avoid 4.Nxe5? Nxe5 5.d4? Nxc4.",
+        },
+        {
+          q: "What is the main trap in the Rousseau Gambit?",
+          a:
+            "After 4.Nc3 fxe4 5.Nxe4?, the move 5...d5 forks the bishop on c4 and the knight on e4. White cannot save both, and Black wins a piece.",
+        },
+        {
+          q: "Should I take on e4 against 4.d3?",
+          a:
+            "No. 4.d3 fxe4?! 5.dxe4 Nf6 6.Ng5 gives White a strong initiative against f7. Develop with 4...Nf6 first and take on e4 later.",
+        },
+      ],
+    },
+    lines: [
+      {
+        name: "Quick win: 4.Nc3? fxe4 5.Nxe4? d5!",
+        moves: "1.e4 e5 2.Nf3 Nc6 3.Bc4 f5 4.Nc3 fxe4 5.Nxe4 d5 6.Bd3 dxe4 7.Bxe4 Nf6",
+        notes: {
+          "3...f5": "The Rousseau Gambit. Black attacks e4 at once. It is objectively dubious, but the traps are real.",
+          "4.Nc3": "A natural developing move that defends e4, but it is already a mistake.",
+          "4...fxe4": "Black takes the pawn. White now needs the unnatural 5.Bxg8 to keep the balance.",
+          "5.Nxe4": "The natural recapture, but it walks into a fork.",
+          "5...d5": "The point of the gambit: the pawn attacks both the bishop on c4 and the knight on e4.",
+          "6.Bd3": "White saves the bishop, but the knight on e4 is still attacked.",
+          "6...dxe4": "Black wins a whole knight.",
+          "7.Bxe4": "White regains a pawn but is a piece down.",
+          "7...Nf6": "The knight attacks the bishop and develops with a big advantage.",
+        },
+      },
+      {
+        name: "Trap: 4.Nxe5? Nxe5 5.d4? Nxc4",
+        moves: "1.e4 e5 2.Nf3 Nc6 3.Bc4 f5 4.Nxe5 Nxe5 5.d4 Nxc4",
+        notes: {
+          "4.Nxe5": "The greedy capture, but it removes the knight that guards the centre.",
+          "4...Nxe5": "Black recaptures. The knight now attacks White's bishop on c4.",
+          "5.d4": "White attacks the knight, hoping it will retreat.",
+          "5...Nxc4": "Don't retreat: take the bishop. White has no compensation and is a piece down.",
+        },
+      },
+      {
+        name: "Main line: 4.d3 Nf6 5.Nc3 Bb4",
+        moves: "1.e4 e5 2.Nf3 Nc6 3.Bc4 f5 4.d3 Nf6 5.Nc3 Bb4 6.O-O Bxc3 7.bxc3 fxe4 8.dxe4 d6 9.a4 Na5",
+        notes: {
+          "4.d3": "The sensible reply: it defends e4 and gives the bishop on c1 a diagonal.",
+          "4...Nf6": "Develops and adds pressure to e4, without committing the f-pawn yet.",
+          "5.Nc3": "Develops and defends e4 a second time.",
+          "5...Bb4": "Pins the knight, so that the e4 pawn is held by only the d3 pawn after the trade.",
+          "6.O-O": "White castles. Black's plan is to double White's pawns.",
+          "6...Bxc3": "Gives up the bishop pair to damage White's structure.",
+          "7.bxc3": "White has doubled c-pawns but a lead in development.",
+          "7...fxe4": "Now the capture works: the f-file is open and the d3 pawn can be recaptured.",
+          "8.dxe4": "White recaptures with a pawn and keeps a solid centre.",
+          "8...d6": "Protects the e5 pawn and opens the c8 bishop.",
+          "9.a4": "Stops ...b5, which would drive the bishop away.",
+          "9...Na5": "Hits the bishop on c4. White keeps a small edge, but Black has a reasonable position.",
+        },
+      },
+      {
+        name: "Main line: 4.d3 Nf6 5.O-O Bc5",
+        moves: "1.e4 e5 2.Nf3 Nc6 3.Bc4 f5 4.d3 Nf6 5.O-O Bc5 6.Nc3 d6 7.Bg5 Na5 8.Bxf6 Qxf6 9.Nd5 Qd8",
+        notes: {
+          "5.O-O": "White castles at once and waits for Black to commit.",
+          "5...Bc5": "Develops the bishop to the c5 square and eyes f2.",
+          "6.Nc3": "Develops and prepares Nd5 and Bg5.",
+          "6...d6": "Keeps the e5 pawn safe and opens the diagonal for the c8 bishop.",
+          "7.Bg5": "Pins the knight on f6 to the queen.",
+          "7...Na5": "Attacks the bishop on c4. If White trades it, Black gets the pair of bishops.",
+          "8.Bxf6": "White removes the defender of the centre.",
+          "8...Qxf6": "Black's queen is active on f6.",
+          "9.Nd5": "A strong outpost, hitting the queen.",
+          "9...Qd8": "Black is slightly worse, but the bishop pair and the f-file give him real play.",
+        },
+      },
+      {
+        name: "4.d4 exd4",
+        moves: "1.e4 e5 2.Nf3 Nc6 3.Bc4 f5 4.d4 exd4 5.e5 d5 6.exd6 Qxd6 7.O-O Bd7 8.Re1+ Be7",
+        notes: {
+          "4.d4": "The most direct reply, opening the centre.",
+          "4...exd4": "Black takes the central pawn. 4...fxe4 5.Nxe5 is worse.",
+          "5.e5": "White gains space and hits d6.",
+          "5...d5": "Challenges the bishop and the pawn chain.",
+          "6.exd6": "En passant: White takes the d-pawn with the e-pawn.",
+          "6...Qxd6": "Black's queen is active and eyes d4 and the long diagonal.",
+          "7.O-O": "White castles and prepares Re1 with check.",
+          "7...Bd7": "Develops while preparing to block the check on e7.",
+          "8.Re1+": "A check on the open e-file.",
+          "8...Be7": "Blocks the check. White is somewhat better, but Black has a solid position and active pieces.",
+        },
+      },
+      {
+        name: "Taking on f5: 4.exf5 e4",
+        moves: "1.e4 e5 2.Nf3 Nc6 3.Bc4 f5 4.exf5 e4 5.Nd4 Nf6 6.Nxc6 dxc6 7.d3 Bxf5 8.Nc3 exd3",
+        notes: {
+          "4.exf5": "White takes a pawn. This is playable, but it gives Black a free hand.",
+          "4...e4": "Gains time against the knight and opens lines.",
+          "5.Nd4": "The knight jumps to the centre and hits c6.",
+          "5...Nf6": "Develops and attacks nothing yet, but guards e4.",
+          "6.Nxc6": "White trades the strong knight for Black's one.",
+          "6...dxc6": "Black recaptures and opens the diagonal for the c8 bishop.",
+          "7.d3": "White attacks the pawn on e4.",
+          "7...Bxf5": "Black regains the pawn and develops.",
+          "8.Nc3": "Develops and eyes the e4 pawn.",
+          "8...exd3": "Black captures. The position is about level.",
+        },
+      },
+      {
+        name: "Warning: don't take on e4 after 4.d3",
+        kind: "warning",
+        moves: "1.e4 e5 2.Nf3 Nc6 3.Bc4 f5 4.d3 fxe4 5.dxe4 Nf6 6.Ng5 d5 7.exd5 Na5 8.Bd3 Qxd5 9.O-O Bg4 10.Qe1 O-O-O",
+        notes: {
+          "4...fxe4": "Too hasty: after dxe4 White has an open d-file and a healthy centre.",
+          "5.dxe4": "White recaptures with a pawn and gets the d-file for free.",
+          "5...Nf6": "Attacks e4, but White's next move is awkward for Black.",
+          "6.Ng5": "The knight and the bishop on c4 now both point at f7.",
+          "6...d5": "The only move to stop the threat; the alternatives lose faster.",
+          "7.exd5": "White opens the position further.",
+          "7...Na5": "Attacks the bishop.",
+          "8.Bd3": "The bishop retreats to a safe square.",
+          "8...Qxd5": "Black regains the pawn but White keeps a lead in development.",
+          "9.O-O": "White castles with a clear edge.",
+          "10.Qe1": "White keeps a firm grip on the position.",
+        },
+      },
+    ],
+  },
+  {
+    id: "albin-countergambit",
+    title: "Albin Countergambit",
+    side: "black",
+    level: "intermediate",
+    eco: "D08",
+    summary:
+      "1.d4 d5 2.c4 e5!?: Black answers the Queen's Gambit with a counter-punch, sacrificing a pawn for a cramping pawn on d4 and quick piece play. It is objectively dubious (White keeps a modest edge with accurate play), but the Lasker Trap wins a queen after the tempting 4.e3? and the main lines with 4.Nf3 Nc6 5.g3 are rich in counterplay.",
+    ideas: [
+      "After 3.dxe5 d4 the pawn on d4 cramps White's pieces; Black gets space and targets c3 and e3 with ...Bb4+ and ...Nge7.",
+      "Develop with ...Nc6, ...Nge7 and ...Ng6 to win back the e5 pawn, instead of the usual ...Nf6, which loses a tempo to e5-e6 ideas.",
+      "Lasker Trap: 4.e3? Bb4+ 5.Bd2 dxe3! 6.Bxb4? exf2+ 7.Ke2 fxg1=N+! wins the white queen; promote to a knight, not a queen.",
+      "Don't fear the pawn deficit: after ...Ngxe5 Black often regains it, and the d4 pawn is hard for White to remove.",
+    ],
+    style: "Gambit",
+    article: {
+      whatIs:
+        "The Albin Countergambit arises after 1.d4 d5 2.c4 e5!? 3.dxe5 d4. Black gives up a pawn for a space-gaining pawn on d4, a lead in activity and the chance to recapture e5 with the knights. It is objectively dubious, but the d4 pawn is hard to challenge and the opening is full of traps.",
+      howToReach:
+        "Play 1.d4 d5 2.c4 e5. If White takes with 3.dxe5, push 3...d4. Against 3.e3 or 3.Nc3 you are out of the gambit lines, so keep a second reply ready.",
+      pros: [
+        "Black gets a cramping pawn on d4 and easy piece play.",
+        "The Lasker Trap is one of the best-known queen traps, and it still catches players.",
+        "The setup with ...Nc6, ...Nge7 and ...Ng6 is natural and easy to remember.",
+        "Many White players have little experience against it and may drift into a bad position.",
+        "A real gambit with long-term compensation, not just a trap.",
+      ],
+      cons: [
+        "Objectively dubious: with correct play (4.Nf3 and 5.g3 or 5.a3) White keeps a small edge.",
+        "White can refuse the gambit with 3.e3 or 3.Nc3 and get a normal game.",
+        "The d4 pawn can become a target if Black loses the initiative.",
+        "You are a pawn down for a long time, so passive play is punished.",
+      ],
+      variations: [
+        {
+          name: "The Lasker Trap",
+          pgn: "1.d4 d5 2.c4 e5 3.dxe5 d4 4.e3 Bb4+ 5.Bd2 dxe3 6.Bxb4 exf2+ 7.Ke2 fxg1=N+ 8.Rxg1 Bg4+ 9.Kf2 Qxd1",
+          text:
+            "White takes the bishop and is promptly punished. The pawn promotes to a knight with check, and the bishop on g4 then wins the queen.",
+        },
+        {
+          name: "Main line with 4.Nf3 and 5.g3",
+          pgn: "1.d4 d5 2.c4 e5 3.dxe5 d4 4.Nf3 Nc6 5.g3 Nge7 6.Bg2 Ng6 7.O-O Ngxe5 8.Nxe5 Nxe5",
+          text:
+            "The standard fight. Black regains the pawn, and White must find a plan against the knight on e5 and the strong pawn on d4.",
+        },
+        {
+          name: "4.Nf3 Nc6 5.Nbd2",
+          pgn: "1.d4 d5 2.c4 e5 3.dxe5 d4 4.Nf3 Nc6 5.Nbd2 Nge7 6.a3 Ng6 7.Nb3 Be7 8.Nbxd4 Ncxe5 9.Nxe5 Nxe5 10.e3",
+          text:
+            "White targets the d4 pawn directly. Black gets a lead in development and use of the e5 square, but White is a pawn up.",
+        },
+        {
+          name: "4.e3, the sound way",
+          pgn: "1.d4 d5 2.c4 e5 3.dxe5 d4 4.e3 Bb4+ 5.Bd2 dxe3 6.fxe3 Qh4+ 7.g3 Qe4 8.Nf3 Bg4 9.Bg2 Qxe3+ 10.Qe2 Qxe2+ 11.Kxe2 Nc6",
+          text:
+            "After 6.fxe3 (and not 6.Bxb4?) White is fine, but Black's pieces are very active and the position is about level.",
+        },
+      ],
+      againstIt:
+        "The soundest approach is 4.Nf3 Nc6 5.g3 or 5.a3, followed by Bg2, castling and a slow plan against the d4 pawn. Don't walk into the Lasker Trap with 4.e3? Bb4+ 5.Bd2 dxe3 6.Bxb4?, and don't push the pawns on the queenside without a reason.",
+      plans: {
+        white:
+          "Develop quickly, castle, and try to blockade or win the d4 pawn, for example with Nb3 or e3 at the right time. Meet ...Ngxe5 with Nxe5 and keep the extra pawn if you can.",
+        black:
+          "Develop the knights to c6, e7 and g6 to win back e5, keep the pawn on d4 supported, and use the bishop on b4 and g4 for pins. Seek counterplay with ...Bg4, ...Qd7 and queenside castling.",
+      },
+      history:
+        "The Albin Countergambit is named after the Romanian-born master Adolf Albin, who took it up in the 1890s. The Lasker Trap carries the name of the future world champion Emanuel Lasker. Strong players have used the gambit as a surprise weapon, but today it is more often seen at club level.",
+      faq: [
+        {
+          q: "Is the Albin Countergambit good?",
+          a:
+            "It is objectively dubious: with best play White keeps a modest edge. But it is a rich, tactical opening with a long-term space advantage, and it scores well against opponents who do not know the key ideas.",
+        },
+        {
+          q: "What is the Lasker Trap?",
+          a:
+            "After 4.e3 Bb4+ 5.Bd2 dxe3 6.Bxb4?, the sequence 6...exf2+ 7.Ke2 fxg1=N+! 8.Rxg1 Bg4+ wins the white queen. White should play 6.fxe3 instead.",
+        },
+        {
+          q: "Why promote to a knight in the Lasker Trap?",
+          a:
+            "A new queen on g1 would only trade queens with check and let White escape. The knight gives check and keeps the bishop on g4 ready to win the queen on d1.",
+        },
+        {
+          q: "How should White decline the Albin?",
+          a:
+            "3.e3 and 3.Nc3 are the quiet ways. After 3.dxe5 d4 White can play 4.Nf3 with 5.g3, or 5.a3, and keep a small edge.",
+        },
+      ],
+    },
+    lines: [
+      {
+        name: "Quick win: Lasker Trap (4.e3? Bb4+)",
+        moves: "1.d4 d5 2.c4 e5 3.dxe5 d4 4.e3 Bb4+ 5.Bd2 dxe3 6.Bxb4 exf2+ 7.Ke2 fxg1=N+ 8.Rxg1 Bg4+ 9.Kf2 Qxd1",
+        notes: {
+          "2...e5": "The Albin Countergambit: Black counterattacks the centre instead of defending d5.",
+          "3...d4": "The key move: the pawn cramps White and is hard to attack.",
+          "4.e3": "A natural attempt to open the position, but it allows tactics.",
+          "4...Bb4+": "Check! White's best reply is 5.Nd2 or 5.Bd2.",
+          "5.Bd2": "Blocks the check but sets up the Lasker Trap.",
+          "5...dxe3": "Opens the d-file and threatens ...exf2+.",
+          "6.Bxb4": "The mistake. White grabs the bishop, but 6.fxe3 was needed.",
+          "6...exf2+": "The pawn takes with check, hitting the knight on g1.",
+          "7.Ke2": "7.Kxf2? is also bad: 7...Qxd1 wins the queen.",
+          "7...fxg1=N+": "The key underpromotion: a knight, not a queen, gives check and keeps the queen trap alive.",
+          "8.Rxg1": "White takes the knight, but the d1-queen is now exposed.",
+          "8...Bg4+": "A discovered attack on the king and the queen on d1.",
+          "9.Kf2": "White's king moves, and the queen on d1 falls.",
+          "9...Qxd1": "Black wins the queen and is winning.",
+        },
+      },
+      {
+        name: "Main line: 4.Nf3 Nc6 5.g3",
+        moves: "1.d4 d5 2.c4 e5 3.dxe5 d4 4.Nf3 Nc6 5.g3 Nge7 6.Bg2 Ng6 7.O-O Ngxe5 8.Nxe5 Nxe5 9.Na3 c6 10.b3 Bc5",
+        notes: {
+          "4.Nf3": "The main move: it defends e5's capture and develops.",
+          "4...Nc6": "Develops and attacks e5, adding to the pressure on the pawn.",
+          "5.g3": "White fianchettoes to challenge the long diagonal.",
+          "5...Nge7": "The knight heads for g6 to win back the e5 pawn. Not ...Nf6, which would drop a tempo.",
+          "6.Bg2": "Develops and eyes the long diagonal.",
+          "6...Ng6": "The knight attacks e5, which White cannot hold.",
+          "7.O-O": "White castles.",
+          "7...Ngxe5": "Black recoups the pawn.",
+          "8.Nxe5": "White trades a pair of knights.",
+          "8...Nxe5": "The knight is strong on e5 and eyes c4 and d3.",
+          "9.Na3": "The knight heads for c2 or b5 to attack the d4 pawn.",
+          "9...c6": "Supports d5 and makes room for the queen on b6 or the bishop on c7.",
+          "10.b3": "Gives the bishop a diagonal to b2 and challenges d4.",
+          "10...Bc5": "The bishop defends d4. White is slightly better, but Black has solid counterplay.",
+        },
+      },
+      {
+        name: "4.Nf3 Nc6 5.Nbd2: Black regains the pawn",
+        moves: "1.d4 d5 2.c4 e5 3.dxe5 d4 4.Nf3 Nc6 5.Nbd2 Nge7 6.a3 Ng6 7.Nb3 Be7 8.Nbxd4 Ncxe5 9.Nxe5 Nxe5 10.e3",
+        notes: {
+          "5.Nbd2": "Heads for b3 to attack the d4 pawn.",
+          "5...Nge7": "Prepares ...Ng6 and ...Nxe5.",
+          "6.a3": "Stops ...Bb4 and prepares Nb3.",
+          "6...Ng6": "The knight goes to g6 and hits e5.",
+          "7.Nb3": "Attacks the pawn on d4 twice.",
+          "7...Be7": "A calm developing move; the d4 pawn is now loose.",
+          "8.Nbxd4": "White takes the d4 pawn and now has two extra pawns.",
+          "8...Ncxe5": "Black recaptures e5 with a strong centralised knight.",
+          "9.Nxe5": "White trades pieces.",
+          "9...Nxe5": "The knight lands on e5 and eyes c4 and d3.",
+          "10.e3": "Opens the bishop on f1. White is a pawn up but Black is better developed and has compensation.",
+        },
+      },
+      {
+        name: "5.a3 a5 and a quiet 6.e3",
+        moves: "1.d4 d5 2.c4 e5 3.dxe5 d4 4.Nf3 Nc6 5.a3 a5 6.e3 Bc5 7.exd4 Bxd4 8.Be2 Nge7 9.O-O O-O",
+        notes: {
+          "5.a3": "Prevents ...Bb4+ and prepares b4. A popular try.",
+          "5...a5": "Stops b4, which would drive the knight away.",
+          "6.e3": "White tries to open the position and destroy the d4 pawn.",
+          "6...Bc5": "Puts pressure on e3 and d4.",
+          "7.exd4": "White removes the d4 pawn.",
+          "7...Bxd4": "Black regains the pawn with a nice centralised bishop.",
+          "8.Be2": "Develops and prepares to castle.",
+          "8...Nge7": "Develops with ideas of ...Ng6 and ...Ncxe5.",
+          "9.O-O": "White castles.",
+          "9...O-O": "Black has equalised; the bishop on d4 is a strong piece.",
+        },
+      },
+      {
+        name: "4.e3 Bb4+ 5.Bd2 dxe3 6.fxe3 Qh4+",
+        moves: "1.d4 d5 2.c4 e5 3.dxe5 d4 4.e3 Bb4+ 5.Bd2 dxe3 6.fxe3 Qh4+ 7.g3 Qe4 8.Nf3 Bg4 9.Bg2 Qxe3+ 10.Qe2 Qxe2+ 11.Kxe2 Nc6",
+        notes: {
+          "6.fxe3": "The correct recapture, and 6...Qh4+ is Black's answer.",
+          "6...Qh4+": "Check! The queen exploits the weakened kingside.",
+          "7.g3": "Forced; 7.Ke2? Qxc4+ is bad for White.",
+          "7...Qe4": "The queen centralises and attacks the pawn on e3 and the rook on h1.",
+          "8.Nf3": "Develops and protects the e5 pawn.",
+          "8...Bg4": "Pins the knight on f3 and adds to the pressure on e3.",
+          "9.Bg2": "Attacks the queen on e4.",
+          "9...Qxe3+": "The bishop on d2 is pinned, so the queen takes with check.",
+          "10.Qe2": "White offers a queen trade.",
+          "10...Qxe2+": "Black trades queens.",
+          "11.Kxe2": "The king is exposed, but White's position holds.",
+          "11...Nc6": "Black has slightly the better of it, thanks to the lead in development.",
+        },
+      },
+      {
+        name: "Warning: promote to a knight, not a queen",
+        kind: "warning",
+        moves: "1.d4 d5 2.c4 e5 3.dxe5 d4 4.e3 Bb4+ 5.Bd2 dxe3 6.Bxb4 exf2+ 7.Ke2 fxg1=Q 8.Qxd8+ Kxd8 9.Rxg1",
+        notes: {
+          "7...fxg1=Q": "A natural-looking mistake. Black wins a rook and a queen but loses it all back.",
+          "8.Qxd8+": "White trades queens with check.",
+          "8...Kxd8": "Forced.",
+          "9.Rxg1": "White has the extra piece and is at least equal. 7...fxg1=N+! was the only winning move.",
+        },
+      },
+    ],
+  },
+  {
+    id: "budapest-gambit",
+    title: "Budapest Gambit",
+    side: "black",
+    level: "intermediate",
+    eco: "A51-A52",
+    summary:
+      "1.d4 Nf6 2.c4 e5!?: Black offers a pawn at once, aiming to win it back with ...Ng4 and ...Nxe5 and to get quick, active piece play. Objectively White keeps a small edge (about half a pawn) with accurate play, but the gambit is sound enough for serious use and hides the Kieninger Trap: 7.a3? Ngxe5 8.axb4?? Nd3#.",
+    ideas: [
+      "After 3.dxe5 Ng4 the pawn on e5 is hard to hold: ...Nc6, ...Bb4+ and ...Qe7 pile up on it, and Black almost always regains it.",
+      "Kieninger Trap: 4.Bf4 Nc6 5.Nf3 Bb4+ 6.Nbd2 Qe7 7.a3? Ngxe5! 8.axb4?? Nd3# - a smothered mate with the king boxed in by its own pieces.",
+      "Against 4.Bf4 and 4.Nf3 the setup is the same: ...Nc6, ...Bb4+ and ...Qe7; against 4.e4 recapture on e5 with the other knight and develop.",
+      "Be honest: if White finds the best moves (the knight to d2, not c3, and the right pawn moves), Black is simply a little worse for a long time.",
+    ],
+    style: "Gambit",
+    article: {
+      whatIs:
+        "The Budapest Gambit begins 1.d4 Nf6 2.c4 e5, offering a pawn immediately. After 3.dxe5 Ng4 Black attacks e5 and plans to win it back, so the real price is some tempi and a slightly worse position. It is a respectable surprise weapon against d4 players, with an unusually popular quick win in the Kieninger Trap.",
+      howToReach:
+        "Play 1.d4 Nf6 2.c4 e5. If White takes with 3.dxe5, play 3...Ng4. If White declines with 3.e3 or 3.d5, you are out of the gambit and have to play a normal game.",
+      pros: [
+        "Fast piece play: the knight, bishop and queen all come to the centre with tempo.",
+        "A short, forcing opening with a clear plan, so there is little to memorise.",
+        "The Kieninger Trap (a mate in the opening) catches careless opponents.",
+        "Sound enough that Black rarely falls into a lost position by force.",
+        "A change from the main defences to 1.d4; good for players who want a sharp but real opening.",
+      ],
+      cons: [
+        "Objectively White keeps a small but lasting advantage.",
+        "White can avoid the gambit with 3.d5 or 3.e3 (the latter is rare).",
+        "Black is a pawn down for a while if White finds the best defence, such as Bf4 followed by Nd2.",
+        "Some lines require precise play, and the early bishop check on b4 can lose time.",
+      ],
+      variations: [
+        {
+          name: "Kieninger Trap",
+          pgn: "1.d4 Nf6 2.c4 e5 3.dxe5 Ng4 4.Bf4 Nc6 5.Nf3 Bb4+ 6.Nbd2 Qe7 7.a3 Ngxe5 8.axb4 Nd3#",
+          text:
+            "White takes the bishop and walks into a smothered mate. The knight on d3 attacks e1 and the e2 pawn is pinned by the queen.",
+        },
+        {
+          name: "Main line: 7.e3 Ngxe5",
+          pgn: "1.d4 Nf6 2.c4 e5 3.dxe5 Ng4 4.Bf4 Nc6 5.Nf3 Bb4+ 6.Nbd2 Qe7 7.e3 Ngxe5 8.Nxe5 Nxe5 9.Be2 b6 10.O-O Bxd2 11.Qxd2 d6 12.Rac1 O-O",
+          text:
+            "The usual way to avoid the trap. Black has regained the pawn and has a reasonable game, but White keeps a small edge.",
+        },
+        {
+          name: "7.a3 Ngxe5 8.Nxe5",
+          pgn: "1.d4 Nf6 2.c4 e5 3.dxe5 Ng4 4.Bf4 Nc6 5.Nf3 Bb4+ 6.Nbd2 Qe7 7.a3 Ngxe5 8.Nxe5 Nxe5 9.e3 Bxd2+ 10.Qxd2 d6 11.Be2 O-O",
+          text:
+            "White sees the trap and recaptures on e5 first. The knight on e5 stays strong and Black is not worse in activity.",
+        },
+        {
+          name: "6.Nc3 and 8.Qd5",
+          pgn: "1.d4 Nf6 2.c4 e5 3.dxe5 Ng4 4.Bf4 Nc6 5.Nf3 Bb4+ 6.Nc3 Bxc3+ 7.bxc3 Qe7 8.Qd5 f6 9.exf6 Nxf6 10.Qd3 d6",
+          text:
+            "A more testing line. White gets the bishop pair and doubled pawns, but Black has a lead in development and plays ...f6 to open the position.",
+        },
+        {
+          name: "4.e4 Nxe5",
+          pgn: "1.d4 Nf6 2.c4 e5 3.dxe5 Ng4 4.e4 Nxe5 5.f4 Nec6 6.a3 g6 7.Nc3 Bg7 8.Nf3 Bxc3+ 9.bxc3",
+          text:
+            "White builds a big centre. Black attacks it with ...g6, ...Bg7 and ...d6, and the position is sharp but fine for Black.",
+        },
+      ],
+      againstIt:
+        "The most reliable plan is 4.Bf4 Nc6 5.Nf3, then Nbd2 (not Nc3) and e3 or a3 to meet ...Bb4+ and ...Qe7. White must avoid taking the bishop on b4 at the wrong moment: 7.a3?? Ngxe5 8.axb4?? Nd3# is mate. 3.d5 and 3.e3 avoid the gambit altogether.",
+      plans: {
+        white:
+          "Develop with Bf4, Nf3 and Nbd2, meet ...Bb4+ with Nbd2 and keep the king safe. Try to keep the extra pawn on e5, or give it back for a lasting edge in space and development.",
+        black:
+          "Win the pawn back with ...Nc6, ...Ng4xe5 and develop with ...Bb4+, ...Qe7 and ...d6. Castle quickly, trade pieces if you are fine, and look for tactics on the e-file and e1-h4 diagonal.",
+      },
+      history:
+        "The gambit takes its name from the city of Budapest, where it appeared in master games in the 1890s. It had its heyday in the 1920s, when several strong masters tried it. Since then 3.dxe5 Ng4 4.Bf4 has been seen as giving White a small edge, so the Budapest is mostly a surprise weapon. The Kieninger Trap is named after the master Georg Kieninger.",
+      faq: [
+        {
+          q: "Is the Budapest Gambit good?",
+          a:
+            "It is a respectable, sound surprise weapon rather than a refuted gimmick. White can keep a small advantage with accurate play, but Black gets easy development and real counterplay.",
+        },
+        {
+          q: "What is the Kieninger Trap?",
+          a:
+            "After 4.Bf4 Nc6 5.Nf3 Bb4+ 6.Nbd2 Qe7 7.a3? Ngxe5 8.axb4?? the knight jumps to d3 and it is checkmate, because the pinned e2 pawn and the king's own pieces leave no escape.",
+        },
+        {
+          q: "How should White decline the Budapest?",
+          a:
+            "3.d5 and 3.e3 are the main ways. The best is to accept the pawn with 3.dxe5 Ng4 4.Bf4 and play Nf3 and Nbd2 with care.",
+        },
+        {
+          q: "Why not play 3...Ne4 instead of 3...Ng4?",
+          a:
+            "The knight on e4 can be kicked with Nd2 or Qc2, but 3...Ng4 attacks e5 more directly and prepares ...Nc6 and ...Nxe5 in one move.",
+        },
+      ],
+    },
+    lines: [
+      {
+        name: "Quick win: Kieninger Trap",
+        moves: "1.d4 Nf6 2.c4 e5 3.dxe5 Ng4 4.Bf4 Nc6 5.Nf3 Bb4+ 6.Nbd2 Qe7 7.a3 Ngxe5 8.axb4 Nd3#",
+        notes: {
+          "2...e5": "The Budapest Gambit. Black offers a pawn and will win it back by force.",
+          "3.dxe5": "White takes the pawn, which is what the gambit wants.",
+          "3...Ng4": "The knight attacks e5 and heads for the centre.",
+          "4.Bf4": "The most testing move: it defends the extra pawn.",
+          "4...Nc6": "Adds a second attacker on e5.",
+          "5.Nf3": "Develops and defends the pawn on e5.",
+          "5...Bb4+": "Check! It develops with tempo and sets the trap.",
+          "6.Nbd2": "The usual, correct block (6.Nc3 is the alternative).",
+          "6...Qe7": "A third attacker on e5, and it pins the pawn on e2 once the knight moves.",
+          "7.a3": "This attacks the bishop, but it sets a deadly trap.",
+          "7...Ngxe5": "The key move: the knight takes e5 and eyes d3.",
+          "8.axb4": "The mistake: grabbing the bishop. 8.Nxe5 Nxe5 would have been fine.",
+          "8...Nd3#": "Checkmate! The e2 pawn is pinned by the queen, and the king's own pieces block every escape.",
+        },
+      },
+      {
+        name: "Main line: 7.e3 Ngxe5",
+        moves: "1.d4 Nf6 2.c4 e5 3.dxe5 Ng4 4.Bf4 Nc6 5.Nf3 Bb4+ 6.Nbd2 Qe7 7.e3 Ngxe5 8.Nxe5 Nxe5 9.Be2 b6 10.O-O Bxd2 11.Qxd2 d6 12.Rac1 O-O",
+        notes: {
+          "7.e3": "The solid reply: it opens the bishop on f1 and avoids tricks.",
+          "7...Ngxe5": "Black takes back the pawn. The knight on e5 has great scope.",
+          "8.Nxe5": "White trades a pair of knights.",
+          "8...Nxe5": "The knight is attacked by the bishop on f4 but is protected by the queen.",
+          "9.Be2": "White develops, with an eye on castling.",
+          "9...b6": "Prepares to develop the bishop to b7 and puts pressure on the long diagonal.",
+          "10.O-O": "White castles.",
+          "10...Bxd2": "Black gives up the bishop to remove a defender of the knight on e5.",
+          "11.Qxd2": "White recaptures.",
+          "11...d6": "Strengthens the knight on e5.",
+          "12.Rac1": "White puts the rook on the open file.",
+          "12...O-O": "Black has a solid position. White has a slight edge but Black is safe.",
+        },
+      },
+      {
+        name: "7.a3 Ngxe5 8.Nxe5 Nxe5",
+        moves: "1.d4 Nf6 2.c4 e5 3.dxe5 Ng4 4.Bf4 Nc6 5.Nf3 Bb4+ 6.Nbd2 Qe7 7.a3 Ngxe5 8.Nxe5 Nxe5 9.e3 Bxd2+ 10.Qxd2 d6 11.Be2 O-O",
+        notes: {
+          "8.Nxe5": "White recaptures on e5 first, dodging the mate trap.",
+          "8...Nxe5": "The knight still has f3 and d3 ideas, and the bishop on b4 is attacked.",
+          "9.e3": "Protects the bishop on f4 and opens the bishop on f1.",
+          "9...Bxd2+": "Black takes the knight, since the bishop on b4 is attacked by the a3 pawn.",
+          "10.Qxd2": "White recaptures with the queen.",
+          "10...d6": "Solid. Black is ready to castle and has a good position.",
+          "11.Be2": "Develops with the idea of castling.",
+          "11...O-O": "Black is fully developed and equal.",
+        },
+      },
+      {
+        name: "6.Nc3 Bxc3+ 7.bxc3 Qe7",
+        moves: "1.d4 Nf6 2.c4 e5 3.dxe5 Ng4 4.Bf4 Nc6 5.Nf3 Bb4+ 6.Nc3 Bxc3+ 7.bxc3 Qe7 8.Qd5 f6 9.exf6 Nxf6 10.Qd3 d6",
+        notes: {
+          "6.Nc3": "A critical alternative: White accepts doubled pawns for the bishop pair.",
+          "6...Bxc3+": "Black trades the bishop for the knight and wrecks White's pawns.",
+          "7.bxc3": "White has doubled c-pawns but a big centre.",
+          "7...Qe7": "Attacks the e5 pawn again and eyes the e-file.",
+          "8.Qd5": "Attacks the knight on g4 and the pawn on b7 at the same time.",
+          "8...f6": "Strikes at the e5 pawn and opens the f-file.",
+          "9.exf6": "White takes.",
+          "9...Nxf6": "Black recaptures with a developed knight.",
+          "10.Qd3": "The queen retreats to a safe square.",
+          "10...d6": "Black has good development for the pawn, and White's structure is damaged.",
+        },
+      },
+      {
+        name: "4.Nf3 Nc6 5.Nc3: the bishop on c5",
+        moves: "1.d4 Nf6 2.c4 e5 3.dxe5 Ng4 4.Nf3 Nc6 5.Nc3 Bc5 6.e3 O-O 7.a3 a5 8.Bd3 Ngxe5 9.Nxe5 Nxe5",
+        notes: {
+          "4.Nf3": "Develops quickly, but gives up the Bf4 plan.",
+          "4...Nc6": "Piles up on e5.",
+          "5.Nc3": "A natural developing move.",
+          "5...Bc5": "Develops with an eye on f2 and a safe retreat from a3.",
+          "6.e3": "Frees the bishop on f1 and defends the knight.",
+          "6...O-O": "Black castles to complete the development.",
+          "7.a3": "A useful waiting move.",
+          "7...a5": "Stops b4 and keeps the bishop on c5.",
+          "8.Bd3": "Develops and prepares to castle.",
+          "8...Ngxe5": "Black regains the pawn.",
+          "9.Nxe5": "White trades.",
+          "9...Nxe5": "The knight attacks the bishop on d3. Black is fine and equal.",
+        },
+      },
+      {
+        name: "4.e4 Nxe5: White builds a centre",
+        moves: "1.d4 Nf6 2.c4 e5 3.dxe5 Ng4 4.e4 Nxe5 5.f4 Nec6 6.a3 g6 7.Nc3 Bg7 8.Nf3 Bxc3+ 9.bxc3",
+        notes: {
+          "4.e4": "White takes space in the centre and defends the extra pawn.",
+          "4...Nxe5": "Black takes the pawn with the knight; the knight is attacked by f4 next.",
+          "5.f4": "White kicks the knight and builds a big centre.",
+          "5...Nec6": "Keeps the knights flexible; 5...Ng6 also works.",
+          "6.a3": "Stops ...Bb4+ and prepares to build with b4.",
+          "6...g6": "Black fianchettoes to hit the centre with ...Bg7 and ...d6.",
+          "7.Nc3": "Develops and defends the e4 pawn.",
+          "7...Bg7": "Puts pressure on the long diagonal and on c3.",
+          "8.Nf3": "Develops.",
+          "8...Bxc3+": "Black damages the white structure.",
+          "9.bxc3": "White has the bishop pair and a big centre, but Black is solid.",
         },
       },
     ],

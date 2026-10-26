@@ -2,6 +2,7 @@ import { Fragment, useMemo } from "react";
 import { Link, useParams, useSearchParams } from "react-router-dom";
 import { CoursePlayer } from "../components/trainer/CoursePlayer";
 import { KindBadge, LevelBadge, SideBadge, StyleBadge } from "../components/ui/Badge";
+import { CourtMap } from "../components/ui/CourtMap";
 import { Icon } from "../components/ui/Icon";
 import { useCourseProgress, useDocumentMeta } from "../components/ui/hooks";
 import { getCourse, trainableLines } from "../lib/courses";
@@ -22,9 +23,19 @@ function Paragraphs({ text }: { text: string }) {
   );
 }
 
+/** A PGN set as readable text: move numbers stand out from the moves. */
+function PgnText({ text }: { text: string }) {
+  const parts = text.split(/(\d+\.(?:\.\.)?)/);
+  return (
+    <>
+      {parts.map((p, i) => (/^\d+\.(?:\.\.)?$/.test(p) ? <span key={i} className="pgn-no">{p}</span> : p))}
+    </>
+  );
+}
+
 interface TocItem { id: string; label: string }
 
-function CourseArticle({ course }: { course: Course }) {
+function CourseArticle({ course, mode }: { course: Course; mode?: Mode }) {
   const a = course.article;
   const progress = useCourseProgress(course);
   const learned = new Set(progress?.lines.filter((l) => l.learned).map((l) => l.lineId));
@@ -108,7 +119,9 @@ function CourseArticle({ course }: { course: Course }) {
                 {a.variations.map((v, i) => (
                   <Fragment key={i}>
                     <h3>{v.name}</h3>
-                    <pre className="pgn" tabIndex={0}>{v.pgn}</pre>
+                    <figure className="pgn-figure">
+                      <pre className="pgn" tabIndex={0}><PgnText text={v.pgn} /></pre>
+                    </figure>
                     <Paragraphs text={v.text} />
                   </Fragment>
                 ))}
@@ -144,52 +157,56 @@ function CourseArticle({ course }: { course: Course }) {
           </>
         ) : null}
 
-        <section id="lines">
+        <section id="lines" className="lines-section">
           <h2>All lines in this course</h2>
           <p className="muted">
             {course.lines.length} lines
             {progress ? ` · ${progress.learnedCount} of ${trainable} trainable lines learned` : ""}. Trap-to-avoid
             lines are shown in Learn mode only.
           </p>
-          <div className="table-wrap">
-            <table className="lines-table">
-              <thead>
-                <tr>
-                  <th scope="col">Line</th>
-                  <th scope="col">Kind</th>
-                  <th scope="col" className="col-opening">Opening name</th>
-                  <th scope="col" className="col-plies">Plies</th>
-                  <th scope="col">Learned</th>
-                </tr>
-              </thead>
-              <tbody>
-                {course.lines.map((l) => (
-                  <tr key={l.id}>
-                    <th scope="row">
-                      <span className="line-name">{l.name}</span>
-                      {l.opening ? <span className="line-opening-sm">{l.opening}</span> : null}
-                      <details className="line-pgn">
-                        <summary>Moves</summary>
-                        <code>{l.pgn}</code>
-                      </details>
-                    </th>
-                    <td><KindBadge kind={l.kind} /></td>
-                    <td className="col-opening">{l.opening ?? <span className="muted">-</span>}</td>
-                    <td className="col-plies">{l.plies}</td>
-                    <td>
-                      {l.kind === "warning" ? (
-                        <span className="muted" title="Warning lines are not drilled">n/a</span>
-                      ) : learned.has(l.id) ? (
-                        <span className="learned-yes"><Icon name="check" size={16} /><span className="sr-only">Learned</span></span>
-                      ) : (
-                        <span className="muted"><span aria-hidden="true">-</span><span className="sr-only">Not yet</span></span>
-                      )}
-                    </td>
+          <CourtMap course={course} mode={mode} />
+          <details className="more lines-detail">
+            <summary>Every line as a table, with moves and opening names</summary>
+            <div className="table-wrap">
+              <table className="lines-table">
+                <thead>
+                  <tr>
+                    <th scope="col">Line</th>
+                    <th scope="col">Kind</th>
+                    <th scope="col" className="col-opening">Opening name</th>
+                    <th scope="col" className="col-plies">Plies</th>
+                    <th scope="col">Learned</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+                </thead>
+                <tbody>
+                  {course.lines.map((l) => (
+                    <tr key={l.id}>
+                      <th scope="row">
+                        <span className="line-name">{l.name}</span>
+                        {l.opening ? <span className="line-opening-sm">{l.opening}</span> : null}
+                        <details className="line-pgn">
+                          <summary>Moves</summary>
+                          <code>{l.pgn}</code>
+                        </details>
+                      </th>
+                      <td><KindBadge kind={l.kind} /></td>
+                      <td className="col-opening">{l.opening ?? <span className="muted">-</span>}</td>
+                      <td className="col-plies">{l.plies}</td>
+                      <td>
+                        {l.kind === "warning" ? (
+                          <span className="muted" title="Warning lines are not drilled">n/a</span>
+                        ) : learned.has(l.id) ? (
+                          <span className="learned-yes"><Icon name="check" size={16} /><span className="sr-only">Learned</span></span>
+                        ) : (
+                          <span className="muted"><span aria-hidden="true">-</span><span className="sr-only">Not yet</span></span>
+                        )}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </details>
         </section>
 
         {a?.faq?.length ? (
@@ -258,10 +275,10 @@ export default function CoursePage() {
         </nav>
       </div>
       <div className="container player-slot">
-        <CoursePlayer key={course.id} course={course} initialMode={initialMode} />
+        <CoursePlayer key={`${course.id}:${initialMode ?? ""}`} course={course} initialMode={initialMode} />
       </div>
       <div className="container">
-        <CourseArticle course={course} />
+        <CourseArticle course={course} mode={initialMode} />
       </div>
     </>
   );

@@ -143,8 +143,7 @@ export default function CheckGames() {
 
   return (
     <div className="container check-page">
-      <header className="page-head">
-        <p className="eyebrow">Game check</p>
+      <header className="page-head check-head">
         <h1>Did your games follow your prep?</h1>
         <p className="page-lead">
           Enter your Lichess or Chess.com name. We load your recent games and find the first move where each one left your
@@ -152,8 +151,8 @@ export default function CheckGames() {
         </p>
       </header>
 
-      <form className="check-form panel" onSubmit={onSubmit} aria-busy={loading}>
-        <div className="check-row">
+      <form className="check-form" onSubmit={onSubmit} aria-busy={loading}>
+        <div className="check-row check-row-fields">
           <label className="check-field check-field-grow">
             <span className="check-label">Username</span>
             <input
@@ -171,7 +170,7 @@ export default function CheckGames() {
           </label>
           <div className="check-field">
             <span className="check-label" id="site-label">Site</span>
-            <div className="seg" role="group" aria-labelledby="site-label">
+            <div className="seg check-seg" role="group" aria-labelledby="site-label">
               {(["lichess", "chesscom"] as Site[]).map((s) => (
                 <button key={s} type="button" aria-pressed={form.site === s} onClick={() => update({ site: s })}>
                   {SITE_NAME[s]}
@@ -181,7 +180,7 @@ export default function CheckGames() {
           </div>
           <div className="check-field">
             <span className="check-label" id="count-label">Games</span>
-            <div className="seg" role="group" aria-labelledby="count-label">
+            <div className="seg check-seg" role="group" aria-labelledby="count-label">
               {COUNTS.map((n) => (
                 <button key={n} type="button" aria-pressed={form.count === n} onClick={() => update({ count: n })}>
                   {n}
@@ -189,17 +188,6 @@ export default function CheckGames() {
               ))}
             </div>
           </div>
-        </div>
-        <div className="check-row check-row-end">
-          <label className="check-toggle">
-            <input
-              type="checkbox"
-              checked={form.onlyStarted}
-              onChange={(e) => update({ onlyStarted: e.target.checked })}
-            />
-            <span>Only courses I've started</span>
-            {noneStarted && form.onlyStarted && <span className="muted"> (none yet, so all courses are used)</span>}
-          </label>
           <div className="check-actions">
             {loading && (
               <Button variant="ghost" onClick={cancel}>
@@ -211,21 +199,35 @@ export default function CheckGames() {
             </Button>
           </div>
         </div>
-        <p className="check-privacy">
-          <Icon name="shield" size={16} />
-          <span>
-            Requests go straight from your browser to {SITE_NAME[form.site]}. Nothing is stored on any server; only your username
-            is remembered on this device.
-          </span>
-        </p>
+        <div className="check-row check-row-end">
+          <label className="check-toggle">
+            <input
+              type="checkbox"
+              className="check-box"
+              checked={form.onlyStarted}
+              onChange={(e) => update({ onlyStarted: e.target.checked })}
+            />
+            <span>Only courses I've started</span>
+            {noneStarted && form.onlyStarted && <span className="muted"> (none yet, so all courses are used)</span>}
+          </label>
+          <p className="check-privacy">
+            <Icon name="shield" size={16} />
+            <span>
+              Requests go straight from your browser to {SITE_NAME[form.site]}. Nothing is stored on any server; only your username
+              is remembered on this device.
+            </span>
+          </p>
+        </div>
       </form>
 
       <div aria-live="polite">
         {state.phase === "idle" && <Intro />}
         {state.phase === "loading" && (
           <div className="check-status" role="status">
-            <span className="spinner" aria-hidden="true" />
-            {state.loaded > 0 ? `Loaded ${state.loaded} games…` : `Contacting ${SITE_NAME[form.site]}…`}
+            <span className="check-lane" aria-hidden="true">
+              <span />
+            </span>
+            <span>{state.loaded > 0 ? `Loaded ${state.loaded} games…` : `Contacting ${SITE_NAME[form.site]}…`}</span>
           </div>
         )}
         {state.phase === "error" && (
@@ -262,13 +264,15 @@ function Intro() {
 
 // ---- results -------------------------------------------------------------------------------------
 
+type SectionKind = "mistake" | "surprise" | "followed";
+
 function Results({ state }: { state: Extract<State, { phase: "done" }> }) {
   const { report, site, username, usedAll, courseCount, fetched } = state;
   const s = report.summary;
 
   if (fetched === 0) {
     return (
-      <div className="callout check-empty">
+      <div className="check-empty">
         <h2>No games found</h2>
         <p>
           {SITE_NAME[site]} returned no standard chess games for {username}. Try another site, or play a few games first.
@@ -278,7 +282,7 @@ function Results({ state }: { state: Extract<State, { phase: "done" }> }) {
   }
   if (s.checked === 0) {
     return (
-      <div className="callout check-empty">
+      <div className="check-empty">
         <h2>Couldn't match the games to {username}</h2>
         <p>The player names in the games didn't match that username. Check the spelling and the site.</p>
       </div>
@@ -287,40 +291,38 @@ function Results({ state }: { state: Extract<State, { phase: "done" }> }) {
 
   return (
     <div className="check-results">
-      <p className="check-scope muted">
-        Checked {s.checked} {SITE_NAME[site]} games for <strong>{username}</strong> against{" "}
-        {usedAll ? `all ${courseCount} courses` : `${courseCount} started courses`}.
-        {!usedAll && " Switch off “Only courses I've started” to include every course."}
-      </p>
-
-      <div className="stat-grid check-stats">
-        <div className="stat">
-          <Icon name="book" size={20} />
-          <strong>{s.checked}</strong>
-          <span>games checked</span>
-        </div>
-        <div className="stat">
-          <Icon name="target" size={20} />
-          <strong>{s.userDeviations}</strong>
-          <span>games where you left your prep</span>
-        </div>
-        <div className="stat">
-          <Icon name="chart" size={20} />
-          <strong>{s.withCourse ? s.avgBookPlies.toFixed(1) : "–"}</strong>
-          <span>average plies in book</span>
-        </div>
-        <div className="stat">
-          <Icon name="flame" size={20} />
-          <strong className="stat-move">{s.mostMissed ? s.mostMissed.expectedLabel : "–"}</strong>
-          <span>
-            {s.mostMissed
-              ? `most-missed move (${s.mostMissed.count} ${s.mostMissed.count === 1 ? "game" : "games"})`
-              : "no repeated slips"}
-          </span>
-        </div>
-      </div>
+      <section className="check-summary" aria-label="Summary">
+        <p className="check-scope">
+          Checked {s.checked} {SITE_NAME[site]} games for <strong>{username}</strong> against{" "}
+          {usedAll ? `all ${courseCount} courses` : `${courseCount} started courses`}.
+          {!usedAll && " Switch off “Only courses I've started” to include every course."}
+        </p>
+        <dl className="check-score">
+          <div className="check-cell">
+            <dt>games checked</dt>
+            <dd>{s.checked}</dd>
+          </div>
+          <div className="check-cell" data-tone="bad">
+            <dt>games where you left your prep</dt>
+            <dd>{s.userDeviations}</dd>
+          </div>
+          <div className="check-cell">
+            <dt>average plies in book</dt>
+            <dd>{s.withCourse ? s.avgBookPlies.toFixed(1) : "–"}</dd>
+          </div>
+          <div className="check-cell">
+            <dt>
+              {s.mostMissed
+                ? `most-missed move (${s.mostMissed.count} ${s.mostMissed.count === 1 ? "game" : "games"})`
+                : "no repeated slips"}
+            </dt>
+            <dd className="check-cell-move">{s.mostMissed ? s.mostMissed.expectedLabel : "–"}</dd>
+          </div>
+        </dl>
+      </section>
 
       <ResultSection
+        kind="mistake"
         title="Your mistakes"
         hint="Where you played something other than your course move. Repeated slips come first."
         empty="No deviations of yours. Every game that matched a course stayed on your side of the book."
@@ -332,6 +334,7 @@ function Results({ state }: { state: Extract<State, { phase: "done" }> }) {
       </ResultSection>
 
       <ResultSection
+        kind="surprise"
         title="Opponent surprises"
         hint="Moves your opponents played that your courses don't cover. Worth a look, and maybe a new line."
         empty="No opponent left your book before you did."
@@ -343,6 +346,7 @@ function Results({ state }: { state: Extract<State, { phase: "done" }> }) {
       </ResultSection>
 
       <ResultSection
+        kind="followed"
         title="Followed your prep"
         hint="Games that stayed inside a course until it ended (or the game did)."
         empty="No game stayed in book to the end of a course."
@@ -358,15 +362,14 @@ function Results({ state }: { state: Extract<State, { phase: "done" }> }) {
   );
 }
 
-function ResultSection(props: { title: string; hint: string; empty: string; count: number; children: React.ReactNode }) {
+function ResultSection(props: { kind: SectionKind; title: string; hint: string; empty: string; count: number; children: React.ReactNode }) {
   return (
-    <section className="check-section">
-      <div className="section-head">
-        <h2 className="check-section-title">
-          {props.title} <span className="check-count">{props.count}</span>
-        </h2>
+    <section className="check-section" data-kind={props.kind}>
+      <div className="check-section-head">
+        <h2 className="check-section-title">{props.title}</h2>
+        <span className="check-count">{props.count}</span>
       </div>
-      <p className="muted check-hint">{props.hint}</p>
+      <p className="check-hint">{props.hint}</p>
       {props.count === 0 ? <p className="check-none">{props.empty}</p> : <ul className="check-list">{props.children}</ul>}
     </section>
   );
@@ -403,23 +406,23 @@ function GroupCard({ g, kind }: { g: DeviationGroup; kind: "mistake" | "surprise
       <MiniBoard
         fen={g.fen}
         orientation={g.color}
-        className="check-board"
+        className="check-miniboard"
         label={`Position before ${g.playedLabel} in ${g.courseTitle}`}
       />
       <div className="check-body">
         <h3 className="check-headline">
           {kind === "mistake" ? (
             <>
-              You played <span className="mv mv-bad">{g.playedLabel}</span> instead of{" "}
-              <span className="mv mv-good">{g.expectedLabel}</span>
+              You played <span className="check-mv check-mv-bad">{g.playedLabel}</span> instead of{" "}
+              <span className="check-mv check-mv-good">{g.expectedLabel}</span>
             </>
           ) : (
             <>
-              Opponent played <span className="mv mv-bad">{g.playedLabel}</span>
+              Opponent played <span className="check-mv check-mv-bad">{g.playedLabel}</span>
               {expectedMoves.length > 0 && (
                 <>
                   {" "}
-                  where your course expects <span className="mv mv-good">{expectedMoves.join(" or ")}</span>
+                  where your course expects <span className="check-mv check-mv-good">{expectedMoves.join(" or ")}</span>
                 </>
               )}
             </>
@@ -476,7 +479,9 @@ function FollowedRow({ c, username }: { c: GameCheck; username: string }) {
       </div>
       <div className="check-followed-meta">
         <Badge tone={won ? "main" : draw ? "neutral" : "warning"}>{won ? "Won" : draw ? "Draw" : c.game.result === "*" ? "Unfinished" : "Lost"}</Badge>
-        <span className="check-plies">{c.depth} plies of prep</span>
+        <span className="check-plies">
+          <b>{c.depth}</b> plies of prep
+        </span>
         <div className="check-plies-bar">
           <ProgressBar value={Math.min(c.depth, 30)} max={30} label={`${c.depth} plies in book`} />
         </div>
@@ -497,7 +502,7 @@ function Uncovered({ items }: { items: GameCheck[] }) {
   return (
     <details className="check-uncovered">
       <summary>
-        Outside your repertoire <span className="check-count">{items.length}</span>
+        <span>Outside your repertoire</span> <span className="check-count">{items.length}</span>
       </summary>
       <p className="muted">
         These games left your courses on the very first decision, so there was nothing to compare. The openings you met most:

@@ -17,7 +17,7 @@ interface RunOver {
   record: boolean;
 }
 
-export function DrillMode({ course, cp, streak, refreshStreak, tiles, selectMode }: ModeProps) {
+export function DrillMode({ course, cp, streak, refreshStreak, tabs, selectMode }: ModeProps) {
   const [line, setLine] = useState<Line | undefined>();
   const [runId, setRunId] = useState(0);
   const [count, setCount] = useState(0);
@@ -90,9 +90,9 @@ export function DrillMode({ course, cp, streak, refreshStreak, tiles, selectMode
 
   const color: BoardColor = line ? userColor(course, line) : course.side === "black" ? "black" : "white";
   const orientation: BoardColor = flipped ? (color === "white" ? "black" : "white") : color;
-  const bubble = line ? runner.view.bubble : { tone: "neutral" as const, text: cp ? "No lines to drill yet." : "Loading...", notes: [] };
+  const note = line ? runner.view.bubble : { tone: "neutral" as const, text: cp ? "No lines to drill yet." : "Loading...", notes: [] };
 
-  const controls: ControlSpec[] = [{ id: "flip", label: "Flip board", icon: "flip", onClick: () => setFlipped((f) => !f) }];
+  const controls: ControlSpec[] = [{ id: "flip", label: "Flip board", short: "Flip", icon: "flip", onClick: () => setFlipped((f) => !f) }];
 
   let overlay: ReactNode;
   if (over) {
@@ -101,10 +101,8 @@ export function DrillMode({ course, cp, streak, refreshStreak, tiles, selectMode
         tone="over"
         title={over.value === 0 ? "Run over" : over.record ? "New personal best!" : "Run over"}
         subtitle={over.record ? `${over.value} in a row. That is your best yet.` : `Personal best: ${over.best}`}
-        stats={[
-          { label: "this run", value: String(over.value) },
-          { label: "best", value: String(over.best) },
-        ]}
+        score={{ value: over.value, label: "in a row" }}
+        stats={[{ label: "best", value: String(over.best) }]}
       >
         <button type="button" className="og-btn" onClick={startRun} data-testid="play-again">
           Play again
@@ -123,24 +121,18 @@ export function DrillMode({ course, cp, streak, refreshStreak, tiles, selectMode
       lineKey={line ? { course: course.id, line: line.id } : undefined}
       title={course.title}
       streakDays={streak.current}
-      bar={
-        <div>
-          <div className="og-bigstat" data-testid="drill-streak">
-            <span className="og-bigstat__num">{count}</span>
-            <span className="og-bigstat__label">in a row</span>
-            <span className="og-bigstat__best">Best {best}</span>
-          </div>
-          <div style={{ height: 8 }} />
-          <ProgressBar value={runner.view.progress} />
-        </div>
-      }
-      bubble={bubble}
+      stats={[
+        { id: "run", label: "In a row", value: count, testId: "drill-streak" },
+        { id: "best", label: "Best", value: best },
+      ]}
+      bar={<ProgressBar value={runner.view.progress} />}
+      note={note}
       openingName={runner.view.openingName}
       board={boardPropsFromRunner(runner, orientation, runner.onUserMove)}
       evalCp={line ? runner.view.evalCp : undefined}
       overlay={overlay}
       controls={controls}
-      tiles={tiles}
+      tabs={tabs}
     />
   );
 }

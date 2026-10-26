@@ -5,6 +5,7 @@ import type { BoardMove } from "../../components/board";
 import { Button } from "../../components/ui/Button";
 import { addMove, deleteNode, fenAt, getNode, setNote } from "../../lib/custom";
 import type { DraftNode, DraftTree, Path } from "../../lib/custom";
+import { ToolIcon } from "../tool-icons";
 
 interface Props {
   tree: DraftTree;
@@ -38,7 +39,7 @@ function Chain({ siblings, prefix, ply, forceNumber, lead = false, ctx }: { sibl
       {lead ? " " : null}
       <button
         type="button"
-        className="mv"
+        className="cc-mv"
         data-selected={selected || undefined}
         data-kind={isLeaf ? (main.kind ?? "main") : undefined}
         data-note={main.note ? "yes" : undefined}
@@ -47,10 +48,10 @@ function Chain({ siblings, prefix, ply, forceNumber, lead = false, ctx }: { sibl
         onClick={() => ctx.onPath(here)}
       >
         {moveText(ply, main.san, forceNumber)}
-        {main.note ? <span className="mv-dot" aria-label="has a note" /> : null}
+        {main.note ? <span className="cc-mv-dot" aria-label="has a note" /> : null}
       </button>
       {alts.map((a) => (
-        <span className="mv-var" key={a.san}>
+        <span className="cc-mv-var" key={a.san}>
           (<Chain siblings={[a]} prefix={prefix} ply={ply} forceNumber ctx={ctx} />)
         </span>
       ))}
@@ -143,10 +144,10 @@ export function MoveEditor({ tree, path, side, onPath, onTree }: Props) {
       <div className="cc-side">
         <p className="cc-status" role="status">{status}</p>
         <div className="cc-nav" role="group" aria-label="Move navigation">
-          <Button size="sm" onClick={() => onPath([])} disabled={!ply} aria-label="Go to the start">«</Button>
-          <Button size="sm" onClick={back} disabled={!ply} aria-label="Previous move">‹</Button>
-          <Button size="sm" onClick={forward} disabled={!(path.length ? node?.children.length : tree.length)} aria-label="Next move">›</Button>
-          <Button size="sm" onClick={toEnd} aria-label="Go to the end of this line">»</Button>
+          <Button size="sm" onClick={() => onPath([])} disabled={!ply} aria-label="Go to the start"><ToolIcon name="first" /></Button>
+          <Button size="sm" onClick={back} disabled={!ply} aria-label="Previous move"><ToolIcon name="prev" /></Button>
+          <Button size="sm" onClick={forward} disabled={!(path.length ? node?.children.length : tree.length)} aria-label="Next move"><ToolIcon name="next" /></Button>
+          <Button size="sm" onClick={toEnd} aria-label="Go to the end of this line"><ToolIcon name="last" /></Button>
         </div>
 
         <div className="cc-moves" aria-label="Moves of the course">

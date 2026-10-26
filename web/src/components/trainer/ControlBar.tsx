@@ -4,7 +4,10 @@ import type { IconName } from "./icons";
 
 export interface ControlSpec {
   id: string;
+  /** full name: the accessible name and tooltip */
   label: string;
+  /** the word printed under the icon when `label` is too long for the bar */
+  short?: string;
   icon: IconName;
   onClick?: () => void;
   /** render as a link to this route instead of a button */
@@ -22,15 +25,15 @@ export function ControlBar({ controls }: { controls: ControlSpec[] }) {
         const inner = (
           <>
             <span className="og-control__icon">
-              <Icon name={c.icon} size={22} />
+              <Icon name={c.icon} size={20} />
               {!!c.badge && <span className="og-control__badge">{c.badge}</span>}
             </span>
-            <span className="og-control__label">{c.label}</span>
+            <span className="og-control__label">{c.short ?? c.label}</span>
           </>
         );
         if (c.to && !c.disabled) {
           return (
-            <Link key={c.id} to={c.to} className="og-control" aria-label={c.label} data-testid={`control-${c.id}`}>
+            <Link key={c.id} to={c.to} className="og-control" aria-label={c.label} title={c.label} data-testid={`control-${c.id}`}>
               {inner}
             </Link>
           );
@@ -43,6 +46,7 @@ export function ControlBar({ controls }: { controls: ControlSpec[] }) {
             onClick={c.onClick}
             disabled={c.disabled || (!!c.to && !c.onClick)}
             aria-label={c.label}
+            title={c.label}
             aria-pressed={c.pressed}
             data-testid={`control-${c.id}`}
           >

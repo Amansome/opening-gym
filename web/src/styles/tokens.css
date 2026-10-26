@@ -106,3 +106,21 @@
 @media (min-width: 720px) {
   :root { --gutter: 24px; }
 }
+
+/* ---- Shell additions ---- */
+:root {
+  --line-strong: #9a7f52;     /* control borders and chalk outlines: ≥3:1 against the table */
+  --mark: #fbe08a;            /* highlighter / last-move wash */
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --header-fg: #ffffff;       /* text on the court-blue header band */
+  --scoreboard: #1f1608;      /* scoreboard panel: dark, with yellow varsity numerals */
+  --on-scoreboard: #f6ebd8;
+  --panel-shadow: var(--shadow-sm);
+}
+:root[data-theme="dark"] {
+  --line-strong: #8a7455;
+  --mark: #5a4710;
+  --header-fg: #f6ebd8;
+  --scoreboard: #100a04;
+  --panel-shadow: var(--shadow-sm), 0 0 0 1px var(--line);
+}

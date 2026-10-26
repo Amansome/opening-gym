@@ -10,7 +10,7 @@ const FAQ: { q: string; a: string }[] = [
   { q: "Will I lose my progress?", a: "Progress lives in your browser's storage, so clearing site data or switching browsers starts you fresh. Use Export backup on the Progress page to save a file you can restore later, on this or another device." },
   { q: "Does it work offline?", a: "Yes. After your first visit the app is cached by your browser, and training itself needs no network connection." },
   { q: "Can I trust the opening theory?", a: "The moves are checked by a program for legality, and opening names come from the Lichess dataset. The explanations are written to teach the ideas, but they are not engine-verified, so treat them as a starting point and report anything that looks wrong." },
-  { q: "What do the colours mean?", a: "Each mode has its own colour: purple for Learn, green for Practice, red for Drill, blue for Time and amber for Dojo." },
+  { q: "What do the colours mean?", a: "Each mode is painted in its own court-line colour: blue for Learn, green for Practice, red for Drill, yellow for Time and black for Dojo." },
 ];
 
 const CREDITS: { name: string; what: string; licence: string }[] = [

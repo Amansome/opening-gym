@@ -1,6 +1,6 @@
 import { useCallback, useState } from "react";
 import type { Course, Mode } from "../../lib/types";
-import { ModeTiles } from "./ModeTiles";
+import { ModeTabs } from "./ModeTabs";
 import { LearnMode } from "./LearnMode";
 import { PracticeMode } from "./PracticeMode";
 import { DrillMode } from "./DrillMode";
@@ -29,7 +29,7 @@ function CoursePlayerInner({ course, initialMode }: CoursePlayerProps) {
     streak,
     refreshStreak,
     selectMode,
-    tiles: <ModeTiles mode={mode} progress={cp} onSelect={selectMode} />,
+    tabs: <ModeTabs mode={mode} progress={cp} onSelect={selectMode} />,
   };
 
   switch (mode) {

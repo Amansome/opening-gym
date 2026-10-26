@@ -24,13 +24,13 @@ export interface QueuePracticeProps {
   loadItems: () => Promise<QueueItem[]>;
   streak: StreakInfo;
   refreshStreak: () => Promise<StreakInfo>;
-  tiles?: ReactNode;
-  /** buttons for the "nothing to practise" bubble and the round-complete overlay */
+  tabs?: ReactNode;
+  /** buttons for the "nothing to practise" note and the round-complete overlay */
   extraActions?: ReactNode;
   emptyText: string;
 }
 
-export function QueuePractice({ mode, fallbackTitle, loadItems, streak, refreshStreak, tiles, extraActions, emptyText }: QueuePracticeProps) {
+export function QueuePractice({ mode, fallbackTitle, loadItems, streak, refreshStreak, tabs, extraActions, emptyText }: QueuePracticeProps) {
   const [items, setItems] = useState<QueueItem[] | null>(null);
   const [idx, setIdx] = useState(0);
   const [runId, setRunId] = useState(0);
@@ -102,32 +102,32 @@ export function QueuePractice({ mode, fallbackTitle, loadItems, streak, refreshS
   const orientation: BoardColor = flipped ? (color === "white" ? "black" : "white") : color;
   const phase = runner.view.phase;
 
-  let bubble = runner.view.bubble;
-  let bubbleActions: ReactNode;
+  let note = runner.view.bubble;
+  let noteActions: ReactNode;
   let board = boardPropsFromRunner(runner, orientation, runner.onUserMove);
   const controls: ControlSpec[] = [];
 
   if (items === null) {
-    bubble = { tone: "neutral", text: "Loading...", notes: [] };
+    note = { tone: "neutral", text: "Loading...", notes: [] };
     board = { fen: START_FEN, orientation, movable: null };
   } else if (!item) {
     board = { fen: START_FEN, orientation, movable: null };
     if (total === 0) {
-      bubble = { tone: "neutral", text: emptyText, notes: [] };
-      bubbleActions = extraActions;
+      note = { tone: "neutral", text: emptyText, notes: [] };
+      noteActions = extraActions;
     } else {
-      bubble = { tone: "good", text: "Round complete. Nicely done.", notes: [] };
+      note = { tone: "good", text: "Round complete. Nicely done.", notes: [] };
     }
   } else {
     if (phase === "wrong") {
-      bubbleActions = (
+      noteActions = (
         <button type="button" className="og-btn" onClick={runner.tryAgain} data-testid="try-again">
           Try again
         </button>
       );
     } else if (phase === "done") {
-      bubble = { ...bubble, tone: "good", text: runner.view.bubble.notes.length ? undefined : "Line complete." };
-      bubbleActions = (
+      note = { ...note, tone: "good", text: runner.view.bubble.notes.length ? undefined : "Line complete." };
+      noteActions = (
         <button type="button" className="og-btn" onClick={advance} data-testid="next-line">
           {lastOne ? "See results" : "Next line"}
         </button>
@@ -136,13 +136,13 @@ export function QueuePractice({ mode, fallbackTitle, loadItems, streak, refreshS
     const playing = phase === "user";
     controls.push(
       { id: "hint", label: "Hint", icon: "bulb", onClick: runner.hint, disabled: !playing, badge: runner.view.hintsUsed },
-      { id: "restart", label: "Restart line", icon: "restart", onClick: () => setRunId((r) => r + 1) },
-      { id: "flip", label: "Flip board", icon: "flip", onClick: () => setFlipped((f) => !f) },
-      { id: "next", label: "Next line", icon: "next", onClick: advance, disabled: phase === "done" },
+      { id: "restart", label: "Restart line", short: "Restart", icon: "restart", onClick: () => setRunId((r) => r + 1) },
+      { id: "flip", label: "Flip board", short: "Flip", icon: "flip", onClick: () => setFlipped((f) => !f) },
+      { id: "next", label: "Next line", short: "Next", icon: "next", onClick: advance, disabled: phase === "done" },
     );
   }
   if (controls.length === 0) {
-    controls.push({ id: "flip", label: "Flip board", icon: "flip", onClick: () => setFlipped((f) => !f) });
+    controls.push({ id: "flip", label: "Flip board", short: "Flip", icon: "flip", onClick: () => setFlipped((f) => !f) });
   }
 
   let overlay: ReactNode;
@@ -171,17 +171,17 @@ export function QueuePractice({ mode, fallbackTitle, loadItems, streak, refreshS
       mode={mode}
       lineKey={item ? { course: item.course.id, line: item.line.id } : undefined}
       title={item ? item.course.title : fallbackTitle}
-      counter={total > 0 ? `${Math.min(idx + 1, total)}/${total}` : undefined}
+      stats={total > 0 ? [{ id: "line", label: "Line", value: Math.min(idx + 1, total), of: ` of ${total}`, testId: "line-counter" }] : []}
       streakDays={streak.current}
       bar={<ProgressBar value={finished ? 1 : total ? (idx + runner.view.progress) / total : 0} label="Round progress" />}
-      bubble={bubble}
-      bubbleActions={bubbleActions}
+      note={note}
+      noteActions={noteActions}
       openingName={item ? runner.view.openingName : undefined}
       board={board}
       evalCp={item ? runner.view.evalCp : undefined}
       overlay={overlay}
       controls={controls}
-      tiles={tiles}
+      tabs={tabs}
     />
   );
 }

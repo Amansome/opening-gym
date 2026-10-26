@@ -8,7 +8,7 @@ export interface ModeProps {
   cp: CourseProgress | null;
   streak: StreakInfo;
   refreshStreak: () => Promise<StreakInfo>;
-  /** the four mode tiles, already wired */
-  tiles: ReactNode;
+  /** the mode tab strip, already wired */
+  tabs: ReactNode;
   selectMode: (mode: Mode) => void;
 }
