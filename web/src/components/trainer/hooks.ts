@@ -55,6 +55,14 @@ export function useStreak(): { streak: StreakInfo; refresh: () => Promise<Streak
   return { streak, refresh };
 }
 
+/**
+ * Graduate's zero is a plain oval that reads as an icon next to the other numerals, so a value that starts with 0
+ * ("0", "0/8", "0.4") is set in the display face instead (CSS keys on data-zero).
+ */
+export function isZero(value: string | number | undefined | null): boolean {
+  return /^0/.test(String(value ?? "").trim());
+}
+
 export function streakMessage(days: number): string {
   if (days <= 1) return "It begins";
   if (days < 7) return "Keep it going";

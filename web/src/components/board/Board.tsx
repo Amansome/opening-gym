@@ -58,6 +58,9 @@ export interface BoardProps {
 const LAST_MOVE: MarkerType = { class: "marker-lastmove", slice: "markerSquare" };
 const SELECT: MarkerType = { class: "marker-select", slice: "markerSquare" };
 const HINT: MarkerType = { class: "marker-hint", slice: "markerSquare" };
+const HINT_FRAME: MarkerType = { class: "marker-hint-frame", slice: "markerFrame" };
+const FILES = ["a", "b", "c", "d", "e", "f", "g", "h"];
+const RANKS = ["8", "7", "6", "5", "4", "3", "2", "1"];
 const ARROW_FOR = { hint: ARROW_TYPE.info, correct: ARROW_TYPE.success, wrong: ARROW_TYPE.danger };
 
 function absolute(url: string): string {
@@ -160,7 +163,9 @@ export function Board({
       assetsUrl: import.meta.env.BASE_URL,
       style: {
         cssClass: "og",
+        // Coordinates are printed in the frame margin around .og-board (HTML), so the SVG draws squares only.
         borderType: "none",
+        showCoordinates: false,
         pieces: { file: absolute(piecesUrl) },
         animationDuration: prefersReducedMotion() ? 0 : 220,
       },
@@ -235,7 +240,11 @@ export function Board({
     const board = boardRef.current;
     if (!board) return;
     board.removeMarkers(HINT);
-    if (hintSquare) board.addMarker(HINT, hintSquare);
+    board.removeMarkers(HINT_FRAME);
+    if (hintSquare) {
+      board.addMarker(HINT, hintSquare);
+      board.addMarker(HINT_FRAME, hintSquare);
+    }
   }, [hintSquare]);
 
   // Arrows
@@ -249,34 +258,48 @@ export function Board({
   }, [arrowKey]);
 
   const badge = mark ? squareBox(mark.square, orientation) : null;
+  const files = orientation === "white" ? FILES : [...FILES].reverse();
+  const ranks = orientation === "white" ? RANKS : [...RANKS].reverse();
 
   return (
-    <div className={`og-board${className ? " " + className : ""}`} role="group" aria-label={ariaLabel} data-fen={fen} data-orientation={orientation}>
-      <div className="og-board__host" ref={hostRef} />
-      {mark && badge && (
-        <div
-          key={`${mark.square}-${mark.kind}-${fen}`}
-          className={`og-board__badge og-board__badge--${mark.kind}`}
-          style={{ left: `${badge.left}%`, top: `${badge.top}%` }}
-          data-testid="board-mark"
-          data-kind={mark.kind}
-          data-square={mark.square}
-          role="img"
-          aria-label={mark.kind === "correct" ? "Correct move" : "Wrong move"}
-        >
-          <span>
-            {mark.kind === "correct" ? (
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                <path d="M5 12.5l4.5 4.5L19 7.5" />
-              </svg>
-            ) : (
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="4" strokeLinecap="round" aria-hidden="true">
-                <path d="M6 6l12 12M18 6L6 18" />
-              </svg>
-            )}
-          </span>
-        </div>
-      )}
+    <div className={`og-boardframe${className ? " " + className : ""}`}>
+      <div className="og-board" role="group" aria-label={ariaLabel} data-fen={fen} data-orientation={orientation}>
+        <div className="og-board__host" ref={hostRef} />
+        {mark && badge && (
+          <div
+            key={`${mark.square}-${mark.kind}-${fen}`}
+            className={`og-board__badge og-board__badge--${mark.kind}`}
+            style={{ left: `${badge.left}%`, top: `${badge.top}%` }}
+            data-testid="board-mark"
+            data-kind={mark.kind}
+            data-square={mark.square}
+            role="img"
+            aria-label={mark.kind === "correct" ? "Correct move" : "Wrong move"}
+          >
+            <span>
+              {mark.kind === "correct" ? (
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                  <path d="M5 12.5l4.5 4.5L19 7.5" />
+                </svg>
+              ) : (
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="4" strokeLinecap="round" aria-hidden="true">
+                  <path d="M6 6l12 12M18 6L6 18" />
+                </svg>
+              )}
+            </span>
+          </div>
+        )}
+      </div>
+      <div className="og-boardframe__ranks" aria-hidden="true">
+        {ranks.map((r) => (
+          <span key={r}>{r}</span>
+        ))}
+      </div>
+      <div className="og-boardframe__files" aria-hidden="true">
+        {files.map((f) => (
+          <span key={f}>{f}</span>
+        ))}
+      </div>
     </div>
   );
 }

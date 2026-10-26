@@ -1,0 +1,98 @@
+/* The court map: a course's lines as plain parallel lanes, one painted lane per line.
+   Learned lanes are painted solid in the mode colour, due lanes in yellow, new lanes are a faint outline in the Learn blue. */
+.cm {
+  --lane: var(--court-blue);
+  --lane-fg: var(--accent-fg);
+  --cm-new: var(--court-blue);
+  --cm-due-edge: color-mix(in srgb, var(--ink) 55%, var(--court-yellow));
+  --cm-track-h: 12px;
+  min-width: 0;
+}
+.cm-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 6px 24px; }
+.cm-title { margin: 0; font: 800 1.05rem/1.1 var(--font-display); letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink); }
+.cm-summary { margin: 0; font-size: 0.92rem; color: var(--ink-soft); font-variant-numeric: tabular-nums; }
+.cm-summary strong { color: var(--ink); font-weight: 700; }
+.cm-summary .cm-due-count { padding: 0 7px; border-radius: 4px; background: var(--court-yellow); color: var(--on-yellow); font-family: var(--font-display); font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; }
+.cm-legend { display: flex; flex-wrap: wrap; gap: 4px 16px; list-style: none; margin: 0; padding: 0; font-size: 0.88rem; color: var(--ink-soft); }
+.cm-legend li { display: inline-flex; align-items: center; gap: 6px; }
+
+/* swatches repeat the lane paint */
+.cm-swatch { display: inline-block; width: 24px; height: 10px; border-radius: 3px; box-sizing: border-box; }
+.cm-swatch[data-status="learned"] { background: var(--lane); }
+.cm-swatch[data-status="due"] { background: var(--court-yellow); box-shadow: inset 0 0 0 1px var(--cm-due-edge); }
+.cm-swatch[data-status="new"] { box-shadow: inset 0 0 0 2px color-mix(in srgb, var(--cm-new) 55%, transparent); }
+.cm-swatch[data-status="trap"] { box-shadow: inset 0 0 0 2px color-mix(in srgb, var(--court-red) 75%, transparent); }
+
+.cm-lanes { list-style: none; margin: 0; padding: 0; }
+.cm-lane + .cm-lane { border-top: 1px solid var(--line); }
+.cm-link {
+  appearance: none;
+  box-sizing: border-box;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-areas: "name meta" "track track";
+  align-items: center;
+  gap: 5px 10px;
+  width: 100%;
+  min-height: 44px;
+  margin: 0;
+  padding: 7px 10px 8px;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--ink);
+  font: inherit;
+  text-align: left;
+  text-decoration: none;
+  cursor: pointer;
+}
+.cm-link:hover { background: var(--table-2); }
+.cm-link:focus-visible { outline: 3px solid var(--accent-fg); outline-offset: -3px; }
+.cm-link[aria-current="true"] { background: color-mix(in srgb, var(--lane) 12%, var(--table)); box-shadow: inset 0 0 0 2px var(--lane); }
+.cm-name { grid-area: name; min-width: 0; font: 600 1.18rem/1.1 var(--font-display); letter-spacing: 0.01em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.cm-meta { grid-area: meta; display: inline-flex; align-items: baseline; gap: 8px; font-size: 0.84rem; color: var(--ink-soft); white-space: nowrap; }
+.cm-status { font: 600 0.95rem/1.15 var(--font-display); letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-soft); }
+.cm-status[data-status="learned"] { color: var(--lane-fg); }
+.cm-status[data-status="due"] { color: var(--on-yellow); background: var(--court-yellow); padding: 0 6px; border-radius: 3px; }
+.cm-status[data-status="trap"] { color: var(--danger-fg); }
+
+/* the lane itself: a strip of court, painted from the baseline to where the line ends */
+.cm-track { grid-area: track; position: relative; height: var(--cm-track-h); border-radius: 3px; background: var(--table-2); box-shadow: inset 0 0 0 1px var(--line); }
+.cm-run { position: absolute; left: 0; top: 0; bottom: 0; width: calc(var(--end) * 1%); min-width: 14px; box-sizing: border-box; border-radius: 3px; transition: background-color 0.2s; }
+/* A learned (or due) line is a whole lane painted: full width, so it never reads as half done. */
+.cm-lane[data-status="learned"] .cm-run, .cm-lane[data-status="due"] .cm-run { width: 100%; }
+.cm-lane[data-status="learned"] .cm-run { background: var(--lane); }
+.cm-lane[data-status="due"] .cm-run { background: var(--court-yellow); box-shadow: inset 0 0 0 1.5px var(--cm-due-edge); }
+/* A new line has nothing painted yet: show the empty lane only, so length never reads as progress. */
+.cm-lane[data-status="new"] .cm-run { display: none; }
+.cm-lane[data-status="new"] .cm-track { box-shadow: inset 0 0 0 1.5px color-mix(in srgb, var(--cm-new) 45%, transparent); }
+.cm-lane[data-status="trap"] .cm-run { box-shadow: inset 0 0 0 2px color-mix(in srgb, var(--court-red) 75%, transparent); }
+
+.cm-foot { margin: 10px 0 0; font-size: 0.9rem; color: var(--ink-soft); max-width: 70ch; }
+
+/* ---- full: the article section, a folding table of its own ---- */
+.cm--full { margin-top: 16px; background: var(--table); border-radius: var(--radius); box-shadow: var(--panel-shadow); padding: 16px 20px 18px; border-top: var(--court-width) solid var(--lane); }
+.cm--full .cm-head { padding-bottom: 8px; border-bottom: 1px solid var(--line); }
+.cm--full .cm-lanes { margin-top: 4px; }
+.cm--full .cm-link { --cm-track-h: 14px; }
+@media (min-width: 640px) {
+  .cm--full .cm-link {
+    grid-template-columns: minmax(150px, 36%) minmax(0, 1fr);
+    grid-template-areas: "name track" "meta track";
+    gap: 2px 20px;
+    padding-block: 9px;
+  }
+  .cm--full .cm-meta { justify-self: start; }
+}
+@media (max-width: 639px) { .cm--full { padding-inline: 12px; } }
+
+/* ---- picker: sits in the trainer's folding table under the control row ---- */
+.cm--picker { display: flex; flex-direction: column; min-height: 0; gap: 6px; }
+.cm--picker { --cm-track-h: 10px; }
+.cm--picker .cm-head { padding: 0 2px; }
+.cm--picker .cm-link { gap: 3px 10px; padding: 5px 10px 6px; }
+.cm--picker .cm-name { font-size: 1.12rem; }
+.cm--picker .cm-lanes { flex: 1 1 auto; min-height: 0; overflow-y: auto; overscroll-behavior: contain; margin: 0 -4px; padding: 0 4px 28px; scrollbar-gutter: stable;
+  /* fade the last visible row so it reads as "scroll for more", never as a clipped row */
+  -webkit-mask-image: linear-gradient(to bottom, #000 calc(100% - 36px), transparent);
+  mask-image: linear-gradient(to bottom, #000 calc(100% - 36px), transparent); }

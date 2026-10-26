@@ -31,7 +31,7 @@ function moveLabel(ply: number, san: string): string {
   return `${Math.ceil(ply / 2)}${ply % 2 === 1 ? "." : "..."}${san}`;
 }
 
-export function LearnMode({ course, cp, streak, refreshStreak, tiles, selectMode }: ModeProps) {
+export function LearnMode({ course, cp, streak, refreshStreak, tabs, selectMode, pick, lanes, backTo }: ModeProps) {
   const [current, setCurrent] = useState<Current | null>(null);
   const [runId, setRunId] = useState(0);
   const [cel, setCel] = useState<Celebration | null>(null);
@@ -43,19 +43,24 @@ export function LearnMode({ course, cp, streak, refreshStreak, tiles, selectMode
   const cpRef = useRef(cp);
   cpRef.current = cp;
 
-  const loadNext = useCallback(async () => {
-    const [id, prog] = await Promise.all([progress.nextLearnLine(course), progress.getCourseProgress(course)]);
-    let line = id ? getLine(course, id) : undefined;
-    if (line?.kind === "warning" && demoSeen.current.has(line.id)) line = undefined;
-    setCel(null);
-    setDemoStep(0);
-    setCurrent({ line, welcome: !!line && prog.learnedCount === 0 && line.kind !== "warning" });
-    setRunId((r) => r + 1);
-  }, [course]);
+  // `forced` is a line chosen from the lane picker: it is played as it is, whether or not it is next in the course
+  const loadNext = useCallback(
+    async (forced?: string) => {
+      const [id, prog] = await Promise.all([progress.nextLearnLine(course), progress.getCourseProgress(course)]);
+      const chosen = forced ? getLine(course, forced) : undefined;
+      let line = chosen ?? (id ? getLine(course, id) : undefined);
+      if (!chosen && line?.kind === "warning" && demoSeen.current.has(line.id)) line = undefined;
+      setCel(null);
+      setDemoStep(0);
+      setCurrent({ line, welcome: !chosen && !!line && prog.learnedCount === 0 && line.kind !== "warning" });
+      setRunId((r) => r + 1);
+    },
+    [course],
+  );
 
   useEffect(() => {
-    void loadNext();
-  }, [loadNext]);
+    void loadNext(pick);
+  }, [loadNext, pick]);
 
   const line = current?.line;
   const isDemo = line?.kind === "warning";
@@ -115,9 +120,9 @@ export function LearnMode({ course, cp, streak, refreshStreak, tiles, selectMode
   const orientation: BoardColor = flipped ? (color === "white" ? "black" : "white") : color;
   const lineIndex = line ? course.lines.indexOf(line) : -1;
 
-  let bubble: BubbleState = runner.view.bubble;
-  let bubbleActions: ReactNode;
-  let bubbleBadge: ReactNode;
+  let note: BubbleState = runner.view.bubble;
+  let noteActions: ReactNode;
+  let noteBadge: ReactNode;
   let openingName = runner.view.openingName;
   let barValue = runner.view.progress;
   let board = boardPropsFromRunner(runner, orientation, runner.onUserMove);
@@ -125,28 +130,28 @@ export function LearnMode({ course, cp, streak, refreshStreak, tiles, selectMode
   const controls: ControlSpec[] = [];
 
   if (!current) {
-    bubble = { tone: "neutral", text: "Loading...", notes: [] };
+    note = { tone: "neutral", text: "Loading...", notes: [] };
   } else if (!line) {
-    bubble = {
+    note = {
       tone: "good",
       text: "You have learned every line in this course. Practice keeps them fresh, and Drill and Time test your speed.",
       notes: [],
     };
-    bubbleActions = cp?.unlocked.practice ? (
+    noteActions = cp?.unlocked.practice ? (
       <button type="button" className="og-btn" onClick={() => selectMode("practice")}>
         Practice
       </button>
     ) : undefined;
     board = { fen: START_FEN, orientation, movable: null };
-    controls.push({ id: "flip", label: "Flip board", icon: "flip", onClick: () => setFlipped((f) => !f) });
+    controls.push({ id: "flip", label: "Flip board", short: "Flip", icon: "flip", onClick: () => setFlipped((f) => !f) });
   } else if (isDemo) {
     const node = demoStep > 0 ? demoNodes[demoStep - 1] : undefined;
-    bubbleBadge = (
+    noteBadge = (
       <span className="og-badge">
-        <Icon name="warning" size={13} /> Trap to avoid
+        <Icon name="warning" size={14} /> Trap to avoid
       </span>
     );
-    bubble = {
+    note = {
       tone: "neutral",
       text:
         demoStep === 0
@@ -157,8 +162,8 @@ export function LearnMode({ course, cp, streak, refreshStreak, tiles, selectMode
       notes: node && node.note ? [{ san: moveLabel(node.ply, node.san), text: node.note }] : [],
     };
     if (demoLast) {
-      bubble = { ...bubble, prompt: "That is how the trap works. Remember the idea." };
-      bubbleActions = (
+      note = { ...note, prompt: "That is how the trap works. Remember the idea." };
+      noteActions = (
         <button type="button" className="og-btn" onClick={() => void finishDemo()} data-testid="demo-done">
           Got it
         </button>
@@ -178,18 +183,18 @@ export function LearnMode({ course, cp, streak, refreshStreak, tiles, selectMode
       { id: "back", label: "Back", icon: "back", onClick: () => setDemoStep((s) => Math.max(0, s - 1)), disabled: demoStep === 0 },
       { id: "next", label: "Next", icon: "next", onClick: () => setDemoStep((s) => Math.min(demoNodes.length, s + 1)), disabled: demoLast },
       { id: "restart", label: "Restart", icon: "restart", onClick: () => setDemoStep(0) },
-      { id: "flip", label: "Flip board", icon: "flip", onClick: () => setFlipped((f) => !f) },
+      { id: "flip", label: "Flip board", short: "Flip", icon: "flip", onClick: () => setFlipped((f) => !f) },
     );
   } else {
     const phase = runner.view.phase;
     if (phase === "wrong") {
-      bubbleActions = (
+      noteActions = (
         <button type="button" className="og-btn" onClick={runner.tryAgain} data-testid="try-again">
           Try again
         </button>
       );
     } else if (phase === "ready") {
-      bubbleActions = (
+      noteActions = (
         <button type="button" className="og-btn" onClick={runner.start} data-testid="start-line">
           Let&apos;s go
         </button>
@@ -199,8 +204,8 @@ export function LearnMode({ course, cp, streak, refreshStreak, tiles, selectMode
     controls.push(
       { id: "hint", label: "Hint", icon: "bulb", onClick: runner.hint, disabled: !playing, badge: runner.view.hintsUsed },
       { id: "undo", label: "Undo", icon: "undo", onClick: runner.undo, disabled: !runner.view.canUndo || !(phase === "user" || phase === "wrong") || !!cel },
-      { id: "restart", label: "Restart line", icon: "restart", onClick: () => setRunId((r) => r + 1), disabled: !!cel },
-      { id: "flip", label: "Flip board", icon: "flip", onClick: () => setFlipped((f) => !f) },
+      { id: "restart", label: "Restart line", short: "Restart", icon: "restart", onClick: () => setRunId((r) => r + 1), disabled: !!cel },
+      { id: "flip", label: "Flip board", short: "Flip", icon: "flip", onClick: () => setFlipped((f) => !f) },
     );
   }
 
@@ -248,18 +253,20 @@ export function LearnMode({ course, cp, streak, refreshStreak, tiles, selectMode
       mode="learn"
       lineKey={line ? { course: course.id, line: line.id } : undefined}
       title={course.title}
-      counter={lineIndex >= 0 ? `Line ${lineIndex + 1}/${course.lines.length}` : undefined}
+      stats={lineIndex >= 0 ? [{ id: "line", label: "Line", value: lineIndex + 1, of: ` of ${course.lines.length}`, testId: "line-counter" }] : []}
       streakDays={streak.current}
       bar={<ProgressBar value={barValue} />}
-      bubble={bubble}
-      bubbleActions={bubbleActions}
-      bubbleBadge={bubbleBadge}
+      note={note}
+      noteActions={noteActions}
+      noteBadge={noteBadge}
       openingName={openingName}
       board={board}
       evalCp={evalCp}
       overlay={overlay}
       controls={controls}
-      tiles={tiles}
+      tabs={tabs}
+      lanes={lanes?.(line?.id)}
+      backTo={backTo}
     />
   );
 }

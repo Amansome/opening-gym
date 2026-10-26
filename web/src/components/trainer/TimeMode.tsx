@@ -13,7 +13,7 @@ import type { ModeProps } from "./modeProps";
 
 type Phase = "ready" | "playing" | "over";
 
-export function TimeMode({ course, cp, streak, refreshStreak, tiles, selectMode }: ModeProps) {
+export function TimeMode({ course, cp, streak, refreshStreak, tabs, selectMode, backTo }: ModeProps) {
   const [phase, setPhase] = useState<Phase>("ready");
   const [line, setLine] = useState<Line | undefined>();
   const [runId, setRunId] = useState(0);
@@ -116,7 +116,7 @@ export function TimeMode({ course, cp, streak, refreshStreak, tiles, selectMode 
 
   const color: BoardColor = line ? userColor(course, line) : course.side === "black" ? "black" : "white";
   const orientation: BoardColor = flipped ? (color === "white" ? "black" : "white") : color;
-  const controls: ControlSpec[] = [{ id: "flip", label: "Flip board", icon: "flip", onClick: () => setFlipped((f) => !f) }];
+  const controls: ControlSpec[] = [{ id: "flip", label: "Flip board", short: "Flip", icon: "flip", onClick: () => setFlipped((f) => !f) }];
 
   let overlay: ReactNode;
   if (phase === "ready") {
@@ -136,10 +136,8 @@ export function TimeMode({ course, cp, streak, refreshStreak, tiles, selectMode 
         tone={result.record ? "celebrate" : "over"}
         title={result.record ? "New personal best!" : "Time's up!"}
         subtitle={`${result.value} ${result.value === 1 ? "line" : "lines"} completed. Personal best: ${result.best}`}
-        stats={[
-          { label: "lines", value: String(result.value) },
-          { label: "best", value: String(result.best) },
-        ]}
+        score={{ value: result.value, label: result.value === 1 ? "line" : "lines" }}
+        stats={[{ label: "best", value: String(result.best) }]}
       >
         <button type="button" className="og-btn" onClick={startRun} data-testid="play-again">
           Play again
@@ -151,7 +149,7 @@ export function TimeMode({ course, cp, streak, refreshStreak, tiles, selectMode 
     );
   }
 
-  const bubble = phase === "playing" && line ? runner.view.bubble : { tone: "neutral" as const, text: phase === "over" ? "Time is up." : "Ready when you are.", notes: [] };
+  const note = phase === "playing" && line ? runner.view.bubble : { tone: "neutral" as const, text: phase === "over" ? "Time is up." : "Ready when you are.", notes: [] };
 
   return (
     <PlayerShell
@@ -159,25 +157,18 @@ export function TimeMode({ course, cp, streak, refreshStreak, tiles, selectMode 
       lineKey={line && phase !== "ready" ? { course: course.id, line: line.id } : undefined}
       title={course.title}
       streakDays={streak.current}
-      bar={
-        <div className="og-clock">
-          <div className="og-clock__row">
-            <span className="og-clock__time" data-testid="clock">
-              {remaining.toFixed(1)}s{bonus && <span style={{ color: "var(--success)", fontSize: "0.9rem", marginLeft: 8 }}>{bonus}</span>}
-            </span>
-            <span className="og-clock__score" data-testid="time-score">
-              {done} {done === 1 ? "line" : "lines"}
-            </span>
-          </div>
-          <ProgressBar value={remaining / TIME_START_SECONDS} danger={remaining < 10} label="Time left" />
-        </div>
-      }
-      bubble={bubble}
+      stats={[
+        { id: "clock", label: "Time", value: remaining.toFixed(1), of: "s", testId: "clock", alert: remaining < 10, flash: bonus },
+        { id: "lines", label: done === 1 ? "Line" : "Lines", value: done, testId: "time-score" },
+      ]}
+      bar={<ProgressBar value={remaining / TIME_START_SECONDS} danger={remaining < 10} label="Time left" />}
+      note={note}
       openingName={phase === "playing" ? runner.view.openingName : undefined}
       board={boardPropsFromRunner(runner, orientation, runner.onUserMove)}
       overlay={overlay}
       controls={controls}
-      tiles={tiles}
+      tabs={tabs}
+      backTo={backTo}
     />
   );
 }

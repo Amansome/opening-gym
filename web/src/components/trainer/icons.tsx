@@ -18,7 +18,11 @@ export type IconName =
   | "trophy"
   | "warning"
   | "gauge"
-  | "search";
+  | "search"
+  | "cross"
+  | "checks"
+  | "fork"
+  | "play";
 
 const PATHS: Record<IconName, ReactNode> = {
   book: <path d="M4 5.5A2.5 2.5 0 0 1 6.5 3H20v15H6.5A2.5 2.5 0 0 0 4 20.5v-15zM4 20.5A2.5 2.5 0 0 0 6.5 23H20v-5" />,
@@ -29,7 +33,7 @@ const PATHS: Record<IconName, ReactNode> = {
       <circle cx="12" cy="12" r="1.2" fill="currentColor" />
     </>
   ),
-  flame: <path d="M12 2.5c.8 3.2-1.2 4.7-2.6 6.6C8 11 7 12.6 7 14.6A5 5 0 0 0 12 19.5a5 5 0 0 0 5-4.9c0-1.7-.7-3-1.6-4.2-.2 1.2-.9 2-1.8 2.4.6-3.3-.2-7.2-1.6-10.3z" />,
+  flame: <path d="M12 2c.3 3.2-2.8 5.1-4.4 8C6.4 12.2 6 13.4 6 14.6A6 6 0 0 0 12 21a6 6 0 0 0 6-6.4c0-2.6-1.4-4.6-3-6.4-.3 1.4-1 2.3-2 2.8.7-3.6.1-6.7-1-9zM12 20a2.8 2.8 0 0 1-2.8-2.8c0-1.7 1.6-2.5 2.8-4.4 1.2 1.9 2.8 2.7 2.8 4.4A2.8 2.8 0 0 1 12 20z" />,
   hourglass: <path d="M6 3h12M6 21h12M7 3v3.5c0 1.6 1 2.6 2.4 3.6L12 12l-2.6 1.9C8 14.9 7 15.9 7 17.5V21M17 3v3.5c0 1.6-1 2.6-2.4 3.6L12 12l2.6 1.9c1.4 1 2.4 2 2.4 3.6V21" />,
   lock: (
     <>
@@ -54,6 +58,17 @@ const PATHS: Record<IconName, ReactNode> = {
       <path d="M8 12h8" />
     </>
   ),
+  cross: <path d="M6 6l12 12M18 6L6 18" />,
+  checks: <path d="M2.5 13l4.5 4.5L15 8M11 16l2 2L22 8" />,
+  fork: (
+    <>
+      <circle cx="6" cy="5" r="2" />
+      <circle cx="6" cy="19" r="2" />
+      <circle cx="18" cy="9" r="2" />
+      <path d="M6 7v10M18 11c0 4-4 4-10 7" />
+    </>
+  ),
+  play: <path d="M7 4l12 8-12 8z" />,
   search: (
     <>
       <circle cx="10.5" cy="10.5" r="6.5" />
@@ -63,7 +78,7 @@ const PATHS: Record<IconName, ReactNode> = {
 };
 
 export function Icon({ name, size = 20, className }: { name: IconName; size?: number; className?: string }) {
-  const filled = name === "flame" || name === "star" || name === "knight";
+  const filled = name === "flame" || name === "star" || name === "knight" || name === "play";
   return (
     <svg
       className={className}
@@ -71,8 +86,9 @@ export function Icon({ name, size = 20, className }: { name: IconName; size?: nu
       height={size}
       viewBox="0 0 24 24"
       fill={filled ? "currentColor" : "none"}
+      fillRule="evenodd"
       stroke="currentColor"
-      strokeWidth="2"
+      strokeWidth={name === "flame" ? 1 : 2}
       strokeLinecap="round"
       strokeLinejoin="round"
       aria-hidden="true"

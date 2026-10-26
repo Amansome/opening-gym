@@ -1,4 +1,4 @@
-import { Link, NavLink, Outlet, ScrollRestoration } from "react-router-dom";
+import { Link, NavLink, Outlet, ScrollRestoration, useMatch } from "react-router-dom";
 import { APP_NAME, REPO_URL, TAGLINE } from "../../config";
 import { Icon } from "../ui/Icon";
 import type { IconName } from "../ui/Icon";
@@ -12,12 +12,13 @@ const NAV: { to: string; label: string; icon: IconName }[] = [
 ];
 
 export function BrandMark() {
+  // A court's centre circle and halfway line on a maple tile.
   return (
     <svg className="brand-mark" viewBox="0 0 64 64" aria-hidden="true">
-      <rect width="64" height="64" rx="14" fill="var(--accent)" />
-      <circle cx="32" cy="20" r="8" fill="#fff" />
-      <path d="M24 27h16l-3 9c3 2 6 6 7 14H20c1-8 4-12 7-14z" fill="#fff" />
-      <rect x="16" y="50" width="32" height="5" rx="2.5" fill="#fff" />
+      <rect width="64" height="64" rx="12" fill="var(--mark-bg, var(--floor))" />
+      <path d="M32 6v52" stroke="var(--mark-line, var(--court-blue))" strokeWidth="5" />
+      <circle cx="32" cy="32" r="14" fill="var(--mark-bg, var(--floor))" stroke="var(--mark-line, var(--court-blue))" strokeWidth="5" />
+      <circle cx="32" cy="32" r="5" fill="var(--court-yellow)" />
     </svg>
   );
 }
@@ -26,6 +27,7 @@ function Header() {
   const streak = useStreak();
   const [theme, toggleTheme] = useTheme();
   const current = streak?.current ?? 0;
+  const dark = theme === "dark";
   return (
     <header className="site-header">
       <div className="container header-inner">
@@ -49,15 +51,17 @@ function Header() {
             aria-label={`Daily streak: ${current} ${current === 1 ? "day" : "days"}`}
           >
             <Icon name="flame" />
-            <span>{current}</span>
+            <span className="streak-num" data-zero={current === 0 || undefined}>{current}</span>
+            <span className="streak-unit" aria-hidden="true">{current === 1 ? "day" : "days"}</span>
           </Link>
           <button
             type="button"
-            className="icon-btn"
+            className="theme-toggle"
             onClick={toggleTheme}
-            aria-label={theme === "dark" ? "Switch to light theme" : "Switch to dark theme"}
+            aria-label={dark ? "Switch to light theme" : "Switch to dark theme"}
           >
-            <Icon name={theme === "dark" ? "sun" : "moon"} />
+            <Icon name={dark ? "sun" : "moon"} />
+            <span className="theme-label" aria-hidden="true">{dark ? "Day" : "After hours"}</span>
           </button>
         </div>
       </div>
@@ -84,7 +88,7 @@ function Footer() {
       <div className="container">
         <div className="footer-grid">
           <div>
-            <Link to="/" className="brand" aria-label={`${APP_NAME} home`}>
+            <Link to="/" className="brand footer-brand" aria-label={`${APP_NAME} home`}>
               <BrandMark />
               <span>{APP_NAME}</span>
             </Link>
@@ -128,15 +132,17 @@ function Footer() {
 }
 
 export function Layout() {
+  // The trainer on a phone needs every pixel: it keeps only its own control row and a back link, not the tab bar.
+  const inTrainer = !!useMatch("/opening/:courseId");
   return (
     <>
       <a href="#main" className="skip-link">Skip to content</a>
       <Header />
-      <main id="main" className="page" tabIndex={-1}>
+      <main id="main" className={`page${inTrainer ? " page--trainer" : ""}`} tabIndex={-1}>
         <Outlet />
       </main>
       <Footer />
-      <BottomNav />
+      {inTrainer ? null : <BottomNav />}
       <ScrollRestoration />
     </>
   );

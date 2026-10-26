@@ -19,8 +19,12 @@ export interface BubbleNote {
   text: string;
 }
 
+/** Which feedback the note is giving, so the UI can colour and label it. */
+export type NoteKind = "correct" | "wrong" | "fine" | "other-line" | "hint";
+
 export interface BubbleState {
   tone: "neutral" | "good" | "bad";
+  kind?: NoteKind;
   text?: string;
   notes: BubbleNote[];
   /** what the user should do now: a spoken instruction (Learn) or "Your move." */
@@ -249,7 +253,7 @@ export function useLineRunner(cfg: RunnerConfig): LineRunner {
             openingName: s.openingName,
             progress: s.ply / s.totalPlies,
             canUndo: s.canUndo,
-            bubble: { tone: "good", text, notes, prompt: undefined },
+            bubble: { tone: "good", kind: "correct", text, notes, prompt: undefined },
           }));
           if (fb.done) complete("completed");
           else scheduleOpponent();
@@ -265,7 +269,7 @@ export function useLineRunner(cfg: RunnerConfig): LineRunner {
             hintSquare: null,
             arrows: [],
             resetKey: v.resetKey + 1,
-            bubble: { tone: "good", text: fb.message, notes: [], prompt: promptFor(s) },
+            bubble: { tone: "good", kind: "fine", text: fb.message, notes: [], prompt: promptFor(s) },
           }));
           return;
         }
@@ -284,7 +288,7 @@ export function useLineRunner(cfg: RunnerConfig): LineRunner {
             mark: { square: fb.to, kind: "wrong" },
             hintSquare: null,
             arrows,
-            bubble: { tone: "bad", text: fb.message, notes: cfgRef.current.mode === "time" ? [] : notes },
+            bubble: { tone: "bad", kind: fb.kind === "other-line" ? "other-line" : "wrong", text: fb.message, notes: cfgRef.current.mode === "time" ? [] : notes },
           }));
           if (fb.failed) later(() => complete("failed"), cfgRef.current.failDelayMs);
         }
@@ -326,6 +330,7 @@ export function useLineRunner(cfg: RunnerConfig): LineRunner {
       bubble: {
         ...v.bubble,
         tone: "neutral",
+        kind: "hint",
         text: info.level === 1 ? "Hint: this is the piece to move." : "Hint: here is where it goes.",
         prompt: promptFor(s),
       },

@@ -1,11 +1,10 @@
 import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { localDayKey, progress } from "../lib/progress";
-import type { ScoreEntry } from "../lib/progress";
+import type { CourseProgress, ScoreEntry } from "../lib/progress";
 import { courses, getCourse } from "../lib/courses";
 import { Button } from "../components/ui/Button";
 import { Icon } from "../components/ui/Icon";
-import { ProgressBar } from "../components/ui/ProgressBar";
 import "../styles/heatmap.css";
 import { useCourseProgressMap, useDocumentMeta, useStreak } from "../components/ui/hooks";
 
@@ -93,6 +92,7 @@ function ActivityHeatmap({ activity }: { activity: Record<string, number> | unde
   return (
     <section className="section-block" aria-labelledby="activity-h">
       <h2 id="activity-h">Activity</h2>
+      <div className="panel heat-panel">
       <p className="muted heatmap-summary">
         {total === 0
           ? "No lines completed in the last 12 weeks. Finish a line to light up today."
@@ -135,14 +135,43 @@ function ActivityHeatmap({ activity }: { activity: Record<string, number> | unde
         {[0, 1, 2, 3, 4].map((l) => <span key={l} className="heatmap-cell" data-level={l} />)}
         More
       </div>
+      </div>
     </section>
+  );
+}
+
+type LaneState = "learned" | "due" | "new";
+
+/** One painted lane per course: a segment per line, learned solid blue, due yellow, not yet learned as a chalk outline. */
+function CourseLane({ title, p }: { title: string; p: CourseProgress }) {
+  const now = Date.now();
+  const states: LaneState[] = p.lines.map((l) => (!l.learned ? "new" : l.due <= now ? "due" : "learned"));
+  const order: Record<LaneState, number> = { learned: 0, due: 1, new: 2 };
+  states.sort((a, b) => order[a] - order[b]);
+  return (
+    <div
+      className="lane-strip"
+      role="img"
+      aria-label={`${title}: ${p.learnedCount} of ${p.totalLines} lines learned${p.dueCount > 0 ? `, ${p.dueCount} due` : ""}`}
+    >
+      {states.map((st, i) => <span key={i} className="lane-seg" data-state={st} />)}
+    </div>
+  );
+}
+
+function Fig({ label, value, tone }: { label: string; value: number; tone?: "learned" | "due" }) {
+  return (
+    <div className="sb-stat" data-tone={tone}>
+      <dt>{label}</dt>
+      <dd data-zero={value === 0 ? "" : undefined}>{value}</dd>
+    </div>
   );
 }
 
 function ScoreList({ title, unit, scores, icon }: { title: string; unit: string; scores: ScoreEntry[]; icon: "flame" | "clock" }) {
   return (
-    <div className="panel">
-      <h3 className="panel-title"><Icon name={icon} size={18} /> {title}</h3>
+    <div className="panel score-panel">
+      <h3 className="panel-title"><Icon name={icon} size={20} /> {title}</h3>
       {scores.length === 0 ? (
         <p className="muted">No scores yet. Unlock this mode by learning a few lines.</p>
       ) : (
@@ -230,24 +259,32 @@ function DataSection() {
         Everything is stored in this browser, on your device. Export a backup before clearing browser data or moving to
         another device.
       </p>
-      <div className="data-grid">
-        <div className="panel">
-          <h3 className="panel-title"><Icon name="download" size={18} /> Export backup</h3>
-          <p className="muted">Download all your progress as a JSON file.</p>
-          <Button onClick={doExport}><Icon name="download" size={16} /> Export backup</Button>
+      <div className="panel data-rows">
+        <div className="data-row">
+          <div className="data-text">
+            <h3>Export backup</h3>
+            <p className="muted">Download all your progress as a JSON file.</p>
+          </div>
+          <div className="data-action">
+            <Button onClick={doExport}><Icon name="download" size={16} /> Export backup</Button>
+          </div>
         </div>
-        <div className="panel">
-          <h3 className="panel-title"><Icon name="upload" size={18} /> Import backup</h3>
-          <p className="muted">Restore from a file you exported earlier. This replaces your current progress.</p>
-          <input
-            ref={fileRef}
-            id="import-file"
-            type="file"
-            accept="application/json,.json"
-            className="sr-only"
-            onChange={(e) => onFile(e.target.files?.[0])}
-          />
-          <Button onClick={() => fileRef.current?.click()}><Icon name="upload" size={16} /> Choose backup file</Button>
+        <div className="data-row">
+          <div className="data-text">
+            <h3>Import backup</h3>
+            <p className="muted">Restore from a file you exported earlier. This replaces your current progress.</p>
+          </div>
+          <div className="data-action">
+            <input
+              ref={fileRef}
+              id="import-file"
+              type="file"
+              accept="application/json,.json"
+              className="sr-only"
+              onChange={(e) => onFile(e.target.files?.[0])}
+            />
+            <Button onClick={() => fileRef.current?.click()}><Icon name="upload" size={16} /> Choose backup file</Button>
+          </div>
           {pending ? (
             <div className="confirm" role="alertdialog" aria-label="Confirm import">
               <p>Replace all progress with <strong>{pending.name}</strong>? This cannot be undone.</p>
@@ -258,19 +295,23 @@ function DataSection() {
             </div>
           ) : null}
         </div>
-        <div className="panel">
-          <h3 className="panel-title"><Icon name="reset" size={18} /> Reset a course</h3>
-          <p className="muted">Forget what you learned in one opening and start it again.</p>
-          <label className="select-wrap">
-            <span className="sr-only">Course to reset</span>
-            <select value={resetId} onChange={(e) => { setResetId(e.target.value); setConfirmReset(false); }}>
-              <option value="">Choose a course…</option>
-              {courses.map((c) => <option key={c.id} value={c.id}>{c.title}</option>)}
-            </select>
-          </label>
-          {resetId && !confirmReset ? (
-            <Button variant="danger" onClick={() => setConfirmReset(true)}>Reset this course</Button>
-          ) : null}
+        <div className="data-row">
+          <div className="data-text">
+            <h3>Reset a course</h3>
+            <p className="muted">Forget what you learned in one opening and start it again.</p>
+          </div>
+          <div className="data-action data-reset">
+            <label className="select-wrap">
+              <span className="sr-only">Course to reset</span>
+              <select value={resetId} onChange={(e) => { setResetId(e.target.value); setConfirmReset(false); }}>
+                <option value="">Choose a course…</option>
+                {courses.map((c) => <option key={c.id} value={c.id}>{c.title}</option>)}
+              </select>
+            </label>
+            {resetId && !confirmReset ? (
+              <Button variant="danger" onClick={() => setConfirmReset(true)}>Reset this course</Button>
+            ) : null}
+          </div>
           {resetId && confirmReset ? (
             <div className="confirm" role="alertdialog" aria-label="Confirm reset">
               <p>Delete all progress for <strong>{getCourse(resetId)?.title}</strong>?</p>
@@ -305,6 +346,8 @@ export default function ProgressPage() {
   const otherRows = rows.filter((r) => (r.p?.learnedCount ?? 0) === 0);
   const totalLearned = rows.reduce((n, r) => n + (r.p?.learnedCount ?? 0), 0);
   const totalDue = rows.reduce((n, r) => n + (r.p?.dueCount ?? 0), 0);
+  const ready = streak !== undefined && Object.keys(map).length > 0;
+  const nothingYet = totalLearned === 0 && (streak?.best ?? 0) === 0 && (streak?.current ?? 0) === 0;
 
   return (
     <div className="container">
@@ -313,66 +356,71 @@ export default function ProgressPage() {
         <p className="page-lead">Stored only on this device. No account, nothing uploaded.</p>
       </header>
 
-      <div className="stat-grid">
-        <div className="stat">
-          <Icon name="flame" size={22} />
-          <strong>{streak?.current ?? 0}</strong>
-          <span>day streak{streak?.todayDone ? " (done today)" : ""}</span>
-        </div>
-        <div className="stat">
-          <Icon name="trophy" size={22} />
-          <strong>{streak?.best ?? 0}</strong>
-          <span>best streak</span>
-        </div>
-        <div className="stat">
-          <Icon name="check" size={22} />
-          <strong>{totalLearned}</strong>
-          <span>lines learned</span>
-        </div>
-        <div className="stat">
-          <Icon name="repeat" size={22} />
-          <strong>{totalDue}</strong>
-          <span>due for review</span>
-        </div>
-      </div>
+      {!ready ? (
+        <section className="scoreboard" data-state="loading" aria-label="Scoreboard" aria-busy="true" />
+      ) : nothingYet ? (
+        <section className="scoreboard" data-state="empty" aria-label="Scoreboard">
+          <div>
+            <p className="sb-empty-title">Finish a line to start a streak</p>
+            <p className="sb-note">Your streak, learned lines and reviews are scored here.</p>
+          </div>
+          <Link className="btn" data-variant="primary" data-size="md" to="/openings">Pick an opening</Link>
+        </section>
+      ) : (
+        <section className="scoreboard" aria-label="Scoreboard">
+          <dl className="sb-stats">
+            <Fig label="day streak" value={streak?.current ?? 0} />
+            <Fig label="best streak" value={streak?.best ?? 0} />
+            <Fig label="lines learned" value={totalLearned} tone="learned" />
+            <Fig label="due for review" value={totalDue} tone="due" />
+          </dl>
+          <p className="sb-note">
+            {streak?.todayDone
+              ? "A line is done today. See you tomorrow."
+              : (streak?.current ?? 0) > 0
+                ? "Finish a line today to keep your streak going."
+                : "Finish a line today to start a new streak."}
+          </p>
+        </section>
+      )}
 
       <ActivityHeatmap activity={activity} />
 
       <section className="section-block" aria-labelledby="courses-h">
         <h2 id="courses-h">Courses</h2>
-        {startedRows.length === 0 ? (
-          <div className="callout">
-            <h3>You have not started a course yet</h3>
-            <p>Learn your first line and your progress shows up here.</p>
-            <Link className="btn" data-variant="primary" data-size="md" to="/openings">Pick an opening</Link>
+        {startedRows.length > 0 ? (
+          <div className="panel">
+            <ul className="progress-list">
+              {startedRows.map(({ c, p }) => (
+                <li key={c.id}>
+                  <div className="progress-row-head">
+                    <Link to={`/opening/${c.id}`}>{c.title}</Link>
+                    <span className="muted">
+                      {p?.learnedCount ?? 0}/{p?.totalLines ?? 0} learned
+                      {p && p.dueCount > 0 ? <strong className="due-pill">{p.dueCount} due</strong> : null}
+                    </span>
+                  </div>
+                  {p ? <CourseLane title={c.title} p={p} /> : null}
+                </li>
+              ))}
+            </ul>
+            <p className="lane-key" aria-hidden="true">
+              <span><i data-state="learned" />Learned</span>
+              <span><i data-state="due" />Due for review</span>
+              <span><i data-state="new" />Not learned yet</span>
+            </p>
           </div>
-        ) : (
-          <ul className="progress-list">
-            {startedRows.map(({ c, p }) => (
-              <li key={c.id}>
-                <div className="progress-row-head">
-                  <Link to={`/opening/${c.id}`}>{c.title}</Link>
-                  <span className="muted">
-                    {p?.learnedCount ?? 0}/{p?.totalLines ?? 0} learned
-                    {p && p.dueCount > 0 ? <strong className="due-pill">{p.dueCount} due</strong> : null}
-                  </span>
-                </div>
-                <ProgressBar value={p?.learnedCount ?? 0} max={p?.totalLines ?? 0} label={`${c.title} progress`} />
-              </li>
-            ))}
-          </ul>
-        )}
-        {startedRows.length > 0 && otherRows.length > 0 ? (
+        ) : null}
+        {otherRows.length > 0 ? (
           <details className="more">
-            <summary>{otherRows.length} courses not started</summary>
+            <summary>{otherRows.length} {startedRows.length > 0 ? "courses not started" : "courses to start"}</summary>
             <ul className="progress-list">
               {otherRows.map(({ c, p }) => (
                 <li key={c.id}>
                   <div className="progress-row-head">
                     <Link to={`/opening/${c.id}`}>{c.title}</Link>
-                    <span className="muted">0/{p?.totalLines ?? c.lines.length} learned</span>
+                    <span className="muted unstarted-lines">{p?.totalLines ?? c.lines.length} lines</span>
                   </div>
-                  <ProgressBar value={0} max={p?.totalLines ?? 1} label={`${c.title} progress`} />
                 </li>
               ))}
             </ul>
@@ -382,7 +430,7 @@ export default function ProgressPage() {
 
       <section className="section-block" aria-labelledby="scores-h">
         <h2 id="scores-h">Best scores</h2>
-        <div className="data-grid two">
+        <div className="score-grid">
           <ScoreList title="Drill: longest streak" unit="in a row" scores={drill} icon="flame" />
           <ScoreList title="Time: most lines in 60s" unit="lines" scores={time} icon="clock" />
         </div>

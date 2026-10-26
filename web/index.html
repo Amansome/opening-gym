@@ -1,12 +1,12 @@
 <!doctype html>
-<html lang="en" data-theme="dark">
+<html lang="en" data-theme="light">
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
     <link rel="manifest" href="/manifest.webmanifest" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#0b0b0e" />
+    <meta name="theme-color" content="#1f4fbf" />
     <meta name="application-name" content="Opening Gym" />
     <meta
       name="description"
@@ -14,7 +14,7 @@
     />
     <title>Opening Gym: free chess opening trainer</title>
     <script>
-      // Apply the saved theme before first paint to avoid a flash. Dark is the default.
+      // Apply the saved theme before first paint to avoid a flash. Light ("day") is the default.
       try {
         var t = localStorage.getItem("opening-gym:theme");
         if (t === "light" || t === "dark") document.documentElement.setAttribute("data-theme", t);

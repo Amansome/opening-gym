@@ -157,7 +157,7 @@ function Editor({ existing }: { existing?: Course }) {
           </div>
           <div className="cc-field">
             <span className="cc-label" id="cc-side-l">I play as</span>
-            <div className="seg" role="group" aria-labelledby="cc-side-l">
+            <div className="seg cc-seg" role="group" aria-labelledby="cc-side-l">
               {(["white", "black"] as const).map((s) => (
                 <button
                   key={s}
@@ -212,7 +212,7 @@ function Editor({ existing }: { existing?: Course }) {
         )}
       </section>
 
-      <section className="cc-card" aria-labelledby="cc-preview">
+      <section className="cc-card" aria-labelledby="cc-preview" data-lane="green">
         <h2 id="cc-preview">3. Review and save</h2>
         <Preview
           tree={tree}

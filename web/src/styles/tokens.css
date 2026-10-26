@@ -1,62 +1,126 @@
-/* Design tokens. Owned by the pages/shell agent; everyone else uses these variables, never raw colours. */
+/* Design tokens: "Tournament Day Gym".
+   A school gym set up for a scholastic tournament: maple floor, painted court lines,
+   white folding tables, varsity numerals. Everyone uses these variables, never raw colours.
+   Light ("day") is the default; [data-theme="dark"] is "after hours" under arena lights. */
 :root {
-  color-scheme: dark;
-  --bg: #0b0b0e;
-  --surface: #15151a;
-  --surface-2: #1e1e25;
-  --border: #2a2a33;
-  --text: #f2f2f5;
-  --text-muted: #a3a3b1;
-  --accent: #6f4cff;      /* Learn / brand */
-  --accent-text: #ffffff;
-  --accent-fg: #b4a0ff;   /* accent used as text/icon colour on the page background */
-  --accent-soft: rgb(111 76 255 / 0.16);
-  --practice: #22c55e;
-  --drill: #ef4444;
-  --time: #3b82f6;
-  --dojo: #f59e0b;
-  --success: #22c55e;
-  --danger: #ef4444;
-  --warning: #f59e0b;
-  --danger-fg: #ff8a8a;
-  --warning-fg: #fbbf24;
-  --success-fg: #4ade80;
-  --bubble-bg: #ffffff;
-  --bubble-text: #111114;
-  --board-light: #eed9b6;
-  --board-dark: #c49d72;
-  --radius: 12px;
-  --radius-sm: 8px;
-  --shadow: 0 8px 30px rgb(0 0 0 / 0.35);
+  color-scheme: light;
+
+  /* Floor and tables */
+  --floor: #e8cd9c;          /* sanded maple: the page ground */
+  --floor-deep: #dcbb82;     /* worn lane / pressed state on the floor */
+  --table: #fbf8f1;          /* folding-table top: panels that hold work */
+  --table-2: #f2eadb;        /* recessed area inside a table */
+  --line: #d8c6a3;           /* hairline on tables */
+  --ink: #22190d;            /* text */
+  --ink-soft: #5b4628;       /* secondary text: ≥4.5:1 on floor and table */
+
+  /* Painted court lines. Each mode owns one, like each sport owns a line colour on a gym floor. */
+  --court-blue: #1f4fbf;     /* Learn, brand, primary actions */
+  --court-green: #1a7a43;    /* Practice, success */
+  --court-red: #c22f27;      /* Drill, mistakes */
+  --court-yellow: #f2b705;   /* Time, highlights ("your move", due) */
+  --court-black: #22190d;    /* Dojo (centre circle) */
+  --on-court: #ffffff;       /* text on blue/green/red/black */
+  --on-yellow: #22190d;      /* text on yellow */
+
+  /* Board: maple light squares, court-blue dark squares */
+  --board-light: #eed7a9;
+  --board-dark: #6585c6;
+  --board-coord: #3b2a12;
+
+  /* Type */
   --font: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  --mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;
-  --header-bg: rgb(11 11 14 / 0.82);
-  --hero-glow: radial-gradient(60% 80% at 50% 0%, rgb(111 76 255 / 0.28), transparent 70%);
+  --font-display: "Saira Condensed", "Arial Narrow", system-ui, sans-serif;   /* gym signage: headings, labels */
+  --font-score: "Graduate", "Saira Condensed", serif;                          /* varsity numerals: scores, streaks, wordmark */
+  --mono: ui-monospace, "SF Mono", Menlo, Consolas, monospace;                 /* data only */
+
+  /* Shape and depth: tables sit on the floor with a soft offset shadow */
+  --radius: 14px;
+  --radius-sm: 8px;
+  --court-width: 6px;        /* painted line thickness */
+  --shadow: 0 1px 0 rgb(80 50 10 / 0.08), 0 8px 22px rgb(80 50 10 / 0.16);
+  --shadow-sm: 0 1px 0 rgb(80 50 10 / 0.08), 0 3px 8px rgb(80 50 10 / 0.12);
+
+  /* Layout */
   --max-width: 1200px;
   --gutter: 16px;
   --header-h: 60px;
-  --bottom-nav-h: 60px;
+  --bottom-nav-h: 64px;
+
+  /* ---- Compatibility aliases (older components). Prefer the names above in new code. ---- */
+  --bg: var(--floor);
+  --surface: var(--table);
+  --surface-2: var(--table-2);
+  --border: var(--line);
+  --text: var(--ink);
+  --text-muted: var(--ink-soft);
+  --accent: var(--court-blue);
+  --accent-text: var(--on-court);
+  --accent-fg: #1a43a3;
+  --accent-soft: rgb(31 79 191 / 0.12);
+  --practice: var(--court-green);
+  --drill: var(--court-red);
+  --time: var(--court-yellow);
+  --dojo: var(--court-black);
+  --success: var(--court-green);
+  --danger: var(--court-red);
+  --warning: var(--court-yellow);
+  --success-fg: #146136;
+  --danger-fg: #a1241d;
+  --warning-fg: #7a5a00;
+  --bubble-bg: var(--table);
+  --bubble-text: var(--ink);
+  --header-bg: var(--court-blue);
+  --hero-glow: none;
 }
-:root[data-theme="light"] {
-  color-scheme: light;
-  --bg: #f6f6f8;
-  --surface: #ffffff;
-  --surface-2: #efeff4;
-  --border: #dcdce3;
-  --text: #15151a;
-  --text-muted: #5a5a69;
-  --accent: #5b3df5;
-  --accent-fg: #4b2fd6;
-  --accent-soft: rgb(91 61 245 / 0.1);
-  --danger-fg: #b91c1c;
-  --warning-fg: #92580a;
-  --success-fg: #15803d;
-  --bubble-bg: #f0edff;
-  --bubble-text: #15151a;
-  --shadow: 0 8px 30px rgb(0 0 0 / 0.08);
-  --header-bg: rgb(246 246 248 / 0.85);
-  --hero-glow: radial-gradient(60% 80% at 50% 0%, rgb(91 61 245 / 0.16), transparent 70%);
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --floor: #1d150d;          /* varnished floor after hours */
+  --floor-deep: #140e08;
+  --table: #2a2017;
+  --table-2: #33281d;
+  --line: #4a3b2b;
+  --ink: #f6ebd8;
+  --ink-soft: #d0bc98;
+  --court-blue: #6f95f2;
+  --court-green: #45c07a;
+  --court-red: #f0675d;
+  --court-yellow: #f7c948;
+  --court-black: #f6ebd8;
+  --on-court: #120c06;
+  --on-yellow: #120c06;
+  --board-light: #d8bf8c;
+  --board-dark: #4d6aa8;
+  --board-coord: #e8d6b3;
+  --shadow: 0 1px 0 rgb(0 0 0 / 0.3), 0 10px 26px rgb(0 0 0 / 0.45);
+  --shadow-sm: 0 1px 0 rgb(0 0 0 / 0.3), 0 3px 8px rgb(0 0 0 / 0.35);
+  --accent-fg: #9db6f7;
+  --accent-soft: rgb(111 149 242 / 0.16);
+  --success-fg: #6fd69b;
+  --danger-fg: #ff958c;
+  --warning-fg: #f7c948;
+  --header-bg: #13213f;
 }
+
 @media (min-width: 720px) {
   :root { --gutter: 24px; }
+}
+
+/* ---- Shell additions ---- */
+:root {
+  --line-strong: #9a7f52;     /* control borders and chalk outlines: ≥3:1 against the table */
+  --mark: #fbe08a;            /* highlighter / last-move wash */
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --header-fg: #ffffff;       /* text on the court-blue header band */
+  --scoreboard: #1f1608;      /* scoreboard panel: dark, with yellow varsity numerals */
+  --on-scoreboard: #f6ebd8;
+  --panel-shadow: var(--shadow-sm);
+}
+:root[data-theme="dark"] {
+  --line-strong: #8a7455;
+  --mark: #5a4710;
+  --header-fg: #f6ebd8;
+  --scoreboard: #100a04;
+  --panel-shadow: var(--shadow-sm), 0 0 0 1px var(--line);
 }

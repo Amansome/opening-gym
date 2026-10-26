@@ -11,7 +11,7 @@ export default function DojoPage() {
   const empty = started !== undefined && started.length === 0;
   return (
     <div className="container">
-      <header className="page-head">
+      <header className="page-head" style={{ ["--head-line" as string]: "var(--court-black)" }}>
         <h1>Dojo</h1>
         <p className="page-lead">
           One session, every course you have started, mixed together. Lines that are due or shaky come first, so you

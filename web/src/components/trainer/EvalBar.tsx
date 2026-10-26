@@ -8,7 +8,10 @@ export interface EvalBarProps {
   orientation: "white" | "black";
 }
 
-/** Slim eval bar: vertical beside the board on desktop, horizontal above it on mobile (CSS decides). */
+/**
+ * Slim eval bar: a maple strip filled from the side that is ahead, with a painted half-court line at "equal".
+ * Vertical beside the board on desktop, horizontal above it on mobile (CSS decides).
+ */
 export function EvalBar({ cp, orientation }: EvalBarProps) {
   const known = typeof cp === "number";
   const value = known ? cp : START_EVAL_CP;
@@ -26,6 +29,7 @@ export function EvalBar({ cp, orientation }: EvalBarProps) {
       aria-label={known ? `Engine evaluation ${formatEval(value)}. ${describeEval(value)}.` : "Engine evaluation not available for this position"}
     >
       <div className="og-eval__fill" />
+      <span className="og-eval__mid" aria-hidden="true" />
       <span className="og-eval__label" data-testid="eval-label">
         {known ? formatEval(value) : "–"}
       </span>
