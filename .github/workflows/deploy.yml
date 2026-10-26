@@ -72,7 +72,20 @@ jobs:
         run: |
           npx vite preview --port 4173 --strictPort &
           for i in $(seq 1 30); do curl -sf "http://localhost:4173${BASE_PATH}" > /dev/null && break; sleep 1; done
-          BASE_URL="http://localhost:4173${BASE_PATH%/}" npm run e2e
+          set -o pipefail
+          BASE_URL="http://localhost:4173${BASE_PATH%/}" SHOTS=e2e/shots npm run e2e 2>&1 | tee e2e.log || {
+            # Surface failures as annotations (readable from the checks API without downloading logs).
+            grep -E "^FAIL|Error|error|Timeout" e2e.log | head -20 | while IFS= read -r l; do echo "::error title=e2e::$l"; done
+            exit 1
+          }
+
+      - name: Upload e2e screenshots on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: e2e-shots
+          path: web/e2e/shots
+          if-no-files-found: ignore
 
       # GitHub Pages serves 404.html for unknown URLs: use the clean app shell so deep links still boot the SPA.
       - name: SPA fallback and .nojekyll
