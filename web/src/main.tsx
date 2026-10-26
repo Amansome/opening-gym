@@ -1,5 +1,9 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
+// Self-hosted display faces (OFL): no external font requests.
+import "@fontsource/graduate/400.css";
+import "@fontsource/saira-condensed/600.css";
+import "@fontsource/saira-condensed/800.css";
 import "./styles/tokens.css";
 import "./styles/global.css";
 import "./styles/components.css";
