@@ -1,11 +1,10 @@
 import { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { localDayKey, progress } from "../lib/progress";
-import type { ScoreEntry } from "../lib/progress";
+import type { CourseProgress, ScoreEntry } from "../lib/progress";
 import { courses, getCourse } from "../lib/courses";
 import { Button } from "../components/ui/Button";
 import { Icon } from "../components/ui/Icon";
-import { ProgressBar } from "../components/ui/ProgressBar";
 import "../styles/heatmap.css";
 import { useCourseProgressMap, useDocumentMeta, useStreak } from "../components/ui/hooks";
 
@@ -138,6 +137,34 @@ function ActivityHeatmap({ activity }: { activity: Record<string, number> | unde
       </div>
       </div>
     </section>
+  );
+}
+
+type LaneState = "learned" | "due" | "new";
+
+/** One painted lane per course: a segment per line, learned solid blue, due yellow, not yet learned as a chalk outline. */
+function CourseLane({ title, p }: { title: string; p: CourseProgress }) {
+  const now = Date.now();
+  const states: LaneState[] = p.lines.map((l) => (!l.learned ? "new" : l.due <= now ? "due" : "learned"));
+  const order: Record<LaneState, number> = { learned: 0, due: 1, new: 2 };
+  states.sort((a, b) => order[a] - order[b]);
+  return (
+    <div
+      className="lane-strip"
+      role="img"
+      aria-label={`${title}: ${p.learnedCount} of ${p.totalLines} lines learned${p.dueCount > 0 ? `, ${p.dueCount} due` : ""}`}
+    >
+      {states.map((st, i) => <span key={i} className="lane-seg" data-state={st} />)}
+    </div>
+  );
+}
+
+function Fig({ label, value, tone }: { label: string; value: number; tone?: "learned" | "due" }) {
+  return (
+    <div className="sb-stat" data-tone={tone}>
+      <dt>{label}</dt>
+      <dd data-zero={value === 0 ? "" : undefined}>{value}</dd>
+    </div>
   );
 }
 
@@ -319,6 +346,8 @@ export default function ProgressPage() {
   const otherRows = rows.filter((r) => (r.p?.learnedCount ?? 0) === 0);
   const totalLearned = rows.reduce((n, r) => n + (r.p?.learnedCount ?? 0), 0);
   const totalDue = rows.reduce((n, r) => n + (r.p?.dueCount ?? 0), 0);
+  const ready = streak !== undefined && Object.keys(map).length > 0;
+  const nothingYet = totalLearned === 0 && (streak?.best ?? 0) === 0 && (streak?.current ?? 0) === 0;
 
   return (
     <div className="container">
@@ -327,73 +356,71 @@ export default function ProgressPage() {
         <p className="page-lead">Stored only on this device. No account, nothing uploaded.</p>
       </header>
 
-      <section className="scoreboard" aria-label="Scoreboard">
-        <div className="sb-main">
-          <p className="sb-num" aria-hidden="true">{streak?.current ?? 0}</p>
-          <p className="sb-label">
-            <span className="sr-only">{streak?.current ?? 0} </span>day streak{streak?.todayDone ? " (done today)" : ""}
-          </p>
+      {!ready ? (
+        <section className="scoreboard" data-state="loading" aria-label="Scoreboard" aria-busy="true" />
+      ) : nothingYet ? (
+        <section className="scoreboard" data-state="empty" aria-label="Scoreboard">
+          <div>
+            <p className="sb-empty-title">Finish a line to start a streak</p>
+            <p className="sb-note">Your streak, learned lines and reviews are scored here.</p>
+          </div>
+          <Link className="btn" data-variant="primary" data-size="md" to="/openings">Pick an opening</Link>
+        </section>
+      ) : (
+        <section className="scoreboard" aria-label="Scoreboard">
+          <dl className="sb-stats">
+            <Fig label="day streak" value={streak?.current ?? 0} />
+            <Fig label="best streak" value={streak?.best ?? 0} />
+            <Fig label="lines learned" value={totalLearned} tone="learned" />
+            <Fig label="due for review" value={totalDue} tone="due" />
+          </dl>
           <p className="sb-note">
             {streak?.todayDone
               ? "A line is done today. See you tomorrow."
               : (streak?.current ?? 0) > 0
-                ? "Finish a line today to keep it going."
-                : "Finish a line to start a streak."}
+                ? "Finish a line today to keep your streak going."
+                : "Finish a line today to start a new streak."}
           </p>
-        </div>
-        <dl className="sb-stats">
-          <div className="sb-stat">
-            <dt>best streak</dt>
-            <dd>{streak?.best ?? 0}</dd>
-          </div>
-          <div className="sb-stat">
-            <dt>lines learned</dt>
-            <dd>{totalLearned}</dd>
-          </div>
-          <div className="sb-stat">
-            <dt>due for review</dt>
-            <dd>{totalDue}</dd>
-          </div>
-        </dl>
-      </section>
+        </section>
+      )}
 
       <ActivityHeatmap activity={activity} />
 
       <section className="section-block" aria-labelledby="courses-h">
         <h2 id="courses-h">Courses</h2>
-        {startedRows.length === 0 ? (
-          <div className="callout">
-            <h3>You have not started a course yet</h3>
-            <p>Learn your first line and your progress shows up here.</p>
-            <Link className="btn" data-variant="primary" data-size="md" to="/openings">Pick an opening</Link>
+        {startedRows.length > 0 ? (
+          <div className="panel">
+            <ul className="progress-list">
+              {startedRows.map(({ c, p }) => (
+                <li key={c.id}>
+                  <div className="progress-row-head">
+                    <Link to={`/opening/${c.id}`}>{c.title}</Link>
+                    <span className="muted">
+                      {p?.learnedCount ?? 0}/{p?.totalLines ?? 0} learned
+                      {p && p.dueCount > 0 ? <strong className="due-pill">{p.dueCount} due</strong> : null}
+                    </span>
+                  </div>
+                  {p ? <CourseLane title={c.title} p={p} /> : null}
+                </li>
+              ))}
+            </ul>
+            <p className="lane-key" aria-hidden="true">
+              <span><i data-state="learned" />Learned</span>
+              <span><i data-state="due" />Due for review</span>
+              <span><i data-state="new" />Not learned yet</span>
+            </p>
           </div>
-        ) : (
-          <ul className="progress-list panel">
-            {startedRows.map(({ c, p }) => (
-              <li key={c.id}>
-                <div className="progress-row-head">
-                  <Link to={`/opening/${c.id}`}>{c.title}</Link>
-                  <span className="muted">
-                    {p?.learnedCount ?? 0}/{p?.totalLines ?? 0} learned
-                    {p && p.dueCount > 0 ? <strong className="due-pill">{p.dueCount} due</strong> : null}
-                  </span>
-                </div>
-                <ProgressBar value={p?.learnedCount ?? 0} max={p?.totalLines ?? 0} due={p?.dueCount ?? 0} label={`${c.title} progress`} />
-              </li>
-            ))}
-          </ul>
-        )}
-        {startedRows.length > 0 && otherRows.length > 0 ? (
+        ) : null}
+        {otherRows.length > 0 ? (
           <details className="more">
-            <summary>{otherRows.length} courses not started</summary>
+            <summary>{otherRows.length} {startedRows.length > 0 ? "courses not started" : "courses to start"}</summary>
             <ul className="progress-list">
               {otherRows.map(({ c, p }) => (
                 <li key={c.id}>
                   <div className="progress-row-head">
                     <Link to={`/opening/${c.id}`}>{c.title}</Link>
-                    <span className="muted">0/{p?.totalLines ?? c.lines.length} learned</span>
+                    <span className="muted unstarted-lines">{p?.totalLines ?? c.lines.length} lines</span>
                   </div>
-                  <ProgressBar value={0} max={p?.totalLines ?? 1} label={`${c.title} progress`} />
                 </li>
               ))}
             </ul>

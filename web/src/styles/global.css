@@ -101,6 +101,8 @@ input::placeholder, textarea::placeholder { color: var(--ink-soft); opacity: 1; 
 .streak-badge[data-active="true"] svg { color: var(--court-yellow); }
 .streak-num { font-family: var(--font-score); font-size: 1.25rem; line-height: 1; font-variant-numeric: tabular-nums; min-width: 1ch; text-align: center; }
 .streak-badge[data-active="true"] .streak-num { color: var(--court-yellow); }
+/* Graduate's zero is a bare oval that reads as an icon: a zero streak is set in the display numerals */
+.streak-num[data-zero] { font-family: var(--font-display); font-weight: 800; font-size: 1.5rem; }
 .streak-unit { display: none; font-family: var(--font-display); font-weight: 600; font-size: 0.95rem; letter-spacing: 0.06em; text-transform: uppercase; }
 @media (min-width: 560px) { .streak-unit { display: inline; } }
 .icon-btn, .theme-toggle {
@@ -135,7 +137,12 @@ input::placeholder, textarea::placeholder { color: var(--ink-soft); opacity: 1; 
 
 /* ---------- Footer: the bleachers, with a painted line along the top ---------- */
 .site-footer { background: var(--floor-deep); border-top: var(--court-width) solid var(--court-yellow); padding: 44px 0 32px; color: var(--ink-soft); font-size: 0.93rem; }
-@media (max-width: 719px) { .site-footer { padding-bottom: calc(var(--bottom-nav-h) + 32px); } }
+@media (max-width: 719px) {
+  .site-footer { padding-bottom: calc(var(--bottom-nav-h) + 32px); }
+  /* no bottom tab bar on the trainer page, so nothing to clear */
+  .page--trainer { padding-bottom: 40px; }
+  .page--trainer + .site-footer { padding-bottom: 32px; }
+}
 .footer-grid { display: grid; gap: 28px; grid-template-columns: 1fr; }
 @media (min-width: 720px) { .footer-grid { grid-template-columns: 1.6fr 1fr 1fr 1fr; } }
 .site-footer .brand { color: var(--ink); }

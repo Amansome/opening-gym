@@ -1,4 +1,5 @@
 import { Icon } from "./icons";
+import { isZero } from "./hooks";
 
 export interface ScoreStat {
   id: string;
@@ -33,7 +34,7 @@ export function Scoreboard({ title, stats, streakDays }: ScoreboardProps) {
         {stats.map((s) => (
           <div className={`og-score__cell${s.alert ? " is-alert" : ""}`} key={s.id} data-testid={s.testId}>
             <span className="og-score__label">{s.label}</span>{" "}
-            <span className="og-score__value">
+            <span className="og-score__value" data-zero={isZero(s.value) || undefined}>
               {s.value}
               {s.of && <span className="og-score__of">{s.of}</span>}
               {s.flash && <span className="og-score__flash">{s.flash}</span>}
@@ -45,7 +46,7 @@ export function Scoreboard({ title, stats, streakDays }: ScoreboardProps) {
             <span className="og-score__label">
               <span className="og-score__long">Day </span>streak
             </span>{" "}
-            <span className="og-score__value">
+            <span className="og-score__value" data-zero={isZero(streakDays) || undefined}>
               <Icon name="flame" size={16} />
               {streakDays}
             </span>

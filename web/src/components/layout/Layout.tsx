@@ -1,4 +1,4 @@
-import { Link, NavLink, Outlet, ScrollRestoration } from "react-router-dom";
+import { Link, NavLink, Outlet, ScrollRestoration, useMatch } from "react-router-dom";
 import { APP_NAME, REPO_URL, TAGLINE } from "../../config";
 import { Icon } from "../ui/Icon";
 import type { IconName } from "../ui/Icon";
@@ -51,7 +51,7 @@ function Header() {
             aria-label={`Daily streak: ${current} ${current === 1 ? "day" : "days"}`}
           >
             <Icon name="flame" />
-            <span className="streak-num">{current}</span>
+            <span className="streak-num" data-zero={current === 0 || undefined}>{current}</span>
             <span className="streak-unit" aria-hidden="true">{current === 1 ? "day" : "days"}</span>
           </Link>
           <button
@@ -132,15 +132,17 @@ function Footer() {
 }
 
 export function Layout() {
+  // The trainer on a phone needs every pixel: it keeps only its own control row and a back link, not the tab bar.
+  const inTrainer = !!useMatch("/opening/:courseId");
   return (
     <>
       <a href="#main" className="skip-link">Skip to content</a>
       <Header />
-      <main id="main" className="page" tabIndex={-1}>
+      <main id="main" className={`page${inTrainer ? " page--trainer" : ""}`} tabIndex={-1}>
         <Outlet />
       </main>
       <Footer />
-      <BottomNav />
+      {inTrainer ? null : <BottomNav />}
       <ScrollRestoration />
     </>
   );

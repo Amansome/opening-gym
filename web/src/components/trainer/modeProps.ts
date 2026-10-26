@@ -11,4 +11,8 @@ export interface ModeProps {
   /** the mode tab strip, already wired */
   tabs: ReactNode;
   selectMode: (mode: Mode) => void;
+  /** a line chosen from the lane picker (or ?line=): Learn plays exactly this line, Practice puts it first in the queue */
+  pick?: string;
+  /** the lane picker for the panel; pass the line on the board so its lane is marked */
+  lanes?: (currentLineId?: string) => ReactNode;
 }

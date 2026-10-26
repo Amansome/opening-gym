@@ -85,6 +85,8 @@ export interface PlayerShellProps {
   controls: ControlSpec[];
   /** the mode tab strip */
   tabs?: ReactNode;
+  /** the lane picker (see PlayerLayout) */
+  lanes?: ReactNode;
 }
 
 export function PlayerShell(p: PlayerShellProps) {
@@ -131,6 +133,7 @@ export function PlayerShell(p: PlayerShellProps) {
       evalBar={showEval ? <EvalBar cp={p.evalCp === undefined ? START_EVAL_CP : p.evalCp} orientation={p.board.orientation ?? "white"} /> : undefined}
       overlay={p.overlay}
       controls={<ControlBar controls={controls} />}
+      lanes={p.lanes}
     />
   );
 }

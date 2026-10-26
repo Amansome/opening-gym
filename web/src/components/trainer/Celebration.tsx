@@ -1,5 +1,6 @@
 import type { CSSProperties, ReactNode } from "react";
 import { Icon } from "./icons";
+import { isZero } from "./hooks";
 
 export interface OverlayProps {
   title: string;
@@ -35,7 +36,7 @@ export function Overlay({ title, subtitle, tone = "neutral", streak, score, stat
             {streak && (
               <div className="og-housing__streak" data-testid="streak-burst">
                 <Icon name="flame" size={26} className="og-housing__flame" />
-                <span className="og-housing__big og-flip" style={idx(n++)}>
+                <span className="og-housing__big og-flip" style={idx(n++)} data-zero={isZero(streak.value) || undefined}>
                   {streak.value}
                 </span>
                 <span className="og-housing__label">{streak.label}</span>
@@ -44,7 +45,7 @@ export function Overlay({ title, subtitle, tone = "neutral", streak, score, stat
             )}
             {score && (
               <div className="og-housing__score" data-testid="final-score">
-                <span className="og-housing__big og-housing__big--score og-flip" style={idx(n++)}>
+                <span className="og-housing__big og-housing__big--score og-flip" style={idx(n++)} data-zero={isZero(score.value) || undefined}>
                   {score.value}
                 </span>
                 <span className="og-housing__label">{score.label}</span>
@@ -54,7 +55,7 @@ export function Overlay({ title, subtitle, tone = "neutral", streak, score, stat
               <dl className="og-housing__stats">
                 {stats.map((s) => (
                   <div key={s.label}>
-                    <dd className="og-flip" style={idx(n++)}>
+                    <dd className="og-flip" style={idx(n++)} data-zero={isZero(s.value) || undefined}>
                       {s.value}
                     </dd>
                     <dt>{s.label}</dt>

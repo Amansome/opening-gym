@@ -3,6 +3,7 @@ import type { KeyboardEvent } from "react";
 import type { Mode } from "../../lib/types";
 import type { CourseProgress } from "../../lib/progress";
 import { Icon } from "./icons";
+import { isZero } from "./hooks";
 import type { IconName } from "./icons";
 
 type TabMode = Exclude<Mode, "dojo">;
@@ -94,7 +95,7 @@ export function ModeTabs({ mode, progress, onSelect }: ModeTabsProps) {
                 <Icon name={isLocked ? "lock" : t.icon} size={16} />
               </span>
               <span className="og-tab__name">{t.label}</span>
-              {!isLocked && c.big && <span className="og-tab__count">{c.big}</span>}
+              {!isLocked && c.big && <span className="og-tab__count" data-zero={isZero(c.big) || undefined}>{c.big}</span>}
             </button>
           );
         })}

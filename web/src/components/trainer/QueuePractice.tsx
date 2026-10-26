@@ -21,16 +21,19 @@ export interface QueuePracticeProps {
   mode: "practice" | "dojo";
   /** shown in the header when the queue is empty */
   fallbackTitle: string;
-  loadItems: () => Promise<QueueItem[]>;
+  /** `again` is true for "another round": the first round may start on a chosen line, later rounds follow the scheduler */
+  loadItems: (again?: boolean) => Promise<QueueItem[]>;
   streak: StreakInfo;
   refreshStreak: () => Promise<StreakInfo>;
   tabs?: ReactNode;
   /** buttons for the "nothing to practise" note and the round-complete overlay */
   extraActions?: ReactNode;
   emptyText: string;
+  /** the lane picker, given the line on the board */
+  lanes?: (currentLineId?: string) => ReactNode;
 }
 
-export function QueuePractice({ mode, fallbackTitle, loadItems, streak, refreshStreak, tabs, extraActions, emptyText }: QueuePracticeProps) {
+export function QueuePractice({ mode, fallbackTitle, loadItems, streak, refreshStreak, tabs, extraActions, emptyText, lanes }: QueuePracticeProps) {
   const [items, setItems] = useState<QueueItem[] | null>(null);
   const [idx, setIdx] = useState(0);
   const [runId, setRunId] = useState(0);
@@ -38,9 +41,9 @@ export function QueuePractice({ mode, fallbackTitle, loadItems, streak, refreshS
   const [finished, setFinished] = useState(false);
   const [tally, setTally] = useState({ good: 0, hard: 0, again: 0, lines: 0 });
 
-  const load = useCallback(async () => {
+  const load = useCallback(async (again = false) => {
     setItems(null);
-    const next = await loadItems();
+    const next = await loadItems(again);
     setItems(next);
     setIdx(0);
     setFinished(false);
@@ -49,7 +52,7 @@ export function QueuePractice({ mode, fallbackTitle, loadItems, streak, refreshS
   }, [loadItems]);
 
   useEffect(() => {
-    void load();
+    void load(false);
   }, [load]);
 
   const item = items && !finished ? items[idx] : undefined;
@@ -158,7 +161,7 @@ export function QueuePractice({ mode, fallbackTitle, loadItems, streak, refreshS
           { label: "mistakes", value: String(tally.again) },
         ]}
       >
-        <button type="button" className="og-btn" onClick={() => void load()} data-testid="another-round">
+        <button type="button" className="og-btn" onClick={() => void load(true)} data-testid="another-round">
           Another round
         </button>
         {extraActions}
@@ -182,6 +185,7 @@ export function QueuePractice({ mode, fallbackTitle, loadItems, streak, refreshS
       overlay={overlay}
       controls={controls}
       tabs={tabs}
+      lanes={lanes?.(item?.line.id)}
     />
   );
 }

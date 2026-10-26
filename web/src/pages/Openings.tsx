@@ -73,6 +73,9 @@ export default function Openings() {
     { key: "both", title: "Traps and tricks", dot: "both", items: filtered.filter((c) => c.side === "both") },
   ];
   const totalLines = courses.reduce((n, c) => n + c.lines.length, 0);
+  // Inside a White / Black / Traps group the heading already names the side; a text search is the one case
+  // where rows are read on their own, so they carry their side badge again.
+  const showSide = needle !== "";
   const filtersActive = side !== "all" || level !== "all" || style !== "all" || needle !== "";
 
   return (
@@ -149,9 +152,9 @@ export default function Openings() {
               {g.title}
               <span className="count">{g.items.length}</span>
             </h2>
-            <RosterHead />
-            <div className="card-grid">
-              {g.items.map((c) => <CourseCard key={c.id} course={c} progress={progressMap[c.id]} />)}
+            <RosterHead showSide={showSide} />
+            <div className="card-grid" data-nosides={showSide ? undefined : ""}>
+              {g.items.map((c) => <CourseCard key={c.id} course={c} progress={progressMap[c.id]} showSide={showSide} />)}
             </div>
           </section>
         ))

@@ -31,7 +31,7 @@ function moveLabel(ply: number, san: string): string {
   return `${Math.ceil(ply / 2)}${ply % 2 === 1 ? "." : "..."}${san}`;
 }
 
-export function LearnMode({ course, cp, streak, refreshStreak, tabs, selectMode }: ModeProps) {
+export function LearnMode({ course, cp, streak, refreshStreak, tabs, selectMode, pick, lanes }: ModeProps) {
   const [current, setCurrent] = useState<Current | null>(null);
   const [runId, setRunId] = useState(0);
   const [cel, setCel] = useState<Celebration | null>(null);
@@ -43,19 +43,24 @@ export function LearnMode({ course, cp, streak, refreshStreak, tabs, selectMode 
   const cpRef = useRef(cp);
   cpRef.current = cp;
 
-  const loadNext = useCallback(async () => {
-    const [id, prog] = await Promise.all([progress.nextLearnLine(course), progress.getCourseProgress(course)]);
-    let line = id ? getLine(course, id) : undefined;
-    if (line?.kind === "warning" && demoSeen.current.has(line.id)) line = undefined;
-    setCel(null);
-    setDemoStep(0);
-    setCurrent({ line, welcome: !!line && prog.learnedCount === 0 && line.kind !== "warning" });
-    setRunId((r) => r + 1);
-  }, [course]);
+  // `forced` is a line chosen from the lane picker: it is played as it is, whether or not it is next in the course
+  const loadNext = useCallback(
+    async (forced?: string) => {
+      const [id, prog] = await Promise.all([progress.nextLearnLine(course), progress.getCourseProgress(course)]);
+      const chosen = forced ? getLine(course, forced) : undefined;
+      let line = chosen ?? (id ? getLine(course, id) : undefined);
+      if (!chosen && line?.kind === "warning" && demoSeen.current.has(line.id)) line = undefined;
+      setCel(null);
+      setDemoStep(0);
+      setCurrent({ line, welcome: !chosen && !!line && prog.learnedCount === 0 && line.kind !== "warning" });
+      setRunId((r) => r + 1);
+    },
+    [course],
+  );
 
   useEffect(() => {
-    void loadNext();
-  }, [loadNext]);
+    void loadNext(pick);
+  }, [loadNext, pick]);
 
   const line = current?.line;
   const isDemo = line?.kind === "warning";
@@ -260,6 +265,7 @@ export function LearnMode({ course, cp, streak, refreshStreak, tabs, selectMode 
       overlay={overlay}
       controls={controls}
       tabs={tabs}
+      lanes={lanes?.(line?.id)}
     />
   );
 }

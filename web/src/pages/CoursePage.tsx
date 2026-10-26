@@ -164,7 +164,7 @@ function CourseArticle({ course, mode }: { course: Course; mode?: Mode }) {
             {progress ? ` · ${progress.learnedCount} of ${trainable} trainable lines learned` : ""}. Trap-to-avoid
             lines are shown in Learn mode only.
           </p>
-          <CourtMap course={course} mode={mode} />
+          <CourtMap course={course} mode={mode} variant="full" />
           <details className="more lines-detail">
             <summary>Every line as a table, with moves and opening names</summary>
             <div className="table-wrap">
@@ -234,6 +234,7 @@ export default function CoursePage() {
   const [params] = useSearchParams();
   const modeParam = params.get("mode") as Mode | null;
   const initialMode = modeParam && MODES.includes(modeParam) ? modeParam : undefined;
+  const initialLine = params.get("line") ?? undefined; // a lane tapped in the "All lines" map starts that exact line
 
   const faq = course?.article?.faq;
   const jsonLd = useMemo(
@@ -275,7 +276,7 @@ export default function CoursePage() {
         </nav>
       </div>
       <div className="container player-slot">
-        <CoursePlayer key={`${course.id}:${initialMode ?? ""}`} course={course} initialMode={initialMode} />
+        <CoursePlayer key={`${course.id}:${initialMode ?? ""}:${initialLine ?? ""}`} course={course} initialMode={initialMode} initialLine={initialLine} />
       </div>
       <div className="container">
         <CourseArticle course={course} mode={initialMode} />

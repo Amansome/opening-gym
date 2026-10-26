@@ -41,7 +41,7 @@
 
 /* stage = eval bar + board mat. The board is the biggest thing on the screen. */
 .og-player__stage {
-  --og-eval-w: 26px;
+  --og-eval-w: 34px;
   --og-eval-gap: 10px;
   display: flex;
   align-items: stretch;
@@ -91,10 +91,9 @@
   left: 0;
   right: 0;
   text-align: center;
-  font-family: var(--font-score);
-  font-size: 0.68rem;
-  line-height: 1;
-  padding: 6px 0;
+  font: 800 0.8rem/1 var(--font-display);
+  letter-spacing: 0;
+  padding: 7px 0;
   white-space: nowrap;
   overflow: hidden;
 }
@@ -118,6 +117,18 @@
   min-width: 0;
 }
 .og-player__top { display: flex; flex-direction: column; gap: 10px; min-width: 0; }
+.og-back { display: none; }
+
+/* the lane picker takes whatever height the table has left under the control row, and scrolls inside it */
+.og-player__panel { align-self: stretch; }
+.og-player__lanes {
+  position: relative;
+  flex: 1 1 0;
+  min-height: 176px;
+  padding-top: 12px;
+  border-top: 2px solid var(--line);
+}
+.og-player__lanes > .cm { position: absolute; inset: 12px 0 0; }
 
 /* Dojo has no tab strip: a plain mode heading with its own court line */
 .og-modehead {
@@ -192,6 +203,8 @@
   color: var(--og-housing-text);
   border-radius: var(--radius-sm);
 }
+/* with one or two numerals the title and the numerals share a row, which keeps the table short enough for the lane picker */
+.og-score:not(:has(.og-score__cell:nth-child(3))) { grid-template-columns: minmax(0, 1fr) auto; align-items: center; gap: 12px; padding-block: 8px; }
 .og-score__title {
   margin: 0;
   font: 800 1.2rem/1.15 var(--font-display);
@@ -224,6 +237,17 @@
 .og-score__of { font-size: 0.82rem; color: var(--og-housing-dim); margin-left: -2px; }
 .og-score__flash { font: 800 1rem/1 var(--font-display); color: var(--og-lit-green); }
 .og-score__cell.is-alert .og-score__value { color: var(--og-lit-red); }
+
+/* Graduate's zero is a bare oval that reads as an icon: any value starting with 0 is set in the display numerals */
+.og-score__value[data-zero], .og-tab__count[data-zero], .og-housing__big[data-zero], .og-housing__stats dd[data-zero] {
+  font-family: var(--font-display);
+  font-weight: 800;
+}
+.og-score__value[data-zero] { font-size: 2.05rem; }
+.og-tab__count[data-zero] { font-size: 0.98rem; }
+.og-housing__big[data-zero] { font-size: 3.6rem; }
+.og-housing__big--score[data-zero] { font-size: 5.2rem; }
+.og-housing__stats dd[data-zero] { font-size: 1.9rem; }
 
 /* ---- progress: a painted court line that fills as you play (drains for the Time clock) ---- */
 .og-bar {
@@ -331,6 +355,7 @@
   line-height: 1.3;
   color: var(--ink-soft);
 }
+.og-opening:empty { display: none; }
 .og-opening svg { flex: none; }
 .og-opening strong { color: var(--ink); font-weight: 600; }
 
@@ -580,11 +605,11 @@
   .og-eval {
     position: absolute;
     z-index: 2;
-    top: 2px;
+    top: 1px;
     left: 18px;
     right: 18px;
     width: auto;
-    height: 14px;
+    height: 17px;
     border-radius: 2px;
     box-shadow: none;
   }
@@ -592,14 +617,27 @@
   .og-eval[data-orient="white"] .og-eval__fill { left: 0; right: auto; }
   .og-eval[data-orient="black"] .og-eval__fill { right: 0; left: auto; }
   .og-eval__mid { top: 0; bottom: 0; left: calc(50% - 1px); right: auto; width: 2px; height: auto; }
-  .og-eval__label { top: 0 !important; bottom: 0 !important; left: auto; right: auto; width: auto; padding: 0 5px; font-size: 0.6rem; display: flex; align-items: center; }
+  .og-eval__label { top: 0 !important; bottom: 0 !important; left: auto; right: auto; width: auto; padding: 0 5px; font-size: 0.8rem; display: flex; align-items: center; }
   .og-eval[data-lead="white"][data-orient="white"] .og-eval__label,
   .og-eval[data-lead="black"][data-orient="black"] .og-eval__label { left: 0; }
   .og-eval[data-lead="white"][data-orient="black"] .og-eval__label,
   .og-eval[data-lead="black"][data-orient="white"] .og-eval__label { right: 0; }
 
-  .og-player__controls {
+  .og-player__lanes {
     order: 4;
+    flex: none;
+    min-height: 0;
+    padding: 12px 10px 8px;
+    background: var(--table);
+    border: 0;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-sm);
+  }
+  .og-player__lanes > .cm { position: static; }
+  .cm--picker .cm-lanes { overflow: visible; margin: 0; padding: 0; }
+
+  .og-player__controls {
+    order: 5;
     position: sticky;
     bottom: 0;
     z-index: 5;
@@ -620,6 +658,7 @@
   .og-score__cell { gap: 4px; }
   .og-score__cell--streak { margin-left: 0; }
   .og-score__value { font-size: 1.4rem; }
+  .og-score__value[data-zero] { font-size: 1.7rem; }
   .og-bar { height: 8px; }
 
   .og-overlay__card { padding: 0 14px 14px; }
@@ -630,6 +669,9 @@
   .og-housing__big { font-size: 2.3rem; }
   .og-housing__big--score { font-size: 3.2rem; }
   .og-housing__stats dd { font-size: 1.3rem; }
+  .og-housing__big[data-zero] { font-size: 2.7rem; }
+  .og-housing__big--score[data-zero] { font-size: 3.8rem; }
+  .og-housing__stats dd[data-zero] { font-size: 1.55rem; }
   .og-overlay__actions { margin-top: 12px; }
 }
 @media (max-width: 440px) {
@@ -641,8 +683,28 @@
   .og-control__label { text-overflow: clip; }
 }
 
-/* the shell's fixed bottom nav (phones) must not cover the sticky action bar */
+/* Phones: the way back to Openings lives in the trainer head (the breadcrumb is hidden there). Pages that still show the
+   shell's fixed bottom nav keep the action bar above it; the course page hides that nav and the bar sits at the bottom. */
 @media (max-width: 719px) {
+  .og-back {
+    display: inline-flex;
+    align-items: center;
+    align-self: flex-start;
+    gap: 2px;
+    min-height: 32px;
+    margin: 0 0 -2px -4px;
+    padding: 0 8px 0 4px;
+    border-radius: var(--radius-sm);
+    color: var(--ink);
+    font: 800 0.95rem/1 var(--font-display);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    text-decoration: none;
+  }
+  .og-back:hover { background: var(--table-2); }
+  .og-back:focus-visible { outline: 3px solid var(--og-focus); outline-offset: -2px; }
   .og-player__controls { bottom: calc(var(--bottom-nav-h, 64px) + env(safe-area-inset-bottom, 0px)); }
   .og-note__actions { scroll-margin-bottom: calc(var(--bottom-nav-h, 64px) + 56px + 20px); }
+  .page--trainer .og-player__controls { bottom: 0; }
+  .page--trainer .og-note__actions { scroll-margin-bottom: 76px; }
 }
