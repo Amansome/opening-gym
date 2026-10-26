@@ -72,7 +72,7 @@ export function LineDemo() {
   const sideName = node ? (node.ply % 2 === 1 ? "White" : "Black") : "";
   const caption = node
     ? node.note ?? (node.trained ? `You play ${node.san}.` : `${sideName} replies ${node.san}.`)
-    : `${course.title}: ${line.name}. Press play, or step through the moves.`;
+    : "Press play, or step through the moves one at a time.";
 
   return (
     <section className="demo" aria-label={`Live example: ${course.title}, ${line.name}`}>
@@ -93,7 +93,7 @@ export function LineDemo() {
         className="demo-board"
         label={node ? `Position after ${moveLabel(node)}` : "Starting position"}
       />
-      <div className="demo-note" data-who={node ? (node.trained ? "you" : "them") : "start"}>
+      <div key={shown} className="demo-note" data-who={node ? (node.trained ? "you" : "them") : "start"}>
         <p className="demo-move">
           {node ? (
             <>

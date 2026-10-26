@@ -95,7 +95,7 @@
   }
   .rc-lane { align-self: center; }
 }
-@container roster (min-width: 780px) {
+@container roster (min-width: 900px) {
   .course-card {
     grid-template-columns: var(--roster-cols); grid-template-areas: none; padding: 10px 18px; column-gap: 16px; row-gap: 0;
   }
@@ -106,7 +106,7 @@
   .rc-style:empty { display: block; }
 }
 .roster-head { display: none; }
-@container roster (min-width: 780px) {
+@container roster (min-width: 900px) {
   .roster-head {
     display: grid; grid-template-columns: var(--roster-cols); column-gap: 16px; padding: 0 18px 6px;
     font-family: var(--font-display); font-weight: 600; font-size: 1rem; letter-spacing: 0.07em; text-transform: uppercase; color: var(--ink-soft);

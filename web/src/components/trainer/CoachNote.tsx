@@ -22,6 +22,8 @@ const KIND_ICON: Record<NoteKind, IconName> = {
 };
 
 /** Pulls the lead-in out of the sentence so the status chip carries it once. */
+const upFirst = (s: string | undefined) => (s ? s.charAt(0).toUpperCase() + s.slice(1) : s);
+
 function feedback(kind: NoteKind, text: string | undefined): { label: string; rest?: string } {
   switch (kind) {
     case "correct":
@@ -29,11 +31,11 @@ function feedback(kind: NoteKind, text: string | undefined): { label: string; re
     case "wrong":
       return { label: "Not quite", rest: text?.replace(/^Not quite\.\s*/, "") };
     case "fine":
-      return { label: "Good move too", rest: text?.replace(/^Good move too!\s*/, "") };
+      return { label: "Good move too", rest: upFirst(text?.replace(/^Good move too!\s*/, "")) };
     case "other-line":
       return { label: "Another line", rest: text };
     case "hint":
-      return { label: "Hint", rest: text?.replace(/^Hint:\s*/, "") };
+      return { label: "Hint", rest: upFirst(text?.replace(/^Hint:\s*/, "")) };
   }
 }
 
