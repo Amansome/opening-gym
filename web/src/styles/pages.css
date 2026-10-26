@@ -62,7 +62,8 @@
 .breadcrumb { display: flex; align-items: center; gap: 6px; padding: 16px 0 12px; font-size: 0.88rem; color: var(--text-muted); }
 .breadcrumb a { color: var(--text-muted); }
 .breadcrumb span { color: var(--text); font-weight: 600; }
-.article-layout { display: grid; gap: 32px; margin-top: 48px; }
+.article-layout { display: grid; grid-template-columns: minmax(0, 1fr); gap: 32px; margin-top: 48px; }
+.article-layout > * { min-width: 0; }
 @media (min-width: 1000px) { .article-layout { grid-template-columns: 230px minmax(0, 1fr); gap: 56px; } }
 .toc { display: none; }
 @media (min-width: 1000px) {

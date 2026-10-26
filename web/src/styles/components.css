@@ -101,7 +101,7 @@
 .picks-chips { display: flex; flex-wrap: wrap; gap: 8px; }
 
 /* ---------- Tables, details, prose ---------- */
-.table-wrap { overflow-x: auto; border: 1px solid var(--border); border-radius: var(--radius); background: var(--surface); }
+.table-wrap { position: relative; max-width: 100%; overflow-x: auto; border: 1px solid var(--border); border-radius: var(--radius); background: var(--surface); }
 .lines-table { width: 100%; border-collapse: collapse; font-size: 0.93rem; }
 .lines-table th, .lines-table td { padding: 12px 14px; text-align: left; vertical-align: top; border-bottom: 1px solid var(--border); }
 .lines-table thead th { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--text-muted); background: var(--surface-2); }
