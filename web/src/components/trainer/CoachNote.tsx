@@ -1,3 +1,4 @@
+import { useEffect, useRef } from "react";
 import type { ReactNode } from "react";
 import type { BubbleState, NoteKind } from "./useLineRunner";
 import { Icon } from "./icons";
@@ -47,6 +48,24 @@ export function CoachNote({ note, actions, badge, footer }: CoachNoteProps) {
   const { text, notes, prompt, tone, kind } = note;
   const fb = kind ? feedback(kind, text) : undefined;
   const body = fb ? fb.rest : text;
+
+  // On a phone the note sits below the fold: when a button appears ("Try again", "Let's go"), bring it above the action
+  // bar, and put the page back where it was once the button is gone so the board is in view again.
+  const actionsRef = useRef<HTMLDivElement>(null);
+  const savedY = useRef<number | null>(null);
+  const hasActions = !!actions;
+  useEffect(() => {
+    if (typeof window === "undefined" || !window.matchMedia("(max-width: 819px)").matches) return;
+    const behavior: ScrollBehavior = window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth";
+    if (hasActions) {
+      if (savedY.current === null) savedY.current = window.scrollY;
+      actionsRef.current?.scrollIntoView({ block: "nearest", behavior });
+    } else if (savedY.current !== null) {
+      window.scrollTo({ top: savedY.current, behavior });
+      savedY.current = null;
+    }
+  }, [hasActions, kind, text]);
+
   return (
     <section className={`og-note og-note--${tone}${kind ? ` og-note--${kind}` : ""}`} role="status" aria-live="polite" data-testid="coach-bubble">
       <div className="og-note__line" aria-hidden="true" />
@@ -72,7 +91,11 @@ export function CoachNote({ note, actions, badge, footer }: CoachNoteProps) {
           </p>
         )}
       </div>
-      {actions && <div className="og-note__actions">{actions}</div>}
+      {actions && (
+        <div className="og-note__actions" ref={actionsRef}>
+          {actions}
+        </div>
+      )}
       {footer}
     </section>
   );

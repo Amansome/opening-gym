@@ -33,7 +33,7 @@
   width: 100%;
   max-width: 1180px;
   margin: 0 auto;
-  padding: 16px;
+  padding: 8px 0 16px;
   box-sizing: border-box;
   color: var(--ink);
   font-family: var(--font);
@@ -65,6 +65,7 @@
   overflow: hidden;
   background: var(--og-housing);
   box-shadow: var(--shadow-sm);
+  outline: 1px solid var(--line);
   font-variant-numeric: tabular-nums;
 }
 .og-eval__fill {
@@ -169,7 +170,7 @@
   background: color-mix(in srgb, var(--tab-color) 10%, var(--table));
 }
 .og-tab.is-active .og-tab__count { color: var(--ink); }
-.og-tab.is-locked { opacity: 0.7; cursor: not-allowed; }
+.og-tab.is-locked { opacity: 0.82; cursor: not-allowed; }
 .og-tab:focus-visible { outline: 3px solid var(--og-focus); outline-offset: -3px; }
 .og-tabs__hint {
   display: flex;
@@ -304,7 +305,7 @@
   color: var(--ink);
   text-wrap: balance;
 }
-.og-note__actions { display: flex; gap: 8px; flex-wrap: wrap; padding-top: 10px; }
+.og-note__actions { display: flex; gap: 8px; flex-wrap: wrap; padding-top: 10px; scroll-margin-bottom: calc(56px + 16px); }
 .og-badge {
   display: inline-flex;
   align-items: center;
@@ -537,7 +538,7 @@
     align-items: stretch;
     gap: 10px;
     min-height: calc(100dvh - var(--header-h, 60px));
-    padding: 6px 16px 0;
+    padding: 0;
   }
   .og-player__panel { display: contents; }
   .og-player__top {
@@ -566,6 +567,7 @@
   }
   .og-note__line { margin: 0 -14px; }
   .og-note__body { min-height: 0; max-height: 34dvh; padding-top: 8px; gap: 6px; }
+  .og-note:has(.og-note__actions) .og-note__body { max-height: 22dvh; }
   .og-note__text { font-size: 1rem; line-height: 1.5; }
   /* on a phone the instruction comes right after the verdict, before the explanation */
   .og-note__prompt { order: -1; font-size: 1.5rem; }
@@ -601,8 +603,8 @@
     position: sticky;
     bottom: 0;
     z-index: 5;
-    margin: auto -16px 0;
-    padding: 6px 16px calc(6px + env(safe-area-inset-bottom));
+    margin: auto calc(var(--gutter, 16px) * -1) 0;
+    padding: 6px var(--gutter, 16px) calc(6px + env(safe-area-inset-bottom));
     background: var(--floor);
     border-top: 3px solid var(--line);
   }
@@ -632,9 +634,15 @@
 }
 @media (max-width: 440px) {
   .og-tab__icon { display: none; }
+  .og-score__long { display: none; }
+}
+@media (max-width: 400px) {
+  .og-control { font-size: 0.64rem; letter-spacing: 0.02em; padding-inline: 0; }
+  .og-control__label { text-overflow: clip; }
 }
 
 /* the shell's fixed bottom nav (phones) must not cover the sticky action bar */
 @media (max-width: 719px) {
   .og-player__controls { bottom: calc(var(--bottom-nav-h, 64px) + env(safe-area-inset-bottom, 0px)); }
+  .og-note__actions { scroll-margin-bottom: calc(var(--bottom-nav-h, 64px) + 56px + 20px); }
 }

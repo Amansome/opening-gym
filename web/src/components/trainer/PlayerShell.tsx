@@ -120,7 +120,7 @@ export function PlayerShell(p: PlayerShellProps) {
           <div className="og-modehead" data-testid="mode-head">
             <Icon name={MODE_META[p.mode].icon} size={18} />
             {MODE_META[p.mode].label}
-            {p.mode === "dojo" && <small>Lines from every course you have started</small>}
+            {p.mode === "dojo" && <small>Every course you have started</small>}
           </div>
         )
       }

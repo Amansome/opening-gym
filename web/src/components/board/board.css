@@ -87,8 +87,8 @@
 .cm-chessboard.og.border-type-none .board .border { fill: var(--board-dark); stroke-width: 0; }
 
 /* ---- markers, painted in court colours ---- */
-.cm-chessboard.og .markers .marker.marker-lastmove { fill: var(--court-yellow); opacity: 0.5; }
-.cm-chessboard.og .markers .marker.marker-select { fill: var(--court-yellow); opacity: 0.8; }
+.cm-chessboard.og .markers .marker.marker-lastmove { fill: var(--court-yellow); opacity: 0.72; }
+.cm-chessboard.og .markers .marker.marker-select { fill: var(--court-yellow); opacity: 0.9; }
 .cm-chessboard.og .markers .marker.marker-hint { fill: var(--court-yellow); opacity: 1; }
 .cm-chessboard.og .markers .marker.marker-hint-frame { stroke: var(--on-yellow); stroke-width: 3.5; stroke-linecap: round; }
 .cm-chessboard.og .markers .marker.marker-dot { fill: var(--board-coord); opacity: 0.38; }

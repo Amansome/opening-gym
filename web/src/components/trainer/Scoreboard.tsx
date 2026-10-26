@@ -42,7 +42,9 @@ export function Scoreboard({ title, stats, streakDays }: ScoreboardProps) {
         ))}
         {!!streakDays && (
           <div className="og-score__cell og-score__cell--streak" data-testid="day-streak" title="Day streak">
-            <span className="og-score__label">Day streak</span>{" "}
+            <span className="og-score__label">
+              <span className="og-score__long">Day </span>streak
+            </span>{" "}
             <span className="og-score__value">
               <Icon name="flame" size={16} />
               {streakDays}
