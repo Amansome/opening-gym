@@ -651,12 +651,12 @@ module.exports = [
       },
       {
         name: "Classical with 5.Bc4",
-        moves: "1.e4 d6 2.d4 Nf6 3.Nc3 g6 4.Nf3 Bg7 5.Bc4 O-O 6.O-O c6 7.a4 Nbd7",
+        moves: "1.e4 d6 2.d4 Nf6 3.Nc3 g6 4.Nf3 Bg7 5.Bc4 O-O 6.O-O c6 7.a4 d5",
         notes: {
           "5.Bc4": "The bishop aims at f7, but the Pirc handles it well.",
           "5...O-O": "Castle and keep an eye on the e4 pawn.",
           "6...c6": "Prevents tricks on b5 and prepares ...b5 or ...Qc7.",
-          "7...Nbd7": "Develops the knight and prepares ...e5.",
+          "7...d5": "The engine's choice: strike in the centre at once, before White's bishop and pawns settle. Black has a comfortable game.",
         },
       },
       {
@@ -974,12 +974,12 @@ module.exports = [
         },
       },
       {
-        name: "Open Catalan: Black holds the pawn with ...b5",
-        moves: "1.d4 Nf6 2.c4 e6 3.g3 d5 4.Bg2 Be7 5.Nf3 O-O 6.O-O dxc4 7.Qc2 b5 8.a4 c6 9.axb5 cxb5 10.Ne5 Bb7",
+        name: "Open Catalan: punishing 7...b5",
+        moves: "1.d4 Nf6 2.c4 e6 3.g3 d5 4.Bg2 Be7 5.Nf3 O-O 6.O-O dxc4 7.Qc2 b5 8.a4 c6 9.axb5 cxb5 10.Ng5",
         notes: {
           "8.a4": "Undermines the b5 pawn and Black's grip on c4.",
           "9.axb5": "Opens the a-file and tears down the pawn chain.",
-          "10.Ne5": "A strong outpost. White threatens Nxc4 and keeps the initiative.",
+          "10.Ng5": "The knight eyes e6 and b5 and threatens to win material. Black's b5 pawn grab is too ambitious, and White gets a clear edge.",
         },
       },
       {

@@ -78,7 +78,7 @@ module.exports = [
           "Mirror the set-up with ...Bc5, ...d6 and ...O-O, tuck the bishop away on a7 when needed, and prepare the freeing ...d5. ...Re8, ...Nf8-g6 and ...Be6 are typical regrouping ideas.",
       },
       history:
-        "The Italian Game is one of the oldest recorded openings. Players of the 16th and 17th centuries, including Gioachino Greco, analysed Bc4 ideas, and the names Giuoco Piano (\"quiet game\") and Giuoco Pianissimo (\"very quiet game\") come from Italian. After a long spell in which sharper gambits and the Ruy Lopez were more fashionable, the slow Italian has made a strong comeback at all levels, including top-level play.",
+        "The Italian Game is one of the oldest openings still played: Italian writers of the 16th and 17th centuries, including Gioachino Greco, analysed lines with Bc4. The names Giuoco Piano (\"quiet game\") and Giuoco Pianissimo (\"very quiet game\") are Italian. After a long spell in which sharper gambits and the Ruy Lopez were more fashionable, the slow Italian has become popular again at all levels, including top-level play.",
       faq: [
         {
           q: "Is the Italian Game good for beginners?",
@@ -224,7 +224,7 @@ module.exports = [
           "Give the pawn back only for development: ...Na5, ...c6 and ...h6 kick the white pieces, then ...e4 and ...Bd6 give you the initiative. Avoid 5...Nxd5 unless you know the defences.",
       },
       history:
-        "The attack on f7 with 4.Ng5 has been known for centuries, and the Fried Liver Attack (also called the Fegatello) is one of the most famous beginner traps in chess. Modern analysis shows that 5...Na5 is Black's safest reply, which is why the Fried Liver mostly appears in games between inexperienced players.",
+        "The attack on f7 with 4.Ng5 is an old idea, and the Fried Liver Attack (also called the Fegatello) is one of the most famous beginner traps in chess. Modern theory treats 5...Na5 as the standard reply, which is why the Fried Liver mostly appears in games between inexperienced players.",
       faq: [
         {
           q: "Is the Fried Liver Attack good?",
@@ -345,7 +345,7 @@ module.exports = [
           "Strike at the centre with ...c5 and ...Nc6, develop ...Bd6 to challenge the f4 bishop, and use ...Qb6 against b2 when it is safe. A Colle-style ...e6 and ...Bd6 set-up is also fine.",
       },
       history:
-        "The system takes its name from the London 1922 tournament, where several players used it, although the ideas were known earlier. It stayed a favourite of club players for decades and returned in the 2010s and 2020s as a regular guest in elite and online play because of how little theory it needs.",
+        "The system takes its name from the London 1922 tournament, where it was played prominently, although the ideas were known earlier. It has long been a favourite of club players and has become a regular guest in elite and online play in recent years because of how little theory it needs.",
       faq: [
         {
           q: "Is the London System good for beginners?",
@@ -402,7 +402,7 @@ module.exports = [
         notes: {
           "4...Qb6": "Black eyes b2, the London's standard weak point.",
           "5.Qb3": "Offer the queen trade. Black usually gains space with ...c4.",
-          "7.Qc1": "The safe retreat: the queen covers b2 again (7.Qxf5 Qxb2 is a wild scramble). White follows with Nd2 and Be2, and the position is equal.",
+          "7.Qc1": "The safe retreat: the queen covers b2 again and the position is about equal (about -0.2). White follows with Nd2 and Be2. The engine prefers the wild 7.Qxf5! Qxb2 8.Qxd5 (about +1.5 for White), but it is a risky scramble.",
         },
       },
       {
@@ -538,7 +538,7 @@ module.exports = [
           "3...b5": "Greedy: Black tries to hold on to the pawn.",
           "4.a4": "Attacks the b5 pawn. Black cannot keep it.",
           "4...c6": "Natural but a mistake. It weakens the long diagonal (4...Bb7 was better).",
-          "5.axb5": "Opens the a-file and the diagonal.",
+          "5.axb5": "Opens the a-file for the rook (half-open, since Black's a7 pawn remains) and the long diagonal.",
           "5...cxb5": "Black recaptures, but the pawn that blocked the long diagonal has gone.",
           "6.Qf3": "Double attack on the rook on a8 and the pawn on f7. White wins material (for example 6...Bb7 7.Qxb7).",
         },
@@ -834,7 +834,7 @@ module.exports = [
           "Use the bishop pair with ...Bc5 and ...Qf6, hit e4 with ...Nf6, and look for ...d5 to free the position. In the Mieses, Black aims for ...Ba6 and ...Nb6 to harass White's pieces.",
       },
       history:
-        "The opening is named after a famous 1824 correspondence match between the London and Edinburgh chess clubs, in which the Scots used 3.d4. It fell out of fashion after the 19th century, but Garry Kasparov brought it back at the highest level when he used it in his 1990 World Championship match against Karpov.",
+        "The opening is named after a famous 1824 correspondence match between the London and Edinburgh chess clubs, in which the Scots used 3.d4. It went out of fashion for long periods, but Garry Kasparov brought it back at the highest level when he used it in his 1990 World Championship match against Karpov.",
       faq: [
         {
           q: "Is the Scotch Game good?",
@@ -1127,7 +1127,7 @@ module.exports = [
           "Hit the centre with ...d5, develop the bishop to e7 and castle, and break with ...f5 or ...c5 when ready. Take the pawn only if you can return it at the right time.",
       },
       history:
-        "The Vienna Game is named after the Austrian capital, where it was popular with players in the 19th century. The gambit 3.f4 is an old attacking idea that remains a surprise weapon at every level, because few players know all the details of the replies.",
+        "The Vienna Game is traditionally linked with the city of Vienna and was analysed in the 19th century. The gambit 3.f4 is an old attacking idea that remains a surprise weapon at every level, because few players know all the details of the replies.",
       faq: [
         {
           q: "Is the Vienna Gambit good?",
@@ -1157,7 +1157,7 @@ module.exports = [
         moves: "1.e4 e5 2.Nc3 Nf6 3.f4 Nxe4 4.Nxe4 d5 5.Nf2 exf4 6.d4 Bd6 7.Bd3",
         notes: {
           "2.Nc3": "The Vienna: the knight guards e4 and prepares f4 without blocking the c-pawn.",
-          "3.f4": "The gambit. White fights for the centre and opens the f-file.",
+          "3.f4": "The gambit. White fights for the centre and, after ...exf4, gets the half-open f-file.",
           "3...Nxe4": "A greedy mistake. The e4 pawn is defended by the knight on c3.",
           "4.Nxe4": "White wins a knight for a pawn.",
           "4...d5": "Black attacks the knight and hopes to win the piece back.",
@@ -1289,7 +1289,7 @@ module.exports = [
           "Return a pawn at the right moment with ...d5, develop calmly with ...Nf6 and ...Bb4+, and keep the g7 pawn protected. Castle quickly and use the extra pawns in the endgame.",
       },
       history:
-        "The Danish Gambit is an old attacking idea, known since the 19th century. Over the years it has been a favourite of attacking players, particularly in quick games, and it still appears as a surprise weapon.",
+        "The Danish Gambit is an old attacking idea, known since the 19th century. It has been a favourite of attacking players, particularly in quick games, and it still appears as a surprise weapon.",
       faq: [
         {
           q: "Is the Danish Gambit good?",
@@ -1335,7 +1335,7 @@ module.exports = [
           "5...d5": "Black gives a pawn back to free the position. This is the critical reply.",
           "6.Bxd5": "Takes the pawn and hits f7 and b7.",
           "6...Nf6": "Attacks the bishop on d5.",
-          "7.Bxf7+": "The key tactic. The bishop leaves with check and unmasks the white queen against the black queen.",
+          "7.Bxf7+": "The key tactic. The bishop leaves with check and unmasks the white queen against the black queen. The engine (depth 20) rates the resulting endgame as level and this as White's best move; the quiet 7.Nc3 is worse for White by about 0.7 pawns.",
           "7...Kxf7": "Black takes the bishop. The queens now face each other.",
           "8.Qxd8": "White takes the queen.",
           "8...Bb4+": "A zwischenzug: Black can't recapture on d8, so checks first.",
@@ -1364,7 +1364,7 @@ module.exports = [
           "3...d5": "Black declines the second pawn and strikes at e4.",
           "4.exd5": "Take the pawn.",
           "4...Qxd5": "Natural, but the queen can be harassed.",
-          "5.cxd4": "Recapture and open the c-file. The queen will soon be hit by Nc3.",
+          "5.cxd4": "Recapture and get the half-open c-file. The queen will soon be hit by Nc3.",
           "5...Nc6": "Hits d4 and prepares ...Bg4.",
           "6.Nf3": "Develops and defends d4.",
           "6...Bg4": "Pins the knight against the queen.",
@@ -1467,7 +1467,7 @@ module.exports = [
           "Stop the tricks first: play ...d5 early, or hold the pawn only if you can do so without weakening f7. Keep your king safe and counter-attack in the centre.",
       },
       history:
-        "The King's Gambit is one of the oldest openings in chess and has been analysed since the 16th century. It produced the famous Immortal Game between Adolf Anderssen and Lionel Kieseritzky in London in 1851. It was the main weapon of the romantic era, and Boris Spassky revived it at the highest level in the 1960s, famously beating Bobby Fischer with it in 1960. Fischer later published an article called \"A Bust to the King's Gambit\".",
+        "The King's Gambit is one of the oldest openings in chess and has been analysed since the 16th century. It produced the famous Immortal Game between Adolf Anderssen and Lionel Kieseritzky in London in 1851. It was the main weapon of the romantic era, and Boris Spassky revived it at the highest level, famously beating Bobby Fischer with it at Mar del Plata in 1960. Fischer later published an article called \"A Bust to the King's Gambit\".",
       faq: [
         {
           q: "Is the King's Gambit good?",
@@ -1539,7 +1539,7 @@ module.exports = [
           "4...g4": "Black pushes the pawn forward.",
           "5.Ne5": "The knight jumps into the centre, attacking the g4 pawn and f7.",
           "5...Nf6": "Black attacks e4.",
-          "6.d4": "Defends e4 and takes the centre.",
+          "6.d4": "Takes the centre and supports the knight on e5. The e4 pawn is loose, but after 6...d6 7.Nd3 Nxe4 8.Bxf4 White regains the f4 pawn with active pieces.",
           "6...d6": "Kicks the knight away.",
           "7.Nd3": "The knight goes to d3, attacking f4.",
           "7...Nxe4": "Black grabs another pawn.",
@@ -1555,11 +1555,11 @@ module.exports = [
           "4...Nf6": "Develops and attacks the d5 pawn.",
           "5.Bb5+": "Check, to gain time.",
           "5...c6": "Black sacrifices another pawn for quick development.",
-          "6.dxc6": "Take the pawn. You are now a pawn up.",
+          "6.dxc6": "Take the pawn. For one move you are a pawn up, but 6...Nxc6 wins it back.",
           "6...Nxc6": "Black has a big lead in development.",
           "7.d4": "White takes the centre.",
           "8.O-O": "The king is safe.",
-          "9.Nc3": "White is a pawn up, but Black's pieces are very active. The engine slightly prefers Black, but the position is rich for both sides.",
+          "9.Nc3": "Material is level, and Black's pieces are very active. The engine prefers Black (about +1.1 for Black at depth 18), so White must play accurately, but the position is rich for both sides.",
         },
       },
       {
@@ -1742,7 +1742,7 @@ module.exports = [
         notes: {
           "3...c5": "Black hits d4 immediately.",
           "4.e3": "Supports d4 and keeps the bishop on f4.",
-          "4...cxd4": "Black opens the c-file.",
+          "4...cxd4": "Black gets the half-open c-file.",
           "5.exd4": "A symmetrical structure; White's bishop is active on f4.",
           "5...a6": "Stops the knight from jumping to b5.",
           "6.Nf3": "Develops.",
@@ -1911,17 +1911,17 @@ module.exports = [
           "7.O-O": "The king is safe.",
           "8.a3": "Prepares b4 and takes b4 away from the black knight and bishop.",
           "9.b4": "The queenside expansion: this is a Sicilian with an extra tempo for White.",
-          "10.Rb1": "Supports the b-pawn and prepares b5. White has a pleasant, risk-free small edge.",
+          "10.Rb1": "Supports the b-pawn and prepares b5. White has a pleasant, risk-free position.",
         },
       },
       {
         name: "Black pins: 3...Bb4",
         moves: "1.c4 e5 2.Nc3 Nf6 3.g3 Bb4 4.Bg2 O-O 5.e4 d6 6.Nge2 Bg4",
         notes: {
-          "3...Bb4": "Pins the knight on c3 and hits e4.",
+          "3...Bb4": "Attacks the c3 knight, the piece that guards e4. It is not a true pin while White's d2 pawn is still behind the knight.",
           "4.Bg2": "Develops the bishop and prepares to castle.",
           "5.e4": "Takes the centre with e4 now that the bishop on b4 has been committed.",
-          "6.Nge2": "Develops the second knight and covers the pinned knight on c3. The position is equal, and White has a flexible structure.",
+          "6.Nge2": "Develops the second knight and lets it recapture on c3, so ...Bxc3 would not double White's pawns. The position is equal, and White has a flexible structure.",
         },
       },
       {
@@ -2086,7 +2086,7 @@ module.exports = [
         notes: {
           "4...Bd7": "The best defence: the bishop breaks the pin and Black is fine.",
           "5.exd5": "White takes a pawn and opens the centre.",
-          "5...Nd4": "Black attacks the queen and hits f3 and c2.",
+          "5...Nd4": "The knight hits f3 and c2, while the bishop on d7 still attacks the queen, so White must retreat it.",
           "6.Qd1": "The queen retreats to a safe square.",
           "6...Nxf3+": "Trades off the knight.",
           "7.Qxf3": "The queen is active again.",
@@ -2374,10 +2374,10 @@ module.exports = [
         moves: "1.e4 e5 2.Bc4 Nf6 3.d3 d5 4.exd5 Nxd5 5.Nf3 Nc6 6.O-O Bc5 7.d4 exd4 8.Re1+ Nce7 9.Nbd2",
         notes: {
           "3...d5": "Black strikes at the centre immediately.",
-          "4.exd5": "White takes a pawn and opens the e-file.",
-          "4...Nxd5": "Black recaptures and attacks the bishop on c4.",
+          "4.exd5": "White takes a pawn and gets the half-open e-file.",
+          "4...Nxd5": "Black recaptures and puts the knight on a strong central square, where it blocks the c4 bishop's diagonal towards f7.",
           "5.Nf3": "Develops.",
-          "5...Nc6": "Develops and attacks the knight.",
+          "5...Nc6": "Develops and defends the e5 pawn.",
           "6.O-O": "White castles.",
           "6...Bc5": "Black develops the bishop.",
           "7.d4": "White hits the centre at the right time.",
@@ -2521,7 +2521,7 @@ module.exports = [
           "Accept the pawn, develop the pieces naturally with ...Nc6, ...d6, ...e6 and ...Nf6, and trade the active white pieces. Close the lines near the king and stay a pawn up.",
       },
       history:
-        "The gambit is named after Pierre Morra and Ben Smith, two players who championed 3.c3 in the 20th century. It has long been popular at club level because it avoids the heavy theory of the Open Sicilian. Strong players have also used it as a surprise weapon, though it is rarely seen in elite games.",
+        "The gambit is named after Pierre Morra and Ben Smith, two players who championed 3.c3. It has long been popular at club level because it avoids the heavy theory of the Open Sicilian. Strong players have also used it as a surprise weapon, though it is rarely seen in elite games.",
       faq: [
         {
           q: "Is the Smith-Morra Gambit good?",
@@ -2574,7 +2574,7 @@ module.exports = [
           "4...Nc6": "Black develops.",
           "5.Nf3": "Develops with the idea of Bc4.",
           "5...d6": "Black prepares ...e6 and supports the centre.",
-          "6.Bc4": "The bishop eyes f7 and the h1-a8 diagonal.",
+          "6.Bc4": "The bishop eyes f7 along the a2-g8 diagonal.",
           "6...e6": "Closes the diagonal for the bishop and prepares ...Nf6.",
           "7.O-O": "White castles to bring the rook into play.",
           "7...Nf6": "Develops and attacks the e4 pawn.",
@@ -2584,7 +2584,7 @@ module.exports = [
           "9...Bd7": "Develops the last minor piece.",
           "10.Bf4": "The bishop eyes d6 and e5.",
           "10...e5": "Black attacks the bishop.",
-          "11.Bg5": "Pins the knight on f6 against the bishop on e7.",
+          "11.Bg5": "Attacks the knight on f6 and aims to trade bishop for knight, removing a defender of Black's kingside.",
           "11...Bg4": "Black counter-pins the knight on f3.",
           "12.Bxf6": "White removes a defender of the centre.",
           "12...Bxf6": "Black recaptures.",
@@ -2596,7 +2596,7 @@ module.exports = [
         moves: "1.e4 c5 2.d4 cxd4 3.c3 dxc3 4.Nxc3 Nc6 5.Nf3 e6 6.Bc4 a6 7.O-O Nge7 8.Bb3 b5 9.a4 b4 10.Nd5 Na5 11.Ba2",
         notes: {
           "5...e6": "A common alternative to ...d6.",
-          "6.Bc4": "Develops and eyes f7.",
+          "6.Bc4": "Develops and hits the e6 pawn, with f7 behind it.",
           "6...a6": "Prepares ...b5 to drive the bishop back.",
           "7.O-O": "White castles.",
           "7...Nge7": "Develops while keeping the pawn on f7 protected.",
@@ -2667,7 +2667,7 @@ module.exports = [
           "8.Rd1": "Takes the open file.",
           "8...O-O": "Black castles.",
           "9.h3": "Stops ...Bg4.",
-          "9...Re8": "Black defends. The game is balanced.",
+          "9...Re8": "Black brings the rook to the e-file. White keeps a small edge (about +0.9 at depth 18) thanks to the lead in development.",
         },
       },
       {
@@ -2759,7 +2759,7 @@ module.exports = [
           "Bring the light-squared bishop out first (...Bf5 or ...Bg4), then play ...e6, ...Nd7 and ...Ngf6. Against the Advance use ...c5 and ...Nc6; against the Exchange expand with ...Bg4 and a queenside minority attack.",
       },
       history:
-        "The opening is named after the English player Horatio Caro and the Austrian Marcus Kann, who analysed it together in 1886. It later became a favourite of strong players such as Capablanca, Petrosian and Karpov, who valued its solidity and strategic depth.",
+        "The opening is named after the English player Horatio Caro and the Austrian Marcus Kann, who analysed it together in 1886. It later became a choice of strong players such as Capablanca, Petrosian and Karpov, who valued its solidity and strategic depth.",
       faq: [
         {
           q: "Is the Caro-Kann good for beginners?",
@@ -2857,7 +2857,7 @@ module.exports = [
         kind: "warning",
         moves: "1.e4 c6 2.d4 d5 3.Nc3 dxe4 4.Nxe4 Nd7 5.Qe2 Ngf6 6.Nd6#",
         notes: {
-          "5...Ngf6": "Blunder! The e-pawn is pinned to the king (Qe2), so d6 is unguarded.",
+          "5...Ngf6": "Blunder! It ignores the threat of 6.Nd6#: once the knight leaves e4 the e7 pawn is pinned by the queen on e2, and Black's own pieces box in the king.",
           "6.Nd6#": "Smothered mate. In the 4...Nd7 line play ...Bf5 and ...e6 first, or simply use the Classical.",
         },
       },
@@ -3314,7 +3314,7 @@ module.exports = [
           "Hit the centre with ...c5 and ...f6, and free the bad bishop with ...b6/...Ba6, or ...Bd7 and ...Bb5. After ...c4, play for the b3 and e5 squares.",
       },
       history:
-        "The French Defence is said to be named after a famous correspondence match played between the cities of London and Paris in 1834, in which Paris used 1...e6. Viktor Korchnoi made it a lifelong weapon, and the French has been a staple of top-level chess ever since. The Rubinstein Variation is named after Akiba Rubinstein.",
+        "The French Defence is said to be named after a famous correspondence match played between the cities of London and Paris in 1834, in which Paris used 1...e6. Viktor Korchnoi made it a lifelong weapon, and the French has remained a regular choice at top level. The Rubinstein Variation is named after Akiba Rubinstein.",
       faq: [
         {
           q: "Is the French Defence good?",
@@ -3361,7 +3361,7 @@ module.exports = [
         moves: "1.e4 e6 2.d4 d5 3.exd5 exd5 4.Bd3 Bd6 5.Nf3 Ne7 6.O-O O-O 7.Re1 Bf5",
         notes: {
           "3...exd5": "Symmetrical, but the c8 bishop is now free, so the French's main problem is gone.",
-          "7...Bf5": "Challenges White's good bishop. Don't play 7...Bg4? here: 8.Bxh7+! Kxh7 9.Ng5+ Kg8 10.Qxg4 wins a piece.",
+          "7...Bf5": "Challenges White's good bishop. Don't play 7...Bg4? here: 8.Bxh7+! Kxh7 9.Ng5+ Kg8 10.Qxg4 wins a pawn and leaves Black's king exposed.",
         },
       },
       {
@@ -3482,7 +3482,7 @@ module.exports = [
         name: "Main line 3...Qa5",
         moves: "1.e4 d5 2.exd5 Qxd5 3.Nc3 Qa5 4.d4 Nf6 5.Nf3 c6 6.Bc4 Bf5 7.Bd2 e6",
         notes: {
-          "3...Qa5": "Pins the c3 knight and stays active.",
+          "3...Qa5": "Attacks the c3 knight and stays active. Once White plays d4, the knight is pinned against the king.",
           "5...c6": "Gives the queen a retreat to c7 and covers b5/d5.",
         },
       },
@@ -3746,7 +3746,7 @@ module.exports = [
           "Attack the centre with ...e5 or ...c5. In the closed positions, push ...f5, ...f4 and ...g5 and use the g7 bishop. In the Averbakh and Sämisch, ...c5 is the freeing break.",
       },
       history:
-        "The King's Indian was developed by Soviet masters in the 1940s, with Isaac Boleslavsky and David Bronstein among its pioneers. It was later made famous by Bobby Fischer and, above all, Garry Kasparov. The Mar del Plata Variation is named after the Argentine resort city, where strong tournaments in the 1950s saw these lines played extensively.",
+        "The King's Indian became a major opening through Soviet masters in the 1940s and 1950s, with Isaac Boleslavsky and David Bronstein among its pioneers. It was later played by Bobby Fischer and Garry Kasparov. The Mar del Plata Variation is named after the Argentine resort city, where tournaments in the 1950s featured these lines.",
       faq: [
         {
           q: "Is the King's Indian Defence good?",
@@ -3886,7 +3886,7 @@ module.exports = [
           "Develop fast with ...Bc5, ...h5, ...Ng4 and ...Be6, and make threats every move. Look for ...Nxe4, ...Qh4 and ...Bxf2+ tricks, but don't overextend if White finds the right moves.",
       },
       history:
-        "The Stafford Gambit is a relatively obscure old line that became a sensation when International Master Eric Rosen popularised it in online games and videos in recent years. Its reputation rests on traps rather than soundness, and it is now one of the most popular \"fun\" openings on the internet.",
+        "The Stafford Gambit was a relatively obscure line until International Master Eric Rosen popularised it in online games and videos in recent years. Its reputation rests on traps rather than soundness, and it is now one of the most popular \"fun\" openings on the internet.",
       faq: [
         {
           q: "Is the Stafford Gambit good?",
@@ -3935,11 +3935,11 @@ module.exports = [
           "6.Be2": "A safe developing move that prepares castling and stays clear of the tricks based on ...Bxf2+.",
           "6...h5": "A typical Stafford move: it prepares ...Ng4 and supports ...h4 or ...Rh6 later.",
           "7.O-O": "White castles, but this is inaccurate: ...Ng4 now gives Black real counterplay. 7.c3! keeps a clearer edge.",
-          "7...Ng4": "Attacks the bishop on e2 and eyes the f2 and h2 squares.",
+          "7...Ng4": "The knight eyes f2 and h2, so ...Bxf2+ and ...Qh4 become real ideas.",
           "8.Bxg4": "White trades off the dangerous knight.",
           "8...hxg4": "The h-file is open for Black's rook, and 9.Qxg4?? loses the queen to ...Bxg4.",
           "9.Bf4": "White develops and eyes c7. This is White's best.",
-          "9...Be6": "Black develops and prepares ...Qd7 and queenside castling. The position is nearly level, and Black has good practical chances.",
+          "9...Be6": "Black develops and prepares ...Qd7 and queenside castling. White is slightly better, but Black has good practical chances.",
         },
       },
       {
@@ -3975,9 +3975,9 @@ module.exports = [
           "6...Ng4": "Threatens ...Nxf2 and ...Qd4. White must respond with care.",
           "7.Be3": "White offers a trade of bishop for knight.",
           "7...Nxe3": "The knight takes the bishop.",
-          "8.fxe3": "White opens the f-file but has weak pawns.",
+          "8.fxe3": "White gets a half-open f-file but has weak pawns.",
           "8...Bxe3": "Black regains the pawn with an active position.",
-          "9.Qf3": "Hits f7 and c6.",
+          "9.Qf3": "Hits f7 along the open f-file and attacks the bishop on e3.",
           "9...Bd4": "The bishop is very well placed on d4. Black is slightly better here.",
         },
       },
@@ -4270,7 +4270,7 @@ module.exports = [
           "5.Bxf7+": "White's safest choice: take with the bishop. (5.Nxf7 is wild.)",
           "5...Ke7": "The king steps up. It is safe enough, because White's pieces aren't ready to attack it.",
           "6.Bb3": "The bishop retreats, keeping its extra pawn.",
-          "6...Rf8": "The rook uses the open f-file and aims at f2.",
+          "6...Rf8": "The rook uses the half-open f-file and aims at f2.",
           "7.Nxh7": "A tempting pawn grab, but a mistake.",
           "7...Nxh7": "Black wins a knight for a pawn.",
         },
@@ -4311,7 +4311,7 @@ module.exports = [
           "6...h6": "Kicks the knight back.",
           "7.Nf3": "The knight retreats; White has lost time.",
           "7...Re8": "Pressure on e4. Black is fine, even slightly more comfortable.",
-          "8.d3": "A solid move: the position is equal.",
+          "8.d3": "A solid move. Black is slightly better here (about -0.5 for White), but the position is easy to defend.",
         },
       },
       {
@@ -4325,7 +4325,7 @@ module.exports = [
           "7.Nxf7": "White grabs a pawn and a rook is attacked.",
           "7...Rxf7": "Black takes the knight.",
           "8.Bxf7+": "White takes the rook with check.",
-          "8...Kxf7": "Material is level: White gave two minor pieces for a rook and a pawn. Black's king is exposed, but White's pieces are not coordinated, and the position is roughly equal.",
+          "8...Kxf7": "Material is level: White gave two minor pieces for a rook and a pawn. Black's king is exposed, but White's pieces are not coordinated, and the position is unclear, with chances for both sides.",
         },
       },
       {
@@ -4333,7 +4333,7 @@ module.exports = [
         moves: "1.e4 e5 2.Nf3 Nc6 3.Bc4 Nf6 4.Ng5 Bc5 5.Bxf7+ Ke7 6.Bd5 Rf8 7.Nf3 d6 8.c3 Qe8 9.Bxc6 bxc6",
         notes: {
           "6.Bd5": "The other main retreat. The bishop pressures c6 and keeps an eye on f7 and the long diagonal.",
-          "6...Rf8": "Again the rook takes the open f-file.",
+          "6...Rf8": "Again the rook takes the half-open f-file.",
           "7.Nf3": "Retreats the knight and develops.",
           "7...d6": "Opens the c8 bishop and protects e5.",
           "8.c3": "Prepares d4 and gives the bishop a retreat.",
@@ -4479,7 +4479,7 @@ module.exports = [
         notes: {
           "5.Nc3": "Attacks the knight on e4.",
           "5...Nxc3": "Trades off White's active knight.",
-          "6.dxc3": "Opens the d-file and the bishop on c1. The pawn structure is a bit damaged.",
+          "6.dxc3": "Gives the c1 bishop a diagonal and the rook a half-open d-file. The pawn structure is a bit damaged.",
           "6...Be7": "Develops and prepares to castle.",
           "7.Bf4": "Develops with a view to long castling.",
           "7...O-O": "Black castles.",
@@ -4529,7 +4529,7 @@ module.exports = [
           "3.Nc3": "White avoids the Petrov theory.",
           "3...Nc6": "Transposes to the Four Knights Game.",
           "4.Bb5": "The Spanish Four Knights.",
-          "4...Bb4": "Pins the knight and mirrors White's play.",
+          "4...Bb4": "Mirrors White's play: the bishop lines up against the c3 knight, ready to double White's pawns.",
           "5.O-O": "White castles.",
           "5...O-O": "Black castles.",
           "6.d3": "Prepares Bg5.",
@@ -4550,7 +4550,7 @@ module.exports = [
           "3...Nxe4": "Black takes the pawn. White's Bxf7+ ideas don't give enough for the piece.",
           "4.Nc3": "Attacks the knight.",
           "4...Nxc3": "Trades the knight.",
-          "5.dxc3": "White opens the d-file.",
+          "5.dxc3": "White gets the half-open d-file.",
           "5...f6": "Defends e5 and stops Qh5+. A key move in this line.",
           "6.O-O": "White castles.",
           "6...Nc6": "Develops.",
@@ -4645,7 +4645,7 @@ module.exports = [
           "Hit e4, develop with ...Nf6, ...Bb4 or ...Bc5 and ...d6, and castle. Keep pieces active, avoid early queen moves, and be ready to use the f-file and the pins on White's knight.",
       },
       history:
-        "The gambit is named after a 19th-century player called Rousseau and appears in old gambit literature. It has never been part of top-level theory and survives mainly as a surprise weapon for club and online games. Its reputation rests on traps rather than on soundness.",
+        "The gambit is named after a player called Rousseau and appears in old gambit literature. It has never been part of top-level theory and survives mainly as a surprise weapon for club and online games. Its reputation rests on traps rather than on soundness.",
       faq: [
         {
           q: "Is the Rousseau Gambit good?",
@@ -4676,7 +4676,7 @@ module.exports = [
         notes: {
           "3...f5": "The Rousseau Gambit. Black attacks e4 at once. It is objectively dubious, but the traps are real.",
           "4.Nc3": "A natural developing move that defends e4, but it is already a mistake.",
-          "4...fxe4": "Black takes the pawn. Even White's best try here, 5.Bxg8, leaves Black comfortable, and the natural recapture is a mistake.",
+          "4...fxe4": "Black takes the pawn. Even White's best try here, 5.Bxg8, leaves Black clearly better (about -2 for White), and the natural recapture 5.Nxe4? is a mistake.",
           "5.Nxe4": "The natural recapture, but it walks into a pawn fork.",
           "5...d5": "The point of the gambit: the pawn attacks both the bishop on c4 and the knight on e4.",
           "6.Bd3": "White saves the bishop, but the knight on e4 is still attacked.",
@@ -4710,7 +4710,7 @@ module.exports = [
           "8.dxe4": "White recaptures with a pawn and keeps a solid centre.",
           "8...d6": "Protects the e5 pawn and opens the c8 bishop.",
           "9.a4": "Stops ...b5, which would drive the bishop away.",
-          "9...Na5": "Hits the bishop on c4. The position is about level, and Black has a perfectly playable game.",
+          "9...Na5": "Hits the bishop on c4. White is only slightly better, and Black has a perfectly playable game.",
         },
       },
       {
@@ -4849,7 +4849,7 @@ module.exports = [
           "Develop the knights to c6, e7 and g6 to win back e5, keep the pawn on d4 supported, and use the bishop on b4 and g4 for pins. Seek counterplay with ...Bg4, ...Qd7 and queenside castling.",
       },
       history:
-        "The Albin Countergambit is named after the Romanian-born master Adolf Albin, who took it up in the 1890s. The Lasker Trap carries the name of the future world champion Emanuel Lasker. Strong players have used the gambit as a surprise weapon, but today it is more often seen at club level.",
+        "The Albin Countergambit is named after the Romanian-born master Adolf Albin, who championed it in the 1890s. The Lasker Trap carries the name of Emanuel Lasker. Strong players have used the gambit as a surprise weapon, but today it is more often seen at club level.",
       faq: [
         {
           q: "Is the Albin Countergambit good?",
@@ -5052,7 +5052,7 @@ module.exports = [
           "Win the pawn back with ...Nc6, ...Ng4xe5 and develop with ...Bb4+, ...Qe7 and ...d6. Castle quickly, trade pieces if you are fine, and look for tactics on the e-file and e1-h4 diagonal.",
       },
       history:
-        "The gambit takes its name from the city of Budapest, where it appeared in master games in the 1890s. It had its heyday in the 1920s, when several strong masters tried it. Since then 3.dxe5 Ng4 4.Bf4 has been seen as giving White a small edge, so the Budapest is mostly a surprise weapon. The Kieninger Trap is named after the master Georg Kieninger.",
+        "The gambit takes its name from the city of Budapest, where it appeared in master games around the turn of the 20th century. It was tried by several strong masters in the 1920s. Since then 3.dxe5 Ng4 4.Bf4 has been seen as giving White a small edge, so the Budapest is mostly a surprise weapon. The Kieninger Trap is named after the master Georg Kieninger.",
       faq: [
         {
           q: "Is the Budapest Gambit good?",
@@ -5137,7 +5137,7 @@ module.exports = [
           "7.bxc3": "White has doubled c-pawns but a big centre.",
           "7...Qe7": "Attacks the e5 pawn again and eyes the e-file.",
           "8.Qd5": "Defends the pawn on e5 and eyes b7 and f7.",
-          "8...f6": "Strikes at the e5 pawn and opens the f-file.",
+          "8...f6": "Strikes at the e5 pawn. After 9.exf6 Nxf6 the knight attacks the queen.",
           "9.exf6": "White takes.",
           "9...Nxf6": "Black recaptures with a developed knight.",
           "10.Qd3": "The queen retreats to a safe square.",

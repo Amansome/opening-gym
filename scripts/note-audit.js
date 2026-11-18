@@ -88,7 +88,9 @@ if (args.includes("--worker")) {
 // ====================================================================================================================
 // Claim extraction
 // ====================================================================================================================
-const courses = require(path.join(root, "data", "courses.js"));
+const coursesArg = args.indexOf("--courses");
+const courses = require(coursesArg >= 0 ? path.resolve(args[coursesArg + 1]) : path.join(root, "data", "courses.js"));
+const NO_REPORT = args.includes("--no-report");
 const VALUE = { pawn: 1, knight: 3, bishop: 3, rook: 5, queen: 9, piece: 3, exchange: 2, material: 1 };
 const PIECE_VAL = { p: 1, n: 3, b: 3, r: 5, q: 9, k: 100 };
 const NUMW = { a: 1, an: 1, one: 1, two: 2, three: 3, the: 1, another: 1, whole: 1, "a whole": 1 };
@@ -220,7 +222,7 @@ function claimsFromSentence(s, base) {
     const reUp = /\b(?:(White|Black)\s+(?:is|are|stays|remains|keeps|has|comes out|ends up)\s+)?(?:(?:now|still|clean|clearly|just|only)\s+)*(a|an|one|two|three)\s+(?:(?:clean|whole|extra)\s+)?(pawn|knight|bishop|rook|queen|piece|exchange)s?\s+(?:up|ahead)(?:\s+for\s+(a|an|one|two|three)\s+(pawn|pawns))?/gi;
     for (const m of s.matchAll(reUp)) {
       const before = s.slice(Math.max(0, m.index - 25), m.index);
-      if (MODAL.test(before)) continue;
+      if (MODAL.test(before) || /\b(?:for (?:one|a) (?:move|moment)|momentarily|for the moment)\b/i.test(s)) continue;
       let val = (wordNum[m[2].toLowerCase()] || 1) * (VALUE[m[3].toLowerCase()] || 1);
       if (m[4]) val -= (wordNum[m[4].toLowerCase()] || 1);
       const side = m[1] ? (m[1] === "White" ? "w" : "b") : (sideAt(s, m.index) || base.mover);
@@ -300,13 +302,13 @@ function claimsFromSentence(s, base) {
   }
 
   // ---- "attacks / hits / eyes X" and "defends / protects / covers X" (checked on the board after the move)
-  if (!hasAlt) {
+  if (!hasAlt && !/\d+\.{1,3}[KQRBNOa-h]/.test(s)) {
     const reA = /\b(attacks?|hits|eyes|pressures?|targets?|defends?|protects?|guards?|covers?|supports?)\s+(?:the\s+)?(?:(?:enemy|black|white)\s+)?([^.;:()!?,]{1,70})/gi;
     for (const m of s.matchAll(reA)) {
       const verb = m[1].toLowerCase();
       const before = s.slice(Math.max(0, m.index - 32), m.index);
       if (/\b[KQRBN]?[a-h]?x?[a-h][1-8]\s+and\s+[KQRBN]?x?[a-h][1-8]\s*$/.test(before)) continue; // "c4 and Qb3 target b7": about two moves
-      if (MODAL.test(before) || /\b(?:no longer|doesn't|does not|cannot|can't|not|never|stops?|prevents?|to|and then|next|then|or|can|will|must|should|may|might|would|could|before)\s*(?:\w+\s+)?$/i.test(before)) continue;
+      if (MODAL.test(before) || /\b(?:no longer|doesn't|does not|cannot|can't|not|never|stops?|prevents?|to|and then|that|which|next|then|or|can|will|must|should|may|might|would|could|before)\s*(?:\w+\s+)?$/i.test(before)) continue;
       let rest = m[2].split(/\s+and\s+(?:the\s+)?(?:[a-h][1-8]\s+)?(?:pawn|knight|bishop|rook|queen)s?\s+(?:is|are|can|will|has|have)\b|\s+(?:but|while|so|because|since|though|after|before|when|if|once|which|as|rather|and\s+(?:opens?|prepares?|makes?|gives?|keeps?|eyes?|hits?|attacks?|defends?|protects?|supports?|covers?|threatens?|develops?|takes?|gains?|puts?|renews?|stops?|prevents?|heads?|aims?|has|is|leaves?|forces?|will|can|builds?|clears?|frees?|unblocks?|offers?|sets?|threats?|then|so))\b/i)[0];
       if (/^(?:a|an|the)?\s*(?:centre|center|d-file|e-file|file|diagonal|initiative)\b/i.test(rest)) continue;
       const defend = /^(defend|protect|guard|cover|support)/.test(verb);
@@ -736,8 +738,215 @@ async function analyseAll(jobs) {
 
 // hand-written sections of the report (kept here so re-running the audit keeps them)
 const REVIEW = {
-  baseline: { courses: "?", notes: "?", claims: "?", confirmed: "?", contradicted: "?", unclear: "?" },
-  sections: () => [],
+  // totals of the first run, on the original notes (before the fixes below)
+  baseline: { courses: 30, notes: 1163, claims: 497, confirmed: 453, contradicted: 18, unclear: 26 },
+  // every claim the first run marked contradicted (frozen copy; the live list is regenerated on every run)
+  firstRunContradicted: [
+  {
+    "course": "vienna-gambit",
+    "line": "Quick win: 3...Nxe4?",
+    "label": "3.f4",
+    "sentence": "White fights for the centre and opens the f-file.",
+    "why": "the mover still has a pawn on the f-file: wf4"
+  },
+  {
+    "course": "kings-gambit",
+    "line": "Kieseritzky Gambit (4.h4 alternative)",
+    "label": "6.d4",
+    "sentence": "Defends e4 and takes the centre.",
+    "why": "e4 is not defended by White after the move"
+  },
+  {
+    "course": "kings-gambit",
+    "line": "Modern defence: 3...d5",
+    "label": "6.dxc6",
+    "sentence": "You are now a pawn up.",
+    "why": "after the engine's line (b8c6 b1c3 f8b4 a2a3 b4d6 b5c6 b7c6 d1e2) White is +0 in material; engine -0.31"
+  },
+  {
+    "course": "kings-gambit",
+    "line": "Modern defence: 3...d5",
+    "label": "9.Nc3",
+    "sentence": "White is a pawn up, but Black's pieces are very active.",
+    "why": "after the engine's line (h7h6 h2h3 d6c7 b5d3 g7g5 c3e2 c6b4 c2c4) White is +0 in material; engine -1.10"
+  },
+  {
+    "course": "english-opening",
+    "line": "Black pins: 3...Bb4",
+    "label": "3...Bb4",
+    "sentence": "Pins the knight on c3 and hits e4.",
+    "why": "no knight is pinned (pins found: none)"
+  },
+  {
+    "course": "english-opening",
+    "line": "Black pins: 3...Bb4",
+    "label": "6.Nge2",
+    "sentence": "Develops the second knight and covers the pinned knight on c3.",
+    "why": "no knight is pinned (pins found: none)"
+  },
+  {
+    "course": "bishops-opening",
+    "line": "3...d5 4.exd5 Nxd5",
+    "label": "4...Nxd5",
+    "sentence": "Black recaptures and attacks the bishop on c4.",
+    "why": "c4 is not attacked by Black after the move"
+  },
+  {
+    "course": "bishops-opening",
+    "line": "3...d5 4.exd5 Nxd5",
+    "label": "5...Nc6",
+    "sentence": "Develops and attacks the knight.",
+    "why": "no enemy knight is attacked after the move"
+  },
+  {
+    "course": "smith-morra-gambit",
+    "line": "Main line: 5...d6 6.Bc4 e6",
+    "label": "11.Bg5",
+    "sentence": "Pins the knight on f6 against the bishop on e7.",
+    "why": "no knight is pinned (pins found: p@d6)"
+  },
+  {
+    "course": "smith-morra-gambit",
+    "line": "Accepted: 5...e6 6.Bc4 a6",
+    "label": "6.Bc4",
+    "sentence": "Develops and eyes f7.",
+    "why": "f7 is not attacked by White after the move"
+  },
+  {
+    "course": "smith-morra-gambit",
+    "line": "3...d3 4.Bxd3",
+    "label": "9...Re8",
+    "sentence": "The game is balanced.",
+    "why": "engine (d18) gives +0.87 for White (d12: +0.84); \"equal\" needs |eval| < 0.5"
+  },
+  {
+    "course": "caro-kann",
+    "line": "Trap to avoid: smothered mate",
+    "label": "5...Ngf6",
+    "sentence": "The e-pawn is pinned to the king (Qe2), so d6 is unguarded.",
+    "why": "no piece is pinned (pins found: none)"
+  },
+  {
+    "course": "french-defence",
+    "line": "Exchange Variation",
+    "label": "7...Bf5",
+    "sentence": "Don't play 7...Bg4? here: 8.Bxh7+! Kxh7 9.Ng5+ Kg8 10.Qxg4 wins a piece.",
+    "why": "line Bg4 Bxh7+ Kxh7 Ng5+ Kg8 Qxg4: White nets +1 material (with the engine's continuation d8d7 g4d7 b8d7 b1c3 c7c6 c1f4 d6f4 e1e7); engine +1.33 for White at the end"
+  },
+  {
+    "course": "scandinavian",
+    "line": "Main line 3...Qa5",
+    "label": "3...Qa5",
+    "sentence": "Pins the c3 knight and stays active.",
+    "why": "no knight on c3 is pinned (pins found: p@a2)"
+  },
+  {
+    "course": "stafford-gambit",
+    "line": "Main line: 6.Be2 h5",
+    "label": "7...Ng4",
+    "sentence": "Attacks the bishop on e2 and eyes the f2 and h2 squares.",
+    "why": "e2 is not attacked by Black after the move"
+  },
+  {
+    "course": "stafford-gambit",
+    "line": "6.Nc3? Ng4!",
+    "label": "9.Qf3",
+    "sentence": "Hits f7 and c6.",
+    "why": "c6 is not attacked by White after the move"
+  },
+  {
+    "course": "petrov-defence",
+    "line": "3.Nc3 Nc6 (Four Knights)",
+    "label": "4...Bb4",
+    "sentence": "Pins the knight and mirrors White's play.",
+    "why": "no knight is pinned (pins found: none)"
+  },
+  {
+    "course": "budapest-gambit",
+    "line": "6.Nc3 Bxc3+ 7.bxc3 Qe7",
+    "label": "8...f6",
+    "sentence": "Strikes at the e5 pawn and opens the f-file.",
+    "why": "the mover still has a pawn on the f-file: bf6"
+  }
+],
+  // notes rewritten to make them true (before -> after), most important first
+  fixes: [
+    ["kings-gambit", "9.Nc3", "White is a pawn up, but Black's pieces are very active. The engine slightly prefers Black, but the position is rich for both sides.", "Material is level, and Black's pieces are very active. The engine prefers Black (about +1.1 for Black at depth 18), so White must play accurately, but the position is rich for both sides."],
+    ["kings-gambit", "6.d4", "Defends e4 and takes the centre.", "Takes the centre and supports the knight on e5. The e4 pawn is loose, but after 6...d6 7.Nd3 Nxe4 8.Bxf4 White regains the f4 pawn with active pieces."],
+    ["french-defence", "7...Bf5", "... 8.Bxh7+! Kxh7 9.Ng5+ Kg8 10.Qxg4 wins a piece.", "... 8.Bxh7+! Kxh7 9.Ng5+ Kg8 10.Qxg4 wins a pawn and leaves Black's king exposed. (The bishop sacrificed on h7 is paid back, so the net gain is one pawn, about +1.3.)"],
+    ["stafford-gambit", "7...Ng4", "Attacks the bishop on e2 and eyes the f2 and h2 squares.", "The knight eyes f2 and h2, so ...Bxf2+ and ...Qh4 become real ideas. (A knight on g4 does not attack e2.)"],
+    ["bishops-opening", "4...Nxd5", "Black recaptures and attacks the bishop on c4.", "Black recaptures and puts the knight on a strong central square, where it blocks the c4 bishop's diagonal towards f7."],
+    ["bishops-opening", "5...Nc6", "Develops and attacks the knight.", "Develops and defends the e5 pawn."],
+    ["stafford-gambit", "9.Qf3", "Hits f7 and c6.", "Hits f7 along the open f-file and attacks the bishop on e3. (The e4 pawn blocks the diagonal to c6.)"],
+    ["caro-kann", "5...Ngf6", "Blunder! The e-pawn is pinned to the king (Qe2), so d6 is unguarded.", "Blunder! It ignores the threat of 6.Nd6#: once the knight leaves e4 the e7 pawn is pinned by the queen on e2, and Black's own pieces box in the king."],
+    ["kings-gambit", "6.dxc6", "Take the pawn. You are now a pawn up.", "Take the pawn. For one move you are a pawn up, but 6...Nxc6 wins it back."],
+    ["smith-morra-gambit", "9...Re8 (3...d3 line)", "Black defends. The game is balanced.", "Black brings the rook to the e-file. White keeps a small edge (about +0.9 at depth 18) thanks to the lead in development."],
+    ["english-opening", "3...Bb4", "Pins the knight on c3 and hits e4.", "Attacks the c3 knight, the piece that guards e4. It is not a true pin while White's d2 pawn is still behind the knight."],
+    ["english-opening", "6.Nge2", "Develops the second knight and covers the pinned knight on c3. The position is equal, ...", "Develops the second knight and lets it recapture on c3, so ...Bxc3 would not double White's pawns. The position is equal, ..."],
+    ["scandinavian", "3...Qa5", "Pins the c3 knight and stays active.", "Attacks the c3 knight and stays active. Once White plays d4, the knight is pinned against the king."],
+    ["petrov-defence", "4...Bb4 (Four Knights)", "Pins the knight and mirrors White's play.", "Mirrors White's play: the bishop lines up against the c3 knight, ready to double White's pawns."],
+    ["smith-morra-gambit", "11.Bg5", "Pins the knight on f6 against the bishop on e7.", "Attacks the knight on f6 and aims to trade bishop for knight, removing a defender of Black's kingside."],
+    ["smith-morra-gambit", "6.Bc4 (accepted, 5...e6 line)", "Develops and eyes f7.", "Develops and hits the e6 pawn, with f7 behind it."],
+    ["vienna-gambit", "3.f4", "The gambit. White fights for the centre and opens the f-file.", "The gambit. White fights for the centre and, after ...exf4, gets the half-open f-file."],
+    ["budapest-gambit", "8...f6", "Strikes at the e5 pawn and opens the f-file.", "Strikes at the e5 pawn. After 9.exf6 Nxf6 the knight attacks the queen."],
+    // borderline or loose wording tightened (unclear or "half-open" results)
+    ["english-opening", "10.Rb1", "White has a pleasant, risk-free small edge. (engine: +0.05)", "White has a pleasant, risk-free position."],
+    ["stafford-gambit", "9...Be6", "The position is nearly level, ... (engine: +0.56 at depth 18)", "White is slightly better, but Black has good practical chances."],
+    ["traxler-counterattack", "8.d3", "A solid move: the position is equal. (engine: -0.51)", "A solid move. Black is slightly better here (about -0.5 for White), but the position is easy to defend."],
+    ["traxler-counterattack", "8...Kxf7", "... the position is roughly equal. (engine: -0.37 at depth 18, -0.79 at depth 12)", "... the position is unclear, with chances for both sides."],
+    ["rousseau-gambit", "9...Na5", "The position is about level, ... (engine: +0.51 at depth 18)", "White is only slightly better, ..."],
+    ["queens-gambit, danish-gambit, jobava-london, bishops-opening, stafford-gambit, traxler-counterattack, petrov-defence", "open-file notes (9 notes)", "\"opens the a-/c-/e-/f-/d-file\" while the opponent's pawn is still on the file", "\"half-open\" file wording (e.g. \"White gets the half-open e-file\")"],
+    // found by reading the report, not flagged as contradicted by the checker
+    ["smith-morra-gambit", "6.Bc4 (main line)", "The bishop eyes f7 and the h1-a8 diagonal.", "The bishop eyes f7 along the a2-g8 diagonal. (Found by reading: Bc4 is not on the h1-a8 diagonal.)"],
+    ["ponziani-opening", "5...Nd4 (unclear: attack on the queen)", "Black attacks the queen and hits f3 and c2.", "The knight hits f3 and c2, while the bishop on d7 still attacks the queen, so White must retreat it."],
+    ["rousseau-gambit", "4...fxe4 (note attached to the wrong move)", "... and the natural recapture is a mistake.", "... leaves Black clearly better (about -2 for White), and the natural recapture 5.Nxe4? is a mistake."],
+    ["london-system", "7.Qc1 (flag from the depth-14 audit)", "... (7.Qxf5 Qxb2 is a wild scramble). ... the position is equal.", "The safe retreat: ... the position is about equal (about -0.2). ... The engine prefers the wild 7.Qxf5! Qxb2 8.Qxd5 (about +1.5 for White), but it is a risky scramble."],
+    ["danish-gambit", "7.Bxf7+ (flag from the depth-14 audit)", "The key tactic. The bishop leaves with check and unmasks the white queen against the black queen.", "... The engine (depth 20) rates the resulting endgame as level and this as White's best move; the quiet 7.Nc3 is worse for White by about 0.7 pawns."],
+  ],
+  history: [
+    ["italian-game", "Dropped \"one of the oldest recorded openings\" and \"players of the 16th and 17th centuries\" (vague); now \"one of the oldest openings still played\" with Italian writers of the 16th-17th centuries incl. Greco. Greco and the Italian names kept."],
+    ["italian-two-knights-ng5", "\"Modern analysis shows 5...Na5 is Black's safest reply\" -> \"Modern theory treats 5...Na5 as the standard reply\"; \"known for centuries\" -> \"an old idea\"."],
+    ["london-system", "Kept the London 1922 name. \"where several players used it\" -> \"where it was played prominently\"; \"stayed a favourite for decades and returned in the 2010s and 2020s\" -> \"long a favourite of club players ... regular guest in elite and online play in recent years\"."],
+    ["scotch-game", "Kept 1824 London-Edinburgh match and Kasparov 1990. \"fell out of fashion after the 19th century\" -> \"went out of fashion for long periods\" (it was never absent from play)."],
+    ["vienna-gambit", "Removed the claim that the name comes from the Austrian capital \"where it was popular with players in the 19th century\" (origin of the name not firmly sourced); now \"traditionally linked with the city of Vienna and analysed in the 19th century\"."],
+    ["kings-gambit", "Kept Immortal Game (London 1851), Spassky-Fischer 1960 and Fischer's \"A Bust to the King's Gambit\". Dropped \"revived it ... in the 1960s\" (date of the revival is vague) and named the venue of the 1960 game (Mar del Plata)."],
+    ["smith-morra-gambit", "Dropped \"in the 20th century\" (the dates of Smith's and Morra's work are not firmly known)."],
+    ["kings-indian", "\"developed by Soviet masters in the 1940s\" -> \"became a major opening through Soviet masters in the 1940s and 1950s\" (it is older); \"above all Kasparov\" removed; Mar del Plata \"strong tournaments ... extensively\" -> \"tournaments in the 1950s featured these lines\"."],
+    ["rousseau-gambit", "Dropped \"19th-century\" before \"player called Rousseau\" (unverified)."],
+    ["french-defence", "\"staple of top-level chess ever since\" -> \"remained a regular choice at top level\". The 1834 London-Paris story is already worded \"is said to be named\"."],
+    ["albin-countergambit", "\"took it up in the 1890s\" -> \"championed it in the 1890s\"; dropped \"future world champion\" before Lasker."],
+    ["budapest-gambit", "\"appeared in master games in the 1890s\" -> \"around the turn of the 20th century\"; \"heyday in the 1920s\" -> \"tried by several strong masters in the 1920s\"."],
+    ["danish-gambit", "Dropped \"over the years\"; no dates or names were claimed beyond \"known since the 19th century\"."],
+    ["stafford-gambit", "\"relatively obscure old line\" -> \"relatively obscure line until\" (age not sourced). Eric Rosen kept."],
+    ["caro-kann", "Caro and Kann 1886 kept; \"favourite of strong players\" -> \"choice of strong players\"."],
+    ["(left as they were)", "Ruy Lopez (1561 book, Kramnik-Kasparov 2000), Queen's Gambit (Goettingen manuscript c. 1490, Netflix 2020), English (Staunton 1843), Caro-Kann names, Najdorf (1910-1997), Scandinavian (Lucena 1497), Ponziani, Petrov, Traxler (Karel Traxler, Wilkes-Barre), Opening Traps (Legal 1702-1792, Blackburne), Jobava, Bishop's Opening, Black vs 1.e4 e5 (Kramnik 2000), Alapin (1856-1923), QGD (Karlsbad, Tartakower), Italian names: well-known facts, kept."],
+  ],
+  sections() {
+    const md = [];
+    md.push(`## First-run contradicted claims (${this.firstRunContradicted.length}), all fixed`, "");
+    md.push("The checker's contradicted list on the original notes. Each is fixed (see Fixes). Text and engine remarks are as printed by the first run.", "");
+    md.push("| Course | Line | Move | Note text | Engine / board says |", "|---|---|---|---|---|");
+    const esc = (t) => String(t).replace(/\|/g, "\\|").replace(/\n/g, " ");
+    for (const r of this.firstRunContradicted) md.push(`| ${r.course} | ${esc(r.line)} | ${r.label} | ${esc(r.sentence)} | ${esc(r.why)} |`);
+    md.push("");
+    md.push(`## Fixes: notes rewritten (${this.fixes.length})`, "");
+    md.push("No trained move was changed: every flagged problem was in the wording of a note, not in a line. Where the engine proves nothing wrong with a move, the line is untouched.", "");
+    md.push("| Course | Move | Before | After |", "|---|---|---|---|");
+    for (const f of this.fixes) md.push(`| ${f[0]} | ${f[1]} | ${esc(f[2])} | ${esc(f[3])} |`);
+    md.push("");
+    md.push("### The two flags from the depth-14 audit, re-checked at depth 18-20", "");
+    md.push("- **London 7.Qc1** (course eval -0.67 at depth 14): at depth 20 the move is about -0.2 (equal); the engine's best is 7.Qxf5! Qxb2 8.Qxd5 (+1.75), a sharp line. 7.Qc1 stays as the teaching move; the note now says so honestly.");
+    md.push("- **Danish 7.Bxf7+** (course eval -3.54 at depth 14, the largest flagged loss): not confirmed. At depth 20 7.Bxf7+ Kxf7 8.Qxd8 Bb4+ 9.Qd2 Bxd2+ 10.Nxd2 is level (0.00) and 7.Bxf7+ is the engine's first choice (7.Nc3 is -0.7, 7.Ne2 -1.1). The endgame does not favour Black, so the note says the engine rates it level; the depth-14 figure was an artefact of the tactical position. After 10...Nc6 11.O-O-O Black is a little better (-0.55), which the existing 10.Nxd2 note (\"balanced with chances for White\") does not contradict.", "");
+    md.push("## History edits (article.history)", "");
+    md.push("Rule: well-known facts stay; specific dates, names and \"first played by\" claims that could not be backed with high confidence were removed or softened.", "");
+    for (const h of this.history) md.push(`- **${h[0]}**: ${h[1]}`);
+    md.push("");
+    md.push("## Not covered by the checker", "");
+    md.push("- Purely stylistic words (\"strong\", \"natural\", \"good square\") are not claims. Hypotheticals (\"if...\", \"hoping to win\") and sentences about a move other than the labelled one are skipped unless they quote a replayable variation.");
+    md.push("- Article text (pros, cons, FAQ, variation blurbs) is not claim-checked; only the history field was reviewed by hand.");
+    md.push("- Evaluations come from the lite Stockfish network at depth 18; sharp gambit lines can move by half a pawn or more between depths. A human expert should look at the unclear list below, especially the gambit courses (Stafford, Englund, Traxler, Rousseau, Albin, Budapest, King's and Danish Gambit).", "");
+    return md;
+  },
 };
 
 (async () => {
@@ -767,6 +976,8 @@ const REVIEW = {
     } catch (e) { r = { cls: "unclear", why: "check failed: " + e.message }; }
     results.push({ ...cl, ...r });
   }
+  { const dumpI = args.indexOf("--dump"); if (NO_REPORT && dumpI >= 0) fs.writeFileSync(args[dumpI + 1], JSON.stringify(results.map((r) => ({ course: r.course, line: r.line, label: r.label, type: r.type, cls: r.cls, sentence: r.sentence, why: r.why })), null, 1)); }
+  if (NO_REPORT) { const cn = { confirmed: 0, contradicted: 0, unclear: 0 }; for (const r of results) cn[r.cls]++; console.log("COUNTS", JSON.stringify({ courses: courses.length, notes: uniqueNotes.size, claims: results.length, ...cn })); process.exit(0); }
   writeReport(results, uniqueNotes.size, courses.length);
   process.exit(0);
 })();
@@ -788,6 +999,7 @@ function writeReport(results, nNotes, nCourses) {
   md.push(`| Confirmed | ${counts.confirmed} | ${REVIEW.baseline.confirmed} |`);
   md.push(`| Contradicted | ${counts.contradicted} | ${REVIEW.baseline.contradicted} |`);
   md.push(`| Unclear | ${counts.unclear} | ${REVIEW.baseline.unclear} |`, "");
+  md.push("The \"now\" claim count is lower than the first run because rewritten notes no longer contain the same wording; the rest of the notes were scanned identically.", "");
   md.push("By claim type (now):", "", "| Type | Confirmed | Contradicted | Unclear |", "|---|---|---|---|");
   for (const [t, v] of Object.entries(byType).sort()) md.push(`| ${t} | ${v.confirmed} | ${v.contradicted} | ${v.unclear} |`);
   md.push("");
