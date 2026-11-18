@@ -27,6 +27,17 @@ interface Current {
   welcome: boolean;
 }
 
+/** The final position of a line and the side the user played, for the "Play it out" link. */
+function playItOutFor(course: ModeProps["course"], line: Line) {
+  try {
+    const nodes = lineNodes(course, line);
+    const last = nodes[nodes.length - 1];
+    return last ? { fen: last.fen, side: userColor(course, line), courseId: course.id } : undefined;
+  } catch {
+    return undefined;
+  }
+}
+
 function moveLabel(ply: number, san: string): string {
   return `${Math.ceil(ply / 2)}${ply % 2 === 1 ? "." : "..."}${san}`;
 }
@@ -218,6 +229,7 @@ export function LearnMode({ course, cp, streak, refreshStreak, tabs, selectMode,
         tone="celebrate"
         title={cel.hasNext ? "Line learned!" : "Course complete!"}
         subtitle={line.name}
+        playItOut={playItOutFor(course, line)}
         streak={
           cel.increased
             ? { value: cel.streak.current, label: cel.streak.current === 1 ? "day streak" : "day streak", message: streakMessage(cel.streak.current) }

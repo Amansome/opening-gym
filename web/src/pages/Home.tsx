@@ -51,6 +51,9 @@ export default function Home() {
               <LinkButton to="/openings" variant="primary" size="lg">
                 Pick an opening <Icon name="arrow" size={18} />
               </LinkButton>
+              <LinkButton to="/start" size="lg">
+                New to openings? Start here
+              </LinkButton>
               {hasStarted && continueId ? (
                 <LinkButton to={started.length > 1 ? "/dojo" : `/opening/${continueId}`} size="lg">
                   Continue training

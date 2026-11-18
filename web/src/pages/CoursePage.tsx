@@ -6,6 +6,7 @@ import { CourtMap } from "../components/ui/CourtMap";
 import { Icon } from "../components/ui/Icon";
 import { useCourseProgress, useDocumentMeta } from "../components/ui/hooks";
 import { getCourse, trainableLines } from "../lib/courses";
+import puzzleCounts from "../data/puzzle-counts.json";
 import type { Course, Mode } from "../lib/types";
 import { useCustomCourses } from "../lib/custom";
 import { CustomActions } from "./create/CustomActions";
@@ -75,6 +76,13 @@ function CourseArticle({ course, mode }: { course: Course; mode?: Mode }) {
             {course.eco ? <span className="eco">ECO {course.eco}</span> : null}
           </div>
           <p className="article-lead">{course.summary}</p>
+          {(puzzleCounts as Record<string, number>)[course.id] > 0 ? (
+            <p>
+              <Link className="section-link" to={`/puzzles/${course.id}`}>
+                Puzzles from this opening ({(puzzleCounts as Record<string, number>)[course.id]}) <Icon name="arrow" size={16} />
+              </Link>
+            </p>
+          ) : null}
           {course.custom ? <CustomActions course={course} /> : null}
           {course.ideas.length > 0 ? (
             <>
