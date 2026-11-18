@@ -74,7 +74,10 @@ function showUpdateToast(worker: ServiceWorker) {
 /** Production builds only. Safe to call once at startup. */
 export function registerServiceWorker() {
   if (!import.meta.env.PROD || !("serviceWorker" in navigator)) return;
-  window.addEventListener("load", () => {
+  // The app starts after the course data chunk loads (top-level await), which can be after the window's
+  // load event, so register at once when the page has already loaded.
+  const onLoad = (fn: () => void) => (document.readyState === "complete" ? fn() : window.addEventListener("load", fn, { once: true }));
+  onLoad(() => {
     navigator.serviceWorker
       .register(`${import.meta.env.BASE_URL}sw.js`)
       .then((reg) => {
