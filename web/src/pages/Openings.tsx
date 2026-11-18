@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { useSearchParams } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import { CourseCard, RosterHead } from "../components/ui/CourseCard";
 import { Icon } from "../components/ui/Icon";
 import { QuickPicks } from "../components/ui/QuickPicks";
@@ -7,6 +7,7 @@ import { useCourseProgressMap, useDocumentMeta } from "../components/ui/hooks";
 import { courses } from "../lib/courses";
 import type { Course, Level } from "../lib/types";
 import { MyCourses } from "./create/MyCourses";
+import "./start.css";
 
 type SideFilter = "all" | "white" | "black" | "both";
 const SIDES: { key: SideFilter; label: string }[] = [
@@ -88,6 +89,11 @@ export default function Openings() {
         </p>
         <p className="page-meta">{courses.length} courses · {totalLines} lines · free</p>
       </header>
+
+      <p className="start-note">
+        New to openings? <Link to="/start">Follow the Start here path</Link>: principles first, then one opening for
+        each job.
+      </p>
 
       <MyCourses />
 

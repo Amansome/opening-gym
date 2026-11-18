@@ -1,4 +1,4 @@
-// Validates data/courses.js and builds dist/courses.json (a move tree per course).
+// Validates data/courses*.js and builds dist/courses.json (a move tree per course).
 //   node scripts/validate.js
 // Checks: every move is legal SAN, every note label matches a real move in its line,
 // and a course never gives two different answers in the same position for the side it trains.
@@ -13,7 +13,11 @@ const path = require("path");
 const { Chess } = require("chess.js");
 
 const root = path.join(__dirname, "..");
-const courses = require(path.join(root, "data", "courses.js"));
+// Course content lives in data/courses.js plus any data/courses-*.js (e.g. courses-extra.js, courses-lessons.js),
+// each exporting an array. Lessons come first so the beginner path leads the catalogue.
+const courseFiles = ["courses-lessons.js", "courses.js", ...fs.readdirSync(path.join(root, "data")).filter((f) => /^courses-.+\.js$/.test(f) && f !== "courses-lessons.js").sort()]
+  .filter((f) => fs.existsSync(path.join(root, "data", f)));
+const courses = courseFiles.flatMap((f) => require(path.join(root, "data", f)));
 
 const epd = (chess) => chess.fen().split(" ").slice(0, 4).join(" ");
 const tokens = (moves) => moves.replace(/\d+\.(\.\.)?/g, " ").trim().split(/\s+/);

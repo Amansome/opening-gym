@@ -4,8 +4,10 @@ import { Icon } from "../ui/Icon";
 import type { IconName } from "../ui/Icon";
 import { useStreak, useTheme } from "../ui/hooks";
 
-const NAV: { to: string; label: string; icon: IconName }[] = [
+const NAV: { to: string; label: string; short?: string; icon: IconName }[] = [
+  { to: "/start", label: "Start here", short: "Start", icon: "play" },
   { to: "/openings", label: "Openings", icon: "book" },
+  { to: "/puzzles", label: "Puzzles", icon: "zap" },
   { to: "/dojo", label: "Dojo", icon: "target" },
   { to: "/progress", label: "Progress", icon: "chart" },
   { to: "/about", label: "About", icon: "info" },
@@ -72,10 +74,10 @@ function Header() {
 function BottomNav() {
   return (
     <nav className="bottom-nav" aria-label="Main">
-      {NAV.map((n) => (
+      {NAV.filter((n) => n.to !== "/about").map((n) => (
         <NavLink key={n.to} to={n.to}>
           <Icon name={n.icon} />
-          <span>{n.label}</span>
+          <span>{n.short ?? n.label}</span>
         </NavLink>
       ))}
     </nav>
@@ -109,6 +111,7 @@ function Footer() {
               <li><Link to="/create">Create a course</Link></li>
               <li><Link to="/check">Check my games</Link></li>
               <li><Link to="/analysis">Analysis board</Link></li>
+              <li><Link to="/play">Play it out</Link></li>
             </ul>
           </div>
           <div>

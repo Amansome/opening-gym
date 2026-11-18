@@ -14,8 +14,11 @@ progress lives in your browser and works offline.
 
 ## Features
 
-- **24 opening courses** for White, Black and the classic traps, each with an SEO-friendly article (pros, cons, variations, FAQ).
-- **Coach bubble** explaining the idea behind each move.
+- **40 opening courses** (19 for White, 20 for Black, 1 traps course for both), each with an SEO-friendly article (pros, cons, variations, FAQ), plus two "Opening principles" lesson courses.
+- **Start here**: a five-step beginner path from the opening principles to one opening for each job.
+- **Coach notes** explaining the idea behind each move, fact-checked against Stockfish (see NOTE-AUDIT.md).
+- **Puzzles** mined from the courses themselves with Stockfish (`scripts/make-puzzles.js`), with a streak and "train this line" links.
+- **Play it out**: play a game against Stockfish in four strengths, starting from a course line or from move one.
 - **Five modes**: Learn (hints and notes), Practice (no hints, due and weak lines first), Drill (a streak that ends on one mistake), Time (60 seconds, clock speeds up) and Dojo (every course you have started, mixed).
 - **Spaced repetition** with FSRS ([ts-fsrs](https://github.com/open-spaced-repetition/ts-fsrs)), daily streak, best scores and a 12-week **activity heatmap**.
 - **Offline first**: a service worker precaches the whole app after the first visit. New deploys show a "New version available" toast.
@@ -69,6 +72,7 @@ install (`npm i -g playwright && playwright install chromium`).
 
 ```
 data/courses.js          the source of truth: moves, notes and articles, written by hand
+data/courses-*.js        more courses (lessons, extra openings), loaded by the validator after courses.js
 data/*.tsv               Lichess chess-openings (CC0): names and ECO codes for every position
 scripts/validate.js      checks every course, writes dist/courses.json and web/src/data/courses.json
 web/src/data/courses.json  GENERATED. Never edit it by hand
@@ -92,10 +96,12 @@ the course gives one answer per position for the side it trains, and the article
 
 ### Add a course
 
-1. Add an object to the array in `data/courses.js` (copy a short existing course as a template).
+1. Add an object to the array in `data/courses.js` or a `data/courses-*.js` file (copy a short existing course as a template).
 2. Run `npm run validate` at the repo root (or `npm run data` in `web/`) and fix every error it prints.
 3. Run `npm test` and `npm run build` in `web/`. The new course appears in the catalogue, gets its own
    `/opening/<id>` page, is prerendered and is added to `sitemap.xml` automatically.
+4. Optional: `node scripts/make-puzzles.js --branch-limit 400` mines puzzles for it (slow the first time; the engine
+   cache in `data/puzzle-cache.json` makes re-runs fast, and `--no-engine` rebuilds from the cache alone).
 
 Users can also build private courses in the app (`/create`); those live only in their browser.
 

@@ -30,13 +30,25 @@ const port = Number(process.env.PRERENDER_PORT || 4179);
 const concurrency = Math.max(1, Number(process.env.PRERENDER_CONCURRENCY || 4));
 const APP_NAME = "Opening Gym";
 
-const staticRoutes = ["/", "/openings", "/dojo", "/progress", "/about", "/analysis", "/check", "/create"];
+const staticRoutes = ["/", "/start", "/openings", "/puzzles", "/play", "/dojo", "/progress", "/about", "/analysis", "/check", "/create"];
 const routes = [...staticRoutes, ...courses.map((c) => `/opening/${c.id}`)];
 /** Personal or empty-until-used pages: prerendered (so the shell has real content) but kept out of the sitemap. */
 const NOT_IN_SITEMAP = new Set(["/progress"]);
 
 /** Fallback meta for tool pages that do not set their own (used only when the page kept the site default title). */
 const FALLBACK_META = {
+  "/start": {
+    title: `Start here: learn chess openings step by step | ${APP_NAME}`,
+    description: "A beginner path through chess openings: principles first, then one opening for each job, with every move explained.",
+  },
+  "/puzzles": {
+    title: `Opening puzzles | ${APP_NAME}`,
+    description: "Tactics puzzles taken from the openings you study, checked with Stockfish. Free and offline.",
+  },
+  "/play": {
+    title: `Play it out against a bot | ${APP_NAME}`,
+    description: "Play a game against a free Stockfish bot in your browser, starting from your opening or from move one.",
+  },
   "/analysis": {
     title: `Analysis board | ${APP_NAME}`,
     description: "Analyse any position or game with Stockfish running in your browser. Free, private, works offline.",

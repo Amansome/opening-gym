@@ -1,4 +1,5 @@
 import type { CSSProperties, ReactNode } from "react";
+import { Link } from "react-router-dom";
 import { Icon } from "./icons";
 import { isZero } from "./hooks";
 
@@ -12,6 +13,8 @@ export interface OverlayProps {
   /** the final score of a run, set large on the scoreboard */
   score?: { value: string | number; label: string };
   stats?: { label: string; value: string }[];
+  /** adds a "Play it out" link: play the final position against the bot (the /play page) */
+  playItOut?: { fen: string; side: "white" | "black"; courseId: string };
   children?: ReactNode;
 }
 
@@ -22,7 +25,7 @@ const idx = (i: number) => ({ "--i": i }) as CSSProperties;
  * painted across the top of the card and the scoreboard numerals flip into place behind it, one after another.
  * With reduced motion everything simply appears.
  */
-export function Overlay({ title, subtitle, tone = "neutral", streak, score, stats, children }: OverlayProps) {
+export function Overlay({ title, subtitle, tone = "neutral", streak, score, stats, playItOut, children }: OverlayProps) {
   const hasBoard = !!streak || !!score || (stats && stats.length > 0);
   let n = 0;
   return (
@@ -65,7 +68,20 @@ export function Overlay({ title, subtitle, tone = "neutral", streak, score, stat
             )}
           </div>
         )}
-        {children && <div className="og-overlay__actions">{children}</div>}
+        {(children || playItOut) && (
+          <div className="og-overlay__actions">
+            {children}
+            {playItOut && (
+              <Link
+                className="og-btn og-btn--ghost"
+                to={`/play?fen=${encodeURIComponent(playItOut.fen)}&side=${playItOut.side}&course=${encodeURIComponent(playItOut.courseId)}`}
+                data-testid="play-it-out"
+              >
+                Play it out
+              </Link>
+            )}
+          </div>
+        )}
       </div>
     </div>
   );
