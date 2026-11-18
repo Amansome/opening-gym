@@ -2,7 +2,7 @@
 //   data/puzzles.json        the puzzle set (also copied to web/src/data/puzzles.json, lazy-imported by the app)
 //   data/puzzle-cache.json   engine cache keyed by EPD (re-runs are incremental)
 //
-//   node scripts/make-puzzles.js [--depth 16] [--limit N] [--branch-limit N] [--no-branches] [--no-engine]
+//   node scripts/make-puzzles.js [--depth 16] [--limit N] [--branch-limit N] [--no-branches] [--no-engine] [--focus id,id --focus-n 16]
 //
 // Run `node scripts/validate.js` first (it writes dist/courses.json).
 //
@@ -42,6 +42,12 @@ const BRANCH_LIMIT = flag("branch-limit", Infinity);
 const BRANCH_N = flag("branch-n", 10);
 const BRANCH_DEPTH = flag("branch-depth", 12);
 const NO_ENGINE = flag("no-engine", false);
+const sflag = (name) => { const i = args.indexOf("--" + name); return i < 0 ? null : args[i + 1]; };
+// --focus a,b,c: search every opponent-to-move position of these courses (with --focus-n replies each);
+// every other position is used only if it is already in the cache.
+const FOCUS = new Set((sflag("focus") || "").split(",").filter(Boolean));
+const FOCUS_N = flag("focus-n", 16);
+let engineOK = !NO_ENGINE;
 
 const MIN_WIN = 200;        // centipawns, best move for the mover
 const MARGIN = 150;         // best vs second best
@@ -126,7 +132,7 @@ async function getLines(eng, fen) {
   const k = epd(fen);
   const c = cache.positions[k];
   if (c && c.d >= DEPTH) return c.l;
-  if (NO_ENGINE) return null;
+  if (!engineOK) return null;
   const chess = new Chess(fen);
   let l;
   if (chess.isGameOver()) l = [];
@@ -145,7 +151,7 @@ async function getMulti(eng, fen, n, depth) {
   cache.multi = cache.multi || {};
   const c = cache.multi[k];
   if (c && c.d >= depth && c.n >= n) return c.l;
-  if (NO_ENGINE) return null;
+  if (!engineOK) return null;
   const res = await eng.analyse(fen, n, depth);
   const l = Object.keys(res).map(Number).sort((a, b) => a - b).map((i) => { const { depth: _d, ...r } = res[i]; return r; });
   cache.multi[k] = { d: depth, n, l };
@@ -314,15 +320,23 @@ async function mine(eng, key, c, extra) {
       byCourse.get(id).push(k);
     }
     const queues = [...byCourse.values()];
-    const bkeys = [];
+    let bkeys = [];
     for (let i = 0; bkeys.length < oppTurn.size; i++) for (const q of queues) if (i < q.length) bkeys.push(q[i]);
+    if (FOCUS.size) {
+      const isFocus = (k) => FOCUS.has(oppTurn.get(k).course.id);
+      bkeys = [...bkeys.filter(isFocus), ...bkeys.filter((k) => !isFocus(k))];
+      console.log(`focus: ${bkeys.filter(isFocus).length} positions in ${[...FOCUS].join(", ")}; the rest from cache only`);
+    }
     console.log(`phase 2: ${bkeys.length} opponent-to-move positions, top ${BRANCH_N} replies at depth ${BRANCH_DEPTH}`);
     let bi = 0, found = 0;
     const eng = engines[0];
     for (const k of bkeys) {
-      if (bi++ >= BRANCH_LIMIT) break;
       const o = oppTurn.get(k);
-      const lines = await getMulti(eng, o.fen, BRANCH_N, BRANCH_DEPTH);
+      const focused = FOCUS.has(o.course.id);
+      if (FOCUS.size) engineOK = !NO_ENGINE && focused; // focus run: no limit, engine only for focus courses
+      else if (bi >= BRANCH_LIMIT) break;
+      bi++;
+      const lines = (focused && (await getMulti(eng, o.fen, FOCUS_N, BRANCH_DEPTH))) || (await getMulti(eng, o.fen, BRANCH_N, BRANCH_DEPTH));
       if (!lines) continue;
       const parent = new Chess(o.fen);
       for (const r of lines) {
