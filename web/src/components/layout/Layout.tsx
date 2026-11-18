@@ -4,8 +4,8 @@ import { Icon } from "../ui/Icon";
 import type { IconName } from "../ui/Icon";
 import { useStreak, useTheme } from "../ui/hooks";
 
-const NAV: { to: string; label: string; icon: IconName }[] = [
-  { to: "/start", label: "Start here", icon: "play" },
+const NAV: { to: string; label: string; short?: string; icon: IconName }[] = [
+  { to: "/start", label: "Start here", short: "Start", icon: "play" },
   { to: "/openings", label: "Openings", icon: "book" },
   { to: "/puzzles", label: "Puzzles", icon: "zap" },
   { to: "/dojo", label: "Dojo", icon: "target" },
@@ -77,7 +77,7 @@ function BottomNav() {
       {NAV.filter((n) => n.to !== "/about").map((n) => (
         <NavLink key={n.to} to={n.to}>
           <Icon name={n.icon} />
-          <span>{n.label}</span>
+          <span>{n.short ?? n.label}</span>
         </NavLink>
       ))}
     </nav>

@@ -4,7 +4,7 @@
 // It needs a production build because it tests the service worker and the prerendered pages.
 // Checks: plays the first Learn line of a few courses by clicking squares, progress persistence and the
 // activity heatmap, /analysis /check /create render without console errors, sitemap.xml/robots.txt and the
-// prerendered SEO tags, OFFLINE reloads of the main pages (plus playing a line offline), and mobile overflow.
+// prerendered SEO tags, /start, solving a puzzle, a move against the bot, OFFLINE reloads of the main pages (plus playing a line offline), and mobile overflow.
 import fs from "node:fs";
 import { loadPlaywright } from "../scripts/lib/playwright.mjs";
 
@@ -98,6 +98,48 @@ for (const route of ["/analysis", "/check", "/create"]) {
   } catch (e) { results.push(`FAIL ${route} did not render: ${e.message.split("\n")[0]}`); }
 }
 
+// wave 4: start-here path, a solved puzzle, and a few moves against the bot
+const puzzles = (() => { const p = JSON.parse(fs.readFileSync(new URL("../src/data/puzzles.json", import.meta.url))); return Array.isArray(p) ? p : p.puzzles; })();
+const fenIs = (fen) => page.waitForFunction((f) => document.querySelector(".og-board")?.getAttribute("data-fen")?.split(" ")[0] === f.split(" ")[0], fen, { timeout: 10000 });
+try {
+  await page.goto(BASE + "/start", { waitUntil: "networkidle" });
+  await page.waitForSelector("#root h1", { timeout: 10000 });
+  const links = await page.locator('main a[href*="/opening/"]').count();
+  results.push(links >= 2 ? `PASS /start renders with ${links} links into courses` : `FAIL /start has ${links} course links`);
+} catch (e) { results.push(`FAIL /start: ${e.message.split("\n")[0]}`); }
+try {
+  await page.goto(BASE + "/puzzles", { waitUntil: "networkidle" });
+  const stage = page.getByTestId("puzzle");
+  await stage.waitFor({ timeout: 15000 });
+  const id = await stage.getAttribute("data-puzzle-id");
+  const pz = puzzles.find((x) => x.id === id);
+  const { Chess } = await import("chess.js");
+  const g = new Chess(pz.fen);
+  for (let i = 0; i < pz.moves.length; i += 2) {
+    await fenIs(g.fen());
+    await page.waitForTimeout(150);
+    const u = pz.moves[i];
+    await clickSquare(u.slice(0, 2)); await page.waitForTimeout(120); await clickSquare(u.slice(2, 4));
+    g.move({ from: u.slice(0, 2), to: u.slice(2, 4), promotion: u[4] });
+    if (pz.moves[i + 1]) { const r = pz.moves[i + 1]; g.move({ from: r.slice(0, 2), to: r.slice(2, 4), promotion: r[4] }); }
+  }
+  await page.waitForSelector('[data-testid="puzzle"][data-phase="solved"]', { timeout: 10000 });
+  const streak = (await page.getByTestId("puzzle-streak").innerText()).replace(/\s+/g, " ");
+  results.push(`PASS puzzle ${id} solved (${pz.moves.length} plies, ${pz.label}); streak shows "${streak}"`);
+  await page.screenshot({ path: `${OUT}/puzzle-solved.png` });
+} catch (e) { results.push(`FAIL puzzles: ${e.message.split("\n")[0]}`); await page.screenshot({ path: `${OUT}/puzzle-fail.png` }); }
+try {
+  await page.goto(BASE + "/play", { waitUntil: "networkidle" });
+  await page.getByRole("radio", { name: "White" }).check({ force: true }).catch(() => page.getByText("White", { exact: true }).first().click());
+  await page.getByTestId("start-game").click();
+  await fenIs(START);
+  await clickSquare("e2"); await page.waitForTimeout(120); await clickSquare("e4");
+  await page.waitForFunction(() => { const f = document.querySelector(".og-board")?.getAttribute("data-fen") ?? ""; return f.split(" ")[1] === "w" && !f.startsWith("rnbqkbnr/pppppppp"); }, null, { timeout: 20000 });
+  const fen = await page.locator(".og-board").first().getAttribute("data-fen");
+  results.push(`PASS play: 1.e4 and the bot replied (${fen.split(" ")[0]})`);
+  await page.screenshot({ path: `${OUT}/play.png` });
+} catch (e) { results.push(`FAIL play: ${e.message.split("\n")[0]}`); await page.screenshot({ path: `${OUT}/play-fail.png` }); }
+
 // sitemap, robots and prerendered SEO tags (served by the build; skipped checks are reported, not failed, when SKIP_PRERENDER was used)
 {
   const sitemap = await ctx.request.get(BASE + "/sitemap.xml");
@@ -136,7 +178,7 @@ for (const route of ["/analysis", "/check", "/create"]) {
     const offErrors = [];
     off.on("console", (m) => { if (m.type() === "error") offErrors.push(`${m.text()}`); });
     off.on("pageerror", (e) => offErrors.push(e.message));
-    for (const r of ["/", "/openings", "/opening/london-system", "/dojo", "/about", "/progress", "/opening/caro-kann"]) {
+    for (const r of ["/", "/start", "/puzzles", "/openings", "/opening/london-system", "/dojo", "/about", "/progress", "/opening/caro-kann"]) {
       try {
         await off.goto(BASE + r, { waitUntil: "load" });
         await off.waitForSelector("#root h1", { timeout: 10000 });
@@ -167,12 +209,12 @@ for (const route of ["/analysis", "/check", "/create"]) {
 const mob = await browser.newContext({ viewport: { width: 360, height: 780 } });
 const mp = await mob.newPage();
 mp.on("pageerror", (e) => errors.push(`${mp.url()}: ${e.message}`));
-for (const r of ["/", "/openings", "/dojo", "/progress", "/about", "/analysis", "/check", "/create", "/nope", ...courses.map((c) => `/opening/${c.id}`)]) {
+for (const r of ["/", "/start", "/openings", "/puzzles", "/play", "/dojo", "/progress", "/about", "/analysis", "/check", "/create", "/nope", ...courses.map((c) => `/opening/${c.id}`)]) {
   await mp.goto(BASE + r, { waitUntil: "networkidle" });
   const over = await mp.evaluate(() => document.documentElement.scrollWidth - window.innerWidth);
   if (over > 0) results.push(`FAIL overflow ${r} by ${over}px`);
 }
-results.push("checked mobile overflow on " + (9 + courses.length) + " routes");
+results.push("checked mobile overflow on " + (12 + courses.length) + " routes");
 await browser.close();
 console.log(results.join("\n"));
 console.log(errors.length ? "CONSOLE ERRORS:\n" + [...new Set(errors)].join("\n") : "no console errors");

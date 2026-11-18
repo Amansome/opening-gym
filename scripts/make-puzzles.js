@@ -2,7 +2,7 @@
 //   data/puzzles.json        the puzzle set (also copied to web/src/data/puzzles.json, lazy-imported by the app)
 //   data/puzzle-cache.json   engine cache keyed by EPD (re-runs are incremental)
 //
-//   node scripts/make-puzzles.js [--depth 16] [--workers 2] [--limit N] [--no-engine]
+//   node scripts/make-puzzles.js [--depth 16] [--limit N] [--branch-limit N] [--no-branches] [--no-engine]
 //
 // Run `node scripts/validate.js` first (it writes dist/courses.json).
 //
@@ -38,6 +38,7 @@ const DEPTH = flag("depth", 16);
 const WORKERS = 1; // the stockfish wasm module is a per-process singleton
 const LIMIT = flag("limit", Infinity);
 const BRANCHES = !flag("no-branches", false);
+const BRANCH_LIMIT = flag("branch-limit", Infinity);
 const BRANCH_N = flag("branch-n", 10);
 const BRANCH_DEPTH = flag("branch-depth", 12);
 const NO_ENGINE = flag("no-engine", false);
@@ -305,12 +306,21 @@ async function mine(eng, key, c, extra) {
   // listed (MultiPV); a reply that hands the solver a win is a mistake worth punishing. The resulting position
   // (not in any course tree) becomes a candidate, mined exactly like the others and credited to the line it leaves.
   if (BRANCHES) {
-    const bkeys = [...oppTurn.keys()];
+    // Round-robin across courses so a branch limit spreads coverage instead of exhausting the first courses.
+    const byCourse = new Map();
+    for (const k of oppTurn.keys()) {
+      const id = oppTurn.get(k).course.id;
+      if (!byCourse.has(id)) byCourse.set(id, []);
+      byCourse.get(id).push(k);
+    }
+    const queues = [...byCourse.values()];
+    const bkeys = [];
+    for (let i = 0; bkeys.length < oppTurn.size; i++) for (const q of queues) if (i < q.length) bkeys.push(q[i]);
     console.log(`phase 2: ${bkeys.length} opponent-to-move positions, top ${BRANCH_N} replies at depth ${BRANCH_DEPTH}`);
     let bi = 0, found = 0;
     const eng = engines[0];
     for (const k of bkeys) {
-      if (bi++ >= LIMIT) break;
+      if (bi++ >= BRANCH_LIMIT) break;
       const o = oppTurn.get(k);
       const lines = await getMulti(eng, o.fen, BRANCH_N, BRANCH_DEPTH);
       if (!lines) continue;

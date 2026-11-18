@@ -75,7 +75,11 @@
 .pz-actions { display: flex; flex-wrap: wrap; gap: 10px; }
 .pz-actions .btn { flex: 1 1 auto; justify-content: center; }
 .pz-actions .btn[data-variant="primary"] { flex: 2 1 160px; }
-@media (max-width: 899px) { .pz-actions { position: sticky; bottom: calc(var(--bottom-nav-h) + 8px); z-index: 5; } }
+@media (max-width: 899px) {
+  .pz-actions { position: sticky; bottom: var(--bottom-nav-h); z-index: 5; margin: 0 -14px -16px; padding: 10px 14px 12px; background: var(--table); border-radius: 0 0 var(--radius) var(--radius); box-shadow: 0 -8px 10px -8px rgb(80 50 10 / 0.25); }
+  .pz-score { margin-bottom: 4px; }
+}
+@media (max-width: 560px) { .pz-head .page-lead { display: none; } .pz-head { padding-bottom: 12px; } }
 
 @media (max-width: 899px) {
   .pz-panel { padding: 12px 14px 16px; }
