@@ -364,7 +364,19 @@ async function mine(eng, key, c, extra) {
   }
   engines.forEach((e) => e && e.quit());
 
-  const puzzles = [...results.values()].sort((a, b) => a.id.localeCompare(b.id));
+  // Many branch puzzles repeat one idea (the same winning capture after different opponent slips). Keep at most
+  // MAX_SAME per course and solution: book positions first, then the harder ones, then the bigger gain.
+  const MAX_SAME = flag("max-same", 2);
+  const groups = new Map();
+  for (const p of results.values()) {
+    const k = (p.sources[0] ? p.sources[0].courseId : "") + " " + p.san.join(" ");
+    if (!groups.has(k)) groups.set(k, []);
+    groups.get(k).push(p);
+  }
+  const rank = (a, b) => (a.via ? 1 : 0) - (b.via ? 1 : 0) || b.level - a.level || b.gain - a.gain || a.id.localeCompare(b.id);
+  const kept = [...groups.values()].flatMap((g) => g.sort(rank).slice(0, MAX_SAME));
+  console.log(`dedupe: kept ${kept.length} of ${results.size} (at most ${MAX_SAME} per course and solution)`);
+  const puzzles = kept.sort((a, b) => a.id.localeCompare(b.id));
   const out = { version: 1, depth: DEPTH, generated: new Date().toISOString().slice(0, 10), puzzles };
   fs.writeFileSync(outPath, JSON.stringify(out));
   fs.mkdirSync(path.dirname(webPath), { recursive: true });
